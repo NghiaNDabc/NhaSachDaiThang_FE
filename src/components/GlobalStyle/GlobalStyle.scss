@@ -2,7 +2,21 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 :root {
-    --primary: #fe2c55;
+    --primary: #8a0917;
+    --black: #000;
+    --white: #fff;
+    --text-color: #333;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.text-logo{
+    background: linear-gradient(135deg, #ff8a00, #e52e71);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease;
 }
 html {
     font-size: 62.5%;
@@ -12,4 +26,8 @@ body {
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizespeed;
+}
+a[href] {
+    color: var(--text-color);
+    text-decoration: none;
 }
