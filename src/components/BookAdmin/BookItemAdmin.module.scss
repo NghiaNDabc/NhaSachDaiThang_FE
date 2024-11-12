@@ -1,0 +1,29 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    border-bottom: 1px solid gray;
+    img {
+        width: 60px;
+        height: 80px;
+    }
+    .book-id, .book-quanlity{
+        width: 4%;
+        text-align: center;
+    }
+    .book-name {
+        width: 30%;
+    }
+    .book-categoryName{
+        width: 10%;
+    }
+    justify-content: space-between;
+}
+.active{
+    color: green;
+    font-size: 25px;
+}
+.deactive{
+    color: red;
+    font-size: 25px;
+}
