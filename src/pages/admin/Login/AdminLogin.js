@@ -9,7 +9,8 @@ import axios from 'axios';
 import { useAuth } from '../../../contexts/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Button from '../../../components/button/button';
+import { authService } from '../../../services/authService';
 const cx = classNames.bind(styles);
 
 function AdminLogin() {
@@ -21,22 +22,11 @@ function AdminLogin() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        try {
-            const response = await axios.post('http://localhost:5030/api/v1/Auth/admin/login', {
-                username,
-                password,
-            });
+        const result = await authService.login(username, password);
 
-            if (response.status === 200) {
-                localStorage.setItem('accessToken', response.data.data.token);
-                localStorage.setItem('refreshToken', response.data.data.refreshToken);
-                login(response.data.data.token, response.data.data.refreshToken);
-                toast.success('Đăng nhập thành công');
-            } else if (response.status === 400) {
-                toast.error('Tên đăng nhập hoặc mật khẩu không đúng');
-            }
-        } catch (err) {
-            toast.error('Tên đăng nhập hoặc mật khẩu không đúng');
+        if (result.success) {
+            login(result.token, result.refreshToken);
+            window.location.href = '/admin/product'; // Cập nhật trạng thái đăng nhập từ useAuth
         }
     };
 
@@ -85,16 +75,13 @@ function AdminLogin() {
                             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                         </span>
                     </div>
-
-                    <button type="submit" className={cx('login-button')}>
-                        Log In
-                    </button>
+                    <Button className={cx('login-button')}>Login</Button>
                 </div>
 
                 <div className={cx('footer')}>
-                    <button type="button" onClick={handleForgotPassword} className={cx('forgot-password')}>
+                    <Button text href="xxx" className={cx('forgot-password')}>
                         Quên mật khẩu?
-                    </button>
+                    </Button>
                 </div>
             </form>
 
