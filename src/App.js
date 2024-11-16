@@ -8,20 +8,16 @@ import logo from '../src/assets/aa.jpg';
 import BookManager from '../src/pages/admin/BookManager/BookManager';
 import BookForm2 from './components/bookForm/BookForm2';
 import { CategoryProvider } from './contexts/CategoryContext';
+import axiosInstance from './api/axiosInstance';
+import { useEffect } from 'react';
+import Error500 from './pages/error/Error500';
+
 function App() {
-    const book = {
-        bookId: 1,
-        name: 'nghiadz',
-        mainImage: logo,
-        categoryName: 'Nghiadz',
-    };
-    const aaa = (id) => {
-        console.log(id);
-    };
     return (
         <div className="App">
             <Router>
                 <Routes>
+                    <Route path="/error" element={<Error500 />} />
                     <Route path="/admin" element={<AdminLogin />}></Route>
 
                     {/* Route cho các trang quản trị */}

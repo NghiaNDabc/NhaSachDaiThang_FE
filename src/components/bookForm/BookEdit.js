@@ -10,50 +10,33 @@ import { toast } from 'react-toastify';
 import { bookValidationSchema } from '../../formik/useBookFormik';
 const cx = classNames.bind(styles);
 
-function BookForm2({ onClose }) {
+function BookEdit({ onClose, book }) {
     const categoriesx = useCategories();
-    const [title, setTitile] = useState('');
-    const [author, setAuthor] = useState('');
-    const [publisher, setPublisher] = useState('');
-    const [publishDate, setPublishDate] = useState();
-    const [pageCount, setPageCount] = useState('');
-    const [size, setSize] = useState('');
-    const [categoryId, setCategoryId] = useState();
-    const [description, setDescription] = useState();
-    const [promotion, setPromotion] = useState();
-    const [promotionEndDate, setPromotionEndDate] = useState();
-    const [images, setImages] = useState([]);
-    const [weight, setWeight] = useState();
-    const [price, setPrice] = useState();
-    const resetForm = () => {
-        setTitile();
-        setAuthor();
-        setPublisher();
-        setPageCount();
-        setPublishDate();
-        setPageCount();
-        setSize();
-        setCategoryId();
-        setDescription();
-        setPromotion();
-        setPromotionEndDate();
-        setImages();
-        setWeight();
-        setPrice();
-    };
-
+    const [title, setTitile] = useState(book.title);
+    const [author, setAuthor] = useState(book.author);
+    const [publisher, setPublisher] = useState(book.publisher);
+    const [publishDate, setPublishDate] = useState(book.publishDate);
+    const [pageCount, setPageCount] = useState(book.pageCount);
+    const [size, setSize] = useState(book.size);
+    const [categoryId, setCategoryId] = useState(book.categoryId);
+    const [description, setDescription] = useState(book.description);
+    const [promotion, setPromotion] = useState(book.promotion);
+    const [weight, setWeight] = useState(book.weight);
+    const [price, setPrice] = useState(book.price);
+    const [promotionEndDate, setPromotionEndDate] = useState(book.promotionEndDate);
+    const [newImg, setNewImg] = useState([]);
+    const [mainImage, setMainImage] = useState(book.mainImage);
+    const [additionalImages, setAdditionalImage] = useState(book.additionalImages.split(';'));
     const handleImageChange = (e) => {
         const newImg = Array.from(e.target.files);
-        setImages((pre) => [...pre, ...newImg]);
+        setNewImg((pre) => [...pre, ...newImg]);
     };
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (promotion != undefined && promotion < 0) {
-            toast.error('Kiểm tra lại thời gian khuyến mãi');
-        }
         const user = JSON.parse(localStorage.getItem('user'));
         const formData = new FormData();
         let bookData = {
+            bookId: book.bookId,
             categoryId,
             title,
             author,
@@ -64,10 +47,15 @@ function BookForm2({ onClose }) {
             weight,
             price,
             description,
-            createdBy: user.firstName + ' ' + user.lastName,
+            mainImage,
+            additionalImages,
+            modifyBy: user.firstName + ' ' + user.lastName,
         };
         if (promotion) bookData = { promotion, ...bookData };
         if (promotionEndDate) bookData = { promotionEndDate, ...bookData };
+        Object.keys(bookData).forEach((key) => {
+            formData.append(key, bookData[key]);
+        });
         try {
             await bookValidationSchema.validate(bookData, { abortEarly: false });
         } catch (err) {
@@ -81,17 +69,12 @@ function BookForm2({ onClose }) {
             }
             return;
         }
-        Object.keys(bookData).forEach((key) => {
-            formData.append(key, bookData[key]);
+        newImg.forEach((img) => {
+            formData.append('imageFiles', img);
         });
 
-        if (images && images.length > 0)
-            images.forEach((img) => {
-                formData.append('imageFiles', img);
-            });
-
-        await bookService.postBook(formData);
-        resetForm();
+        await bookService.putBook(formData);
+        onClose();
     };
     const renderCategories = (categories, level = 0) => {
         return categories.map((category) => (
@@ -102,7 +85,10 @@ function BookForm2({ onClose }) {
         ));
     };
     const removeImage = (index) => {
-        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+        setNewImg((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
+    const removeAdditionalImage = (index) => {
+        setAdditionalImage((pre) => pre.filter((_, i) => i != index));
     };
     return (
         <div className={cx('wrapper')}>
@@ -169,7 +155,7 @@ function BookForm2({ onClose }) {
                     <label className={cx('label')}>
                         Số trang
                         <input
-                            type="text"
+                            type="number"
                             value={pageCount}
                             onChange={(e) => setPageCount(e.target.value)}
                             className={cx('input')}
@@ -194,7 +180,7 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Giá bán (VND)
+                        Giá (VND)
                         <input
                             type="number"
                             value={price}
@@ -203,7 +189,7 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Khuyến mãi
+                        Khuyến mãi (%)
                         <input
                             type="text"
                             value={promotion}
@@ -214,7 +200,7 @@ function BookForm2({ onClose }) {
                     <label className={cx('label')}>
                         Ngày kết thúc khuyến mãi
                         <input
-                            type="date"
+                            type="datetime-local"
                             value={promotionEndDate}
                             onChange={(e) => setPromotionEndDate(e.target.value)}
                             className={cx('input')}
@@ -234,38 +220,73 @@ function BookForm2({ onClose }) {
                 </div>
                 <br></br>
                 <div className={cx('label')}>
+                    Ảnh chính
+                    <div className={cx('image-preview-container')}>
+                        {mainImage != '' && (
+                            <div className={cx('image-preview-wrapper')}>
+                                <img src={mainImage} alt="Selected" className={cx('image-preview')} />{' '}
+                                <button
+                                    className={cx('remove-image-button')}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setMainImage('');
+                                    }}
+                                >
+                                    X
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <div className={cx('label')}>
+                    Ảnh liên quan
+                    <div className={cx('image-preview-container')}>
+                        {additionalImages.length > 0 &&
+                            additionalImages.map((image, index) => {
+                                return (
+                                    <div key={index} className={cx('image-preview-wrapper')}>
+                                        <img src={image} alt="Selected" className={cx('image-preview')} />{' '}
+                                        <button
+                                            className={cx('remove-image-button')}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeAdditionalImage(index);
+                                            }}
+                                        >
+                                            X
+                                        </button>
+                                    </div>
+                                );
+                            })}
+                    </div>
+                </div>
+                <div className={cx('label')}>
                     Hình ảnh
                     <input onChange={handleImageChange} type="file" multiple accept="image/*" className={cx('input')} />
                     <div className={cx('image-preview-container')}>
-                        {images &&
-                            images.length > 0 &&
-                            images.map((image, index) => (
-                                <div key={index} className={cx('image-preview-wrapper')}>
-                                    <img
-                                        src={URL.createObjectURL(image)}
-                                        alt="Selected"
-                                        className={cx('image-preview')}
-                                    />{' '}
-                                    <button
-                                        className={cx('remove-image-button')}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            removeImage(index);
-                                        }}
-                                    >
-                                        X
-                                    </button>
-                                </div>
-                            ))}
+                        {newImg.map((image, index) => (
+                            <div key={index} className={cx('image-preview-wrapper')}>
+                                <img src={URL.createObjectURL(image)} alt="Selected" className={cx('image-preview')} />{' '}
+                                <button
+                                    className={cx('remove-image-button')}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeImage(index);
+                                    }}
+                                >
+                                    X
+                                </button>
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className={cx('image-preview-container')}></div>
                 <Button onClick={handleSubmit} className={cx('submit-button')} variant="add">
-                    Thêm sách mới
+                    Sửa
                 </Button>
             </div>
         </div>
     );
 }
 
-export default BookForm2;
+export default BookEdit;

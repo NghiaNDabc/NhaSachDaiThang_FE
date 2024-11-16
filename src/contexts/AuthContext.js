@@ -7,14 +7,16 @@ export const AuthProvider = ({ children }) => {
         accessToken: null,
         refreshToken: null,
         isLoggedIn: false,
+        user: {},
     });
 
-    const login = (token, refreshToken) => {
-        setAuth({
+    const login = (user, token, refreshToken) => {
+        setAuth((pre)=>({
             accessToken: token,
             refreshToken: refreshToken,
             isLoggedIn: true,
-        });
+            user: user,
+        }));
     };
 
     const logout = () => {
@@ -22,6 +24,7 @@ export const AuthProvider = ({ children }) => {
             accessToken: null,
             refreshToken: null,
             isLoggedIn: false,
+            user: {},
         });
     };
 

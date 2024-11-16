@@ -2,10 +2,10 @@ import axiosInstance from '../../api/axiosInstance';
 import { toast } from 'react-toastify';
 
 export const bookService = {
-    async getBooks(id = null, categoryId = null, name = null, pageNumber = 1, pageSize = 10, active = false) {
+    async getBooks(id = null, categoryId = null, name = null, pageNumber = null, pageSize = null, active = false) {
         try {
             let url = '/v1/Book';
-            if (active == true) url += '/active';
+            if (active === true) url += '/active';
             let params = new URLSearchParams();
 
             if (id !== null) {
@@ -31,6 +31,7 @@ export const bookService = {
                 toast.error(response.data?.errMessage || 'Có lỗi xảy ra khi lấy dữ liệu sách.');
                 return null;
             }
+
             //toast.error(response.data.Message);
 
             return response.data.data;
@@ -80,6 +81,29 @@ export const bookService = {
                 },
             });
             if (response.data.success) toast.success(response.data.message);
+            else toast.error(response.data.errNessage || response.data.message);
+        } catch (error) {
+            toast.error(error);
+        }
+    },
+    async putBook(formData) {
+        try {
+            const response = await axiosInstance.put('v1/Book', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            if (response.data.success) toast.success(response.data.message);
+            else toast.error(response.data.errNessage || response.data.message);
+        } catch (error) {
+            toast.error(error);
+        }
+    },
+    async delete(id) {
+        try {
+            const response = await axiosInstance.delete('/v1/Book/' + id);
+            if (response.data.success) toast.success(response.data.message);
+            else toast.error(response.data.errNessage || response.data.message);
         } catch (error) {
             toast.error(error);
         }

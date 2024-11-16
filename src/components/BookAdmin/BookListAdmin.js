@@ -5,6 +5,8 @@ import BookItemAdmin from './BookItemAdmin';
 import classNames from 'classnames/bind';
 import style from './BookList.module.scss';
 import React, { memo } from 'react';
+import Swal from 'sweetalert2';
+
 const cx = classNames.bind(style);
 
 function BookListAdmin() {
@@ -13,6 +15,15 @@ function BookListAdmin() {
     const [pageSize, setPageSize] = useState(7);
 
     const [countBook, setCountBook] = useState();
+    const fetchBoooks = async () => {
+        try {
+            const data = await bookService.getBooks(null, null, null, pageNumber, pageSize);
+            console.log(data);
+            setBooks(data);
+        } catch (error) {
+            toast.error(error);
+        }
+    };
     useEffect(() => {
         const getCount = async () => {
             const response = await bookService.getCount();
@@ -24,16 +35,6 @@ function BookListAdmin() {
         getCount();
     }, []);
     useEffect(() => {
-        const fetchBoooks = async () => {
-            try {
-                console.log(123);
-                const data = await bookService.getBooks(null, null, null, pageNumber, pageSize);
-                console.log(data);
-                setBooks(data);
-            } catch (error) {
-                toast.error(error);
-            }
-        };
         fetchBoooks();
     }, [pageNumber, pageSize]);
     const totalPages = Math.ceil(countBook / pageSize);
@@ -41,7 +42,28 @@ function BookListAdmin() {
         setPageNumber(page);
     };
     const handlePagesizeChange = (page) => {
+        const x = Math.ceil(countBook / page);
+        if (x < pageNumber) {
+            setPageNumber(x);
+        }
         setPageSize(page);
+    };
+    const handleDelete = async (bookItem) => {
+        const result = await Swal.fire({
+            title: `Bạn có chắc chắn muốn xóa sách: ${bookItem.title} (Mã: ${bookItem.bookId})`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy',
+        });
+
+        if (result.isConfirmed) {
+            await bookService.delete(bookItem.bookId); // Gọi hàm xóa
+            //Swal.fire('Đã xóa!', 'Sách đã được xóa.', 'success');
+            fetchBoooks();
+        }
     };
     return (
         <div className={cx('wrapper')}>
@@ -54,7 +76,7 @@ function BookListAdmin() {
                             book={book}
                             onRestock={() => toast.success(`Restock book with ID: ${id}`)}
                             onEdit={() => toast.success(`Edit book with ID: ${id}`)}
-                            onDelete={() => toast.success(`Delete book with ID: ${id}`)}
+                            onDelete={() => handleDelete(book)}
                         />
                     );
                 })}
