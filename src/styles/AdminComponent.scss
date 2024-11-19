@@ -1,0 +1,25 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    border-bottom: 1px solid gray;
+    .id {
+        width: 6%;
+        text-align: center;
+    }
+    .name {
+        width: 55%;
+        font-weight: bold;
+        text-align: left;
+    }
+    justify-content: space-between;
+}
+.active {
+    color: green;
+    font-size: 25px;
+}
+.deactive {
+    color: red;
+    font-size: 25px;
+}
+

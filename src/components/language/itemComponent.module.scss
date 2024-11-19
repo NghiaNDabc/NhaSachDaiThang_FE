@@ -1,0 +1,17 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    border-bottom: 1px solid gray;
+   
+    justify-content: space-between;
+}
+// .id {
+//     width: 6%;
+//     text-align: center;
+// }
+.name {
+    width: 60%;
+    font-weight: bold;
+    text-align: left;
+}

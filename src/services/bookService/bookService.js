@@ -2,7 +2,17 @@ import axiosInstance from '../../api/axiosInstance';
 import { toast } from 'react-toastify';
 
 export const bookService = {
-    async getBooks(id = null, categoryId = null, name = null, pageNumber = null, pageSize = null, active = false) {
+    async getBooks(
+        id = null,
+        categoryId = null,
+        bookName = null,
+        pageNumber = null,
+        pageSize = null,
+        active = false,
+        categoryName = null,
+        minPrice = null,
+        maxprice = null,
+    ) {
         try {
             let url = '/v1/Book';
             if (active === true) url += '/active';
@@ -11,11 +21,20 @@ export const bookService = {
             if (id !== null) {
                 params.append('id', id);
             }
+            if (categoryName !== null) {
+                params.append('categoryName', categoryName);
+            }
+            if (minPrice !== null) {
+                params.append('minPrice', minPrice);
+            }
+            if (maxprice !== null) {
+                params.append('maxprice', maxprice);
+            }
             if (categoryId !== null) {
                 params.append('categoryId', categoryId);
             }
-            if (name !== null) {
-                params.append('name', name);
+            if (bookName !== null) {
+                params.append('bookName', bookName);
             }
             if (pageNumber !== null && pageSize !== null) {
                 params.append('pageNumber', pageNumber);
@@ -75,13 +94,20 @@ export const bookService = {
     },
     async postBook(formData) {
         try {
+            debugger;
             const response = await axiosInstance.post('v1/Book', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            if (response.data.success) toast.success(response.data.message);
-            else toast.error(response.data.errNessage || response.data.message);
+            debugger;
+            if (response.status === 201) {
+                debugger;
+                toast.success(response.data.message);
+            } else {
+                debugger;
+                toast.error(response.data.errMessage || response.data.message);
+            }
         } catch (error) {
             toast.error(error);
         }

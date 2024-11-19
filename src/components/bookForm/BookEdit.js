@@ -11,7 +11,9 @@ import { bookValidationSchema } from '../../formik/useBookFormik';
 const cx = classNames.bind(styles);
 
 function BookEdit({ onClose, book }) {
-    const categoriesx = useCategories();
+    const { categories, bookCoverTypes, languages } = useCategories();
+    const [bookCoverTypeId, setBookCoverTypeId] = useState(book.bookCoverTypeId);
+    const [languageId, setLanguageId] = useState(book.languageId);
     const [title, setTitile] = useState(book.title);
     const [author, setAuthor] = useState(book.author);
     const [publisher, setPublisher] = useState(book.publisher);
@@ -26,7 +28,9 @@ function BookEdit({ onClose, book }) {
     const [promotionEndDate, setPromotionEndDate] = useState(book.promotionEndDate);
     const [newImg, setNewImg] = useState([]);
     const [mainImage, setMainImage] = useState(book.mainImage);
-    const [additionalImages, setAdditionalImage] = useState(book.additionalImages.split(';'));
+    const [additionalImages, setAdditionalImage] = useState(
+        book.additionalImages ? book.additionalImages.split(';') : [],
+    );
     const handleImageChange = (e) => {
         const newImg = Array.from(e.target.files);
         setNewImg((pre) => [...pre, ...newImg]);
@@ -77,10 +81,26 @@ function BookEdit({ onClose, book }) {
         onClose();
     };
     const renderCategories = (categories, level = 0) => {
-        return categories.map((category) => (
-            <React.Fragment key={category.categoryId}>
-                <option value={category.categoryId}>{`${'—'.repeat(level)} ${category.name}`}</option>
-                {category.subCategories && renderCategories(category.subCategories, level + 1)}
+        console.log(categories);
+        if (categories && categories.length > 0)
+            return categories.map((category) => (
+                <React.Fragment key={category.categoryId}>
+                    <option value={category.categoryId}>{`${'—'.repeat(level)} ${category.name}`}</option>
+                    {category.subCategories && renderCategories(category.subCategories, level + 1)}
+                </React.Fragment>
+            ));
+    };
+    const renderBookCoverType = (bookCoverTypes) => {
+        return bookCoverTypes.map((bookCoverType) => (
+            <React.Fragment key={bookCoverType.bookCoverTypeId}>
+                <option value={bookCoverType.bookCoverTypeId}>{`${bookCoverType.name}`}</option>
+            </React.Fragment>
+        ));
+    };
+    const renderLanguages = (languages) => {
+        return languages.map((language) => (
+            <React.Fragment key={language.languageId}>
+                <option value={language.languageId}>{`${language.name}`}</option>
             </React.Fragment>
         ));
     };
@@ -118,7 +138,33 @@ function BookEdit({ onClose, book }) {
                             className={cx('input')}
                         >
                             <option value="">Chọn danh mục</option>
-                            {renderCategories(categoriesx)}
+                            {renderCategories(categories)}
+                        </select>
+                    </label>
+                    <label className={cx('label')}>
+                        Ngôn ngữ
+                        <select
+                            value={languageId}
+                            onChange={(e) => {
+                                setLanguageId(e.target.value);
+                            }}
+                            className={cx('input')}
+                        >
+                            <option value="">Chọn ngôn ngữ</option>
+                            {renderLanguages(languages)}
+                        </select>
+                    </label>
+                    <label className={cx('label')}>
+                        Loại bìa
+                        <select
+                            value={bookCoverTypeId}
+                            onChange={(e) => {
+                                setBookCoverTypeId(e.target.value);
+                            }}
+                            className={cx('input')}
+                        >
+                            <option value="">Chọn loại bìa</option>
+                            {renderBookCoverType(bookCoverTypes)}
                         </select>
                     </label>
                     <label className={cx('label')}>
@@ -219,45 +265,47 @@ function BookEdit({ onClose, book }) {
                     </label>
                 </div>
                 <br></br>
-                <div className={cx('label')}>
-                    Ảnh chính
-                    <div className={cx('image-preview-container')}>
-                        {mainImage != '' && (
-                            <div className={cx('image-preview-wrapper')}>
-                                <img src={mainImage} alt="Selected" className={cx('image-preview')} />{' '}
-                                <button
-                                    className={cx('remove-image-button')}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setMainImage('');
-                                    }}
-                                >
-                                    X
-                                </button>
-                            </div>
-                        )}
+                <div className={cx('all-img')}>
+                    <div className={cx('label')}>
+                        Ảnh chính
+                        <div className={cx('image-preview-container')}>
+                            {mainImage != '' && (
+                                <div className={cx('image-preview-wrapper')}>
+                                    <img src={mainImage} alt="Selected" className={cx('image-preview')} />{' '}
+                                    <button
+                                        className={cx('remove-image-button')}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setMainImage('');
+                                        }}
+                                    >
+                                        X
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-                <div className={cx('label')}>
-                    Ảnh liên quan
-                    <div className={cx('image-preview-container')}>
-                        {additionalImages.length > 0 &&
-                            additionalImages.map((image, index) => {
-                                return (
-                                    <div key={index} className={cx('image-preview-wrapper')}>
-                                        <img src={image} alt="Selected" className={cx('image-preview')} />{' '}
-                                        <button
-                                            className={cx('remove-image-button')}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                removeAdditionalImage(index);
-                                            }}
-                                        >
-                                            X
-                                        </button>
-                                    </div>
-                                );
-                            })}
+                    <div className={cx('label')}>
+                        Ảnh liên quan
+                        <div className={cx('image-preview-container')}>
+                            {additionalImages.length > 0 &&
+                                additionalImages.map((image, index) => {
+                                    return (
+                                        <div key={index} className={cx('image-preview-wrapper')}>
+                                            <img src={image} alt="Selected" className={cx('image-preview')} />{' '}
+                                            <button
+                                                className={cx('remove-image-button')}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    removeAdditionalImage(index);
+                                                }}
+                                            >
+                                                X
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                        </div>
                     </div>
                 </div>
                 <div className={cx('label')}>

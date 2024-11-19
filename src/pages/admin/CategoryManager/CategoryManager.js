@@ -4,12 +4,19 @@ import BookListAdmin from '../../../components/BookAdmin/BookListAdmin';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import classNames from 'classnames/bind';
-import style from './BookManager.module.scss';
+import style from './CategoryManager.module.scss';
 import BookForm2 from '../../../components/bookForm/BookForm2';
-import ToastCustom from '../../../components/toast/toastComponent';
+import { ToastContainer } from 'react-toastify';
+import CategoryFormAdd from '../../../components/category/CategoryAddForm';
+import CategoryListItemAdmin from '../../../components/category/categoryListItemAdmin';
 const cx = classNames.bind(style);
-function BookManager() {
+function CategoryManager() {
+    const [refreshTrigger, setRefreshTrigger] = useState(false);
     const [isAdd, setIsAdd] = useState(false);
+
+    const handleRefresh = () => {
+        setRefreshTrigger(!refreshTrigger); // Kích hoạt load lại danh sách
+    };
 
     const clickAdd = () => {
         setIsAdd(!isAdd);
@@ -21,11 +28,11 @@ function BookManager() {
                     Thêm mới
                 </Button>
             </div>
-            {isAdd && <BookForm2 onClose={clickAdd} />}
-            <BookListAdmin />
-            <ToastCustom />
+            {isAdd && <CategoryFormAdd onClose={clickAdd} onSuccess={handleRefresh} />}
+            <CategoryListItemAdmin refreshTrigger={refreshTrigger} />
+          
         </div>
     );
 }
 
-export default BookManager;
+export default CategoryManager;

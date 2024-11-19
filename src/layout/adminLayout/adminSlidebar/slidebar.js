@@ -22,10 +22,16 @@ function Sidebar() {
                         <a href="/admin/dashboard">Dashboard</a>
                     </li>
                     <li>
-                        <Link to="/admin/users">User Management</Link>
+                        <Link to="/admin/product">Bảo trì sách</Link>
                     </li>
                     <li>
-                        <Link to="/admin/product">Product Management</Link>
+                        <Link to="/admin/category">Bảo trì danh mục</Link>
+                    </li>
+                    <li>
+                        <Link to="/admin/language">Ngôn ngữ</Link>
+                    </li>
+                    <li>
+                        <Link to="/admin/bookcovertype">Bìa sách</Link>
                     </li>
                     <li>
                         <a href="/stats">Statistics</a>

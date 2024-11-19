@@ -1,0 +1,56 @@
+@import '../../styles/FormStyle.scss';
+// .wrapper {
+//     position: relative;
+//     height: 100%;
+//     .pagination {
+//         display: flex;
+//         justify-content: space-between;
+//         position: fixed;
+//         z-index: 100;
+//         height: 30px;
+//         background-color: #28a745;
+//         bottom: 0;
+//         padding: 0 10px;
+//         right: 0;
+//         width: 87%;
+//         button {
+//             width: 30px;
+//             height: 30px;
+//             margin: 0 1px;
+//             border: none;
+//             outline: red;
+//             cursor: pointer;
+//         }
+//         select {
+//             height: 30px;
+//         }
+//     }
+// }
+// // .list-category {
+// //     height: 96%;
+// //     overflow: auto;
+// // }
+// .active {
+//     background-color: #ffc107; /* Xanh dương đậm */
+//     color: white;
+//     border: yellow;
+// }
+// .category-grid {
+//     display: grid;
+//     grid-template-columns: repeat(3, 1fr); /* 3 cột đều nhau */
+//     gap: 16px; /* Khoảng cách giữa các ô */
+//     padding: 16px; /* Khoảng cách bên trong container */
+// }
+
+// .category-item0 {
+//     text-align: left;
+//     border: 1px solid #ccc; /* Viền phân biệt */
+//     padding: 16px;
+//     border-radius: 8px;
+//     background-color: #f9f9f9; /* Nền nhẹ */
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng nhẹ */
+// }
+// .category-parent0{
+//     font-size: 30px;
+//     color: #ffc107;
+// }

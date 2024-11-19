@@ -11,6 +11,10 @@ import { CategoryProvider } from './contexts/CategoryContext';
 import axiosInstance from './api/axiosInstance';
 import { useEffect } from 'react';
 import Error500 from './pages/error/Error500';
+import CategoryListItemAdmin from './components/category/categoryListItemAdmin';
+import CategoryManager from './pages/admin/CategoryManager/CategoryManager';
+import LanguageManager from './pages/admin/languageManager/languageManager';
+import BookCoverTypeManager from './pages/admin/bookCoverTypeManager/bookCoverTypeManager';
 
 function App() {
     return (
@@ -31,11 +35,13 @@ function App() {
                                         path="product"
                                         element={
                                             <CategoryProvider>
-                                                {' '}
                                                 <BookManager />
                                             </CategoryProvider>
                                         }
                                     />
+                                    <Route path="category" element={<CategoryManager />} />
+                                    <Route path="language" element={<LanguageManager />} />
+                                    <Route path="bookcovertype" element={<BookCoverTypeManager />} />
                                     <Route path="test" element={<BookForm2 />} />
                                     {/* Thêm các route quản trị khác tại đây */}
                                 </Routes>

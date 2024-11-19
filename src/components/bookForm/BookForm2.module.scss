@@ -1,60 +1,65 @@
-.wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-}
+@import '../../styles/FormStyle.scss';
+// .wrapper {
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     background-color: rgba(0, 0, 0, 0.5);
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     z-index: 10000;
+// }
 
-.container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 1400px;
-    position: relative;
-}
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: red;
-    font-size: 18px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 20px;
-}
-.label {
-    flex:1;
-}
-.row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-.input{
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-}
-.description-editor{
-    height: 150px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    width: 100%;
-}
-.submit-button{
-    float: right;
-    margin-top: 5px;
-}
+// .container {
+//     background-color: white;
+//     padding: 20px;
+//     border-radius: 8px;
+//     max-width: 1400px;
+//     position: relative;
+// }
+// .close-button {
+//     position: absolute;
+//     top: 10px;
+//     right: 10px;
+//     color: red;
+//     font-size: 18px;
+//     background: none;
+//     border: none;
+//     cursor: pointer;
+//     width: 20px;
+// }
+// .label {
+//     flex: 1;
+//     display: flex;
+//     flex-direction: column; /* Đặt các phần tử con xếp theo chiều dọc */
+//     align-items: flex-start; /* Căn các phần tử sang trái */
+//     justify-content: flex-start;
+// }
+// .row {
+//     display: flex;
+//     gap: 10px;
+//     margin-bottom: 10px;
+// }
+// .input {
+//     width: 100%;
+//     padding: 8px;
+//     margin-top: 5px;
+//     border: 1px solid #ccc;
+// }
+// .description-editor {
+//     height: 150px;
+//     margin-top: 5px;
+//     margin-bottom: 15px;
+//     width: 100%;
+// }
+// .submit-button {
+//     float: right;
+//     margin-top: 5px;
+// }
 
-.image-preview-container{
+.image-preview-container {
     display: inline-block;
     gap: 10px;
     margin-top: 5px;
@@ -67,11 +72,11 @@
     border: 1px solid #ccc;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
-.image-preview-wrapper{
+.image-preview-wrapper {
     display: inline-block;
     position: relative;
 }
-.remove-image-button{
+.remove-image-button {
     position: absolute;
     top: 0;
     right: 0px;
@@ -86,4 +91,12 @@
 }
 .remove-image-button:hover {
     background-color: rgba(255, 0, 0, 1);
+}
+.all-img {
+    display: flex;
+}
+.reset-button{
+    float: right;
+    margin-top: 5px;
+    margin-right: 50px;
 }

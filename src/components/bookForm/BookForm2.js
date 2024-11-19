@@ -11,11 +11,13 @@ import { bookValidationSchema } from '../../formik/useBookFormik';
 const cx = classNames.bind(styles);
 
 function BookForm2({ onClose }) {
-    const categoriesx = useCategories();
+    const { categories, bookCoverTypes, languages } = useCategories();
     const [title, setTitile] = useState('');
+    const [bookCoverTypeId, setBookCoverTypeId] = useState('');
+    const [languageId, setLanguageId] = useState('');
     const [author, setAuthor] = useState('');
     const [publisher, setPublisher] = useState('');
-    const [publishDate, setPublishDate] = useState();
+    const [publishYear, setPublishYear] = useState();
     const [pageCount, setPageCount] = useState('');
     const [size, setSize] = useState('');
     const [categoryId, setCategoryId] = useState();
@@ -26,20 +28,22 @@ function BookForm2({ onClose }) {
     const [weight, setWeight] = useState();
     const [price, setPrice] = useState();
     const resetForm = () => {
-        setTitile();
-        setAuthor();
-        setPublisher();
-        setPageCount();
-        setPublishDate();
-        setPageCount();
-        setSize();
-        setCategoryId();
-        setDescription();
-        setPromotion();
-        setPromotionEndDate();
-        setImages();
-        setWeight();
-        setPrice();
+        setTitile('');
+        setAuthor('');
+        setPublisher('');
+        setBookCoverTypeId('');
+        setLanguageId('');
+        setPageCount('');
+        setPublishYear('');
+        setPageCount('');
+        setSize('');
+        setCategoryId('');
+        setDescription('');
+        setPromotion('');
+        setPromotionEndDate('');
+        setImages('');
+        setWeight('');
+        setPrice('');
     };
 
     const handleImageChange = (e) => {
@@ -55,10 +59,12 @@ function BookForm2({ onClose }) {
         const formData = new FormData();
         let bookData = {
             categoryId,
+            languageId,
+            bookCoverTypeId,
             title,
             author,
             publisher,
-            publishDate,
+            publishYear,
             pageCount,
             size,
             weight,
@@ -91,13 +97,26 @@ function BookForm2({ onClose }) {
             });
 
         await bookService.postBook(formData);
-        resetForm();
     };
     const renderCategories = (categories, level = 0) => {
         return categories.map((category) => (
             <React.Fragment key={category.categoryId}>
                 <option value={category.categoryId}>{`${'—'.repeat(level)} ${category.name}`}</option>
                 {category.subCategories && renderCategories(category.subCategories, level + 1)}
+            </React.Fragment>
+        ));
+    };
+    const renderBookCoverType = (bookCoverTypes) => {
+        return bookCoverTypes.map((bookCoverType) => (
+            <React.Fragment key={bookCoverType.bookCoverTypeId}>
+                <option value={bookCoverType.bookCoverTypeId}>{`${bookCoverType.name}`}</option>
+            </React.Fragment>
+        ));
+    };
+    const renderLanguages = (languages) => {
+        return languages.map((language) => (
+            <React.Fragment key={language.languageId}>
+                <option value={language.languageId}>{`${language.name}`}</option>
             </React.Fragment>
         ));
     };
@@ -132,7 +151,33 @@ function BookForm2({ onClose }) {
                             className={cx('input')}
                         >
                             <option value="">Chọn danh mục</option>
-                            {renderCategories(categoriesx)}
+                            {renderCategories(categories)}
+                        </select>
+                    </label>
+                    <label className={cx('label')}>
+                        Ngôn ngữ
+                        <select
+                            value={languageId}
+                            onChange={(e) => {
+                                setLanguageId(e.target.value);
+                            }}
+                            className={cx('input')}
+                        >
+                            <option value="">Chọn ngôn ngữ</option>
+                            {renderLanguages(languages)}
+                        </select>
+                    </label>
+                    <label className={cx('label')}>
+                        Loại bìa
+                        <select
+                            value={bookCoverTypeId}
+                            onChange={(e) => {
+                                setBookCoverTypeId(e.target.value);
+                            }}
+                            className={cx('input')}
+                        >
+                            <option value="">Chọn loại bìa</option>
+                            {renderBookCoverType(bookCoverTypes)}
                         </select>
                     </label>
                     <label className={cx('label')}>
@@ -156,11 +201,11 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Ngày xuất bản
+                        Năm xuất bản
                         <input
-                            type="date"
-                            value={publishDate}
-                            onChange={(e) => setPublishDate(e.target.value)}
+                            type="number"
+                            value={publishYear}
+                            onChange={(e) => setPublishYear(e.target.value)}
                             className={cx('input')}
                         />
                     </label>
@@ -176,7 +221,7 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Kích thước
+                        Kích thước (dài x rộng x cao cm)
                         <input
                             type="text"
                             value={size}
@@ -203,7 +248,7 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Khuyến mãi
+                        Khuyến mãi (%)
                         <input
                             type="text"
                             value={promotion}
@@ -214,7 +259,7 @@ function BookForm2({ onClose }) {
                     <label className={cx('label')}>
                         Ngày kết thúc khuyến mãi
                         <input
-                            type="date"
+                            type="datetime-local"
                             value={promotionEndDate}
                             onChange={(e) => setPromotionEndDate(e.target.value)}
                             className={cx('input')}
@@ -262,6 +307,9 @@ function BookForm2({ onClose }) {
                 <div className={cx('image-preview-container')}></div>
                 <Button onClick={handleSubmit} className={cx('submit-button')} variant="add">
                     Thêm sách mới
+                </Button>
+                <Button onClick={resetForm} className={cx('reset-button')} variant="delete">
+                    Reset
                 </Button>
             </div>
         </div>

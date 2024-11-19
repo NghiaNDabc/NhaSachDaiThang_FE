@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { bookService } from '../../services/bookService/bookService';
 import { toast } from 'react-toastify';
 import BookItemAdmin from './BookItemAdmin';
@@ -29,7 +29,7 @@ function BookListAdmin() {
             const response = await bookService.getCount();
             console.log(response);
             let count = response.activeBook + response.deactiveBook;
-
+            console.log("count" + response.activeBook +' '+ response.deactiveBook);
             setCountBook(count);
         };
         getCount();
@@ -48,7 +48,7 @@ function BookListAdmin() {
         }
         setPageSize(page);
     };
-    const handleDelete = async (bookItem) => {
+    const handleDelete = useCallback(async (bookItem) => {
         const result = await Swal.fire({
             title: `Bạn có chắc chắn muốn xóa sách: ${bookItem.title} (Mã: ${bookItem.bookId})`,
             icon: 'question',
@@ -64,7 +64,7 @@ function BookListAdmin() {
             //Swal.fire('Đã xóa!', 'Sách đã được xóa.', 'success');
             fetchBoooks();
         }
-    };
+    }, []);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('list-book')}>
@@ -75,7 +75,6 @@ function BookListAdmin() {
                             key={book.bookId}
                             book={book}
                             onRestock={() => toast.success(`Restock book with ID: ${id}`)}
-                            onEdit={() => toast.success(`Edit book with ID: ${id}`)}
                             onDelete={() => handleDelete(book)}
                         />
                     );

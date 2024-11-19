@@ -11,7 +11,7 @@ const cx = classNames.bind(style);
 function BookItemAdmin({ book, onRestock, onDelete }) {
     const [bookItem, setBookItem] = useState(book);
     const [isDel, setIsDel] = useState(book.isDel);
-    const onDeactive = async (id) => {
+    const onChangeStatus = async (id) => {
         const rs = bookService.changeStatus(id);
         if (rs) setIsDel((pre) => !pre);
     };
@@ -37,7 +37,7 @@ function BookItemAdmin({ book, onRestock, onDelete }) {
                         className={cx(isDel == true ? 'deactive' : 'active')}
                         leftIcon={<FontAwesomeIcon icon={faSquareCheck} />}
                         noBackground
-                        onClick={() => onDeactive(bookItem.bookId)}
+                        onClick={() => onChangeStatus(bookItem.bookId)}
                     />
                 </div>
                 <div>
