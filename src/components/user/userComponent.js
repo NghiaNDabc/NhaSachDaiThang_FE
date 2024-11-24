@@ -1,50 +1,35 @@
 import React, { memo, useCallback, useState } from 'react';
 import classNames from 'classnames/bind';
-import style from './BookItemAdmin.module.scss';
+import style from './userComponent.module.scss';
 import Button from '../button/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareCheck, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { bookService } from '../../services/bookService/bookService';
 import BookEdit from '../bookForm/BookEdit';
 import SupplierBookForm from './supplierBook';
 
 const cx = classNames.bind(style);
-function BookItemAdmin({ book, onRestock, onDelete }) {
-    const [bookItem, setBookItem] = useState(book);
-    const [isDel, setIsDel] = useState(book.isDel);
+function UserItemComponent({ user, onDelete }) {
+    const [userItem, setBookItem] = useState(user);
+    const [isDel, setIsDel] = useState(user.isDel);
     const onChangeStatus = async (id) => {
-        const rs = bookService.changeStatus(id);
+        const rs = userService.changeStatus(id);
         if (rs) setIsDel((pre) => !pre);
     };
     const [isEdit, setIsEdit] = useState(false);
-    const [isSupply, setisSupply] = useState(false);
     const onClose = useCallback(async () => {
         setIsEdit((isEdit) => !isEdit);
-        const id = bookItem.bookId;
-        const { data } = await bookService.getBooks(id);
-
-        debugger;
-        console.log(data);
+        const id = userItem.bookId;
+        const { data } = await userService.getBooks(id);
         setBookItem(data);
     });
-    const onCloseSupply = async () => {
-        setisSupply((isEdit) => !isEdit);
-        const id = bookItem.bookId;
-        const { data } = await bookService.getBooks(id);
-        console.log(data);
-        setBookItem(data);
-    };
 
     return (
         <>
-            {isEdit && <BookEdit onClose={onClose} book={bookItem} />}
-            {isSupply && <SupplierBookForm onClose={onCloseSupply} book={bookItem} />}
+            {isEdit && <BookEdit onClose={onClose} user={userItem} />}
             <div className={cx('wrapper')}>
-                <img src={bookItem.mainImage ? bookItem.mainImage : null} />
-                <div className={cx('book-id')}>{bookItem.bookId}</div>
-                <div className={cx('book-name')}>{bookItem.title}</div>
-                <div className={cx('book-quanlity')}>{bookItem.quantity}</div>
-                <div className={cx('book-categoryName')}>{bookItem.categoryName}</div>
+                <img src={userItem.image} />
+                <div className={cx('id')}>{userItem.userId}</div>
+                <div className={cx('name')}>{userItem.lastName+' '+ userItem.firstName}</div>
                 <div>
                     <Button
                         className={cx(isDel == true ? 'deactive' : 'active')}
@@ -52,15 +37,6 @@ function BookItemAdmin({ book, onRestock, onDelete }) {
                         noBackground
                         onClick={() => onChangeStatus(bookItem.bookId)}
                     />
-                </div>
-                <div>
-                    <Button
-                        variant="add"
-                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
-                        onClick={() => setisSupply(true)}
-                    >
-                        Nhập
-                    </Button>
                 </div>
                 <div>
                     <Button
@@ -81,4 +57,4 @@ function BookItemAdmin({ book, onRestock, onDelete }) {
     );
 }
 
-export default memo(BookItemAdmin);
+export default memo(UserItemComponent);

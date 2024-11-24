@@ -1,9 +1,9 @@
 import axiosInstance from '../api/axiosInstance';
 import { toast } from 'react-toastify';
-export const categoryService = {
-    async get(id = null, name = null, pageNumber = null, pageSize = null) {
+export const supplierService = {
+    async get(id = null, name = null, isDel = null, pageNumber = null, pageSize = null) {
         try {
-            let url = '/v1/Supliers';
+            let url = '/v1/Suppliers';
             let params = new URLSearchParams();
 
             if (id !== null) {
@@ -16,7 +16,9 @@ export const categoryService = {
                 params.append('pageNumber', pageNumber);
                 params.append('pageSize', pageSize);
             }
-
+            if (isDel !== null) {
+                params.append('isDel', isDel);
+            }
             if (params.toString()) {
                 url += `?${params.toString()}`;
             }
@@ -29,7 +31,7 @@ export const categoryService = {
     },
     async put(formData) {
         try {
-            const response = await axiosInstance.put('v1/Supliers', formData);
+            const response = await axiosInstance.put('v1/Suppliers', formData);
             if (response.data.success) toast.success(response.data.message);
             else toast.error(response.data.errNessage || response.data.message);
         } catch (error) {
@@ -38,7 +40,7 @@ export const categoryService = {
     },
     async post(formData) {
         try {
-            const response = await axiosInstance.post('v1/Supliers', formData);
+            const response = await axiosInstance.post('v1/Suppliers', formData);
             if (response.data.success) toast.success(response.data.message);
             else toast.error(response.data.errNessage || response.data.message);
         } catch (error) {
@@ -47,7 +49,7 @@ export const categoryService = {
     },
     async changeStatus(id) {
         try {
-            const rp = await axiosInstance.put('/v1/Supliers/changeStatus', id);
+            const rp = await axiosInstance.put('/v1/Suppliers/changeStatus', id);
             if (rp.status !== 200) {
                 toast.error(rp.data?.errMessage || 'Có lỗi xảy ra.');
                 return false;
@@ -63,7 +65,7 @@ export const categoryService = {
     },
     async getCount() {
         try {
-            const response = await axiosInstance.get('/v1/Supliers/count');
+            const response = await axiosInstance.get('/v1/Suppliers/count');
             if (response.status !== 200) {
                 toast.error(response.data?.errMessage || 'Có lỗi xảy ra');
                 return null;
@@ -79,7 +81,7 @@ export const categoryService = {
     async delete(id) {
         debugger;
         try {
-            const response = await axiosInstance.delete('/v1/Supliers/' + id);
+            const response = await axiosInstance.delete('/v1/Suppliers/' + id);
             if (response.data.success) toast.success(response.data.message);
             else toast.error(response.data.errNessage || response.data.message);
         } catch (error) {

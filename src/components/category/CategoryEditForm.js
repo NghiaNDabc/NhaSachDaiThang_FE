@@ -8,6 +8,7 @@ import { bookService } from '../../services/bookService/bookService';
 import { toast } from 'react-toastify';
 import { categoryValidationSchema } from '../../formik/categoryValidationSchema';
 import { categoryService } from '../../services/categoryService';
+import RequiredStar from '../requiredStar/requiredStar';
 const cx = classNames.bind(styles);
 
 function CategoryFormEdit({ category, onClose }) {
@@ -60,13 +61,12 @@ function CategoryFormEdit({ category, onClose }) {
         await categoryService.put(formData);
         onClose();
     };
-//  {category.subCategories && renderCategories(category.subCategories, level + 1)}
+    //  {category.subCategories && renderCategories(category.subCategories, level + 1)}
     const renderCategories = (categories, level = 0) => {
         if (categories)
             return categories.map((category) => (
                 <React.Fragment key={category.categoryId}>
                     <option value={category.categoryId}>{`${'—'.repeat(level)} ${category.name}`}</option>
-                   
                 </React.Fragment>
             ));
     };
@@ -81,7 +81,7 @@ function CategoryFormEdit({ category, onClose }) {
                 <h3>Mã danh mục {categoryId}</h3>
                 <div className={cx('row')}>
                     <label className={cx('label')}>
-                        Tên danh mục
+                        Tên danh mục <RequiredStar />
                         <input
                             type="text"
                             value={name}
@@ -91,7 +91,7 @@ function CategoryFormEdit({ category, onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Danh mục cha
+                        Danh mục cha <RequiredStar />
                         <select
                             value={parentCategoryID}
                             onChange={(e) => {

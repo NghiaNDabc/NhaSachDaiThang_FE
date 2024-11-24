@@ -1,16 +1,15 @@
 import React, { memo, useState } from 'react';
 import classNames from 'classnames/bind';
-import style from './CategoryItem.module.scss';
+import style from './itemComponent.module.scss';
 import Button from '../button/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareCheck, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { categoryService } from '../../services/categoryService';
-import CategoryFormEdit from './CategoryEditForm';
 
 const cx = classNames.bind(style);
-function CategoryItemAdmin({ category, level, onDelete, onEdit }) {
-    const [categoryItem, setCategoryItem] = useState(category);
-    const [isDel, setIsDel] = useState(category.isDel);
+function SuplierComponent({ item, onDelete, onEdit }) {
+    const [supplier, setSupplier] = useState(item);
+    const [isDel, setIsDel] = useState(supplier.isDel);
     const onChangeStatus = async (id) => {
         const rs = categoryService.changeStatus(id);
         if (rs) setIsDel((pre) => !pre);
@@ -19,29 +18,23 @@ function CategoryItemAdmin({ category, level, onDelete, onEdit }) {
     return (
         <>
             <div className={cx('wrapper')}>
-                <div className={cx('category-id')}>{'\u00A0\u00A0'.repeat(level) + categoryItem.categoryId}</div>
-                <div
-                    style={{
-                        padding: `0 ${5 * level}px`,
-                    }}
-                    className={cx('category-name')}
-                >
-                    <div className={cx('name' + level)}>{categoryItem.name}</div>
-                </div>
+                <div className={cx('id')}>{supplier.supplierId}</div>
+                <div className={cx('name')}>{supplier.name}</div>
+                <div className={cx('address')}>{supplier.address}</div>
                 <div>
                     <Button
                         className={cx(isDel == true ? 'deactive' : 'active')}
                         leftIcon={<FontAwesomeIcon icon={faSquareCheck} />}
                         noBackground
                         small
-                        onClick={() => onChangeStatus(categoryItem.categoryId)}
+                        onClick={() => onChangeStatus(supplier.supplierId)}
                     />
                 </div>
                 <div>
                     <Button
                         variant="edit"
                         leftIcon={<FontAwesomeIcon icon={faPenToSquare} />}
-                        onClick={() => onEdit(categoryItem.categoryId)}
+                        onClick={() => onEdit(supplier.categoryId)}
                         small
                     >
                         Sửa
@@ -57,4 +50,4 @@ function CategoryItemAdmin({ category, level, onDelete, onEdit }) {
     );
 }
 
-export default CategoryItemAdmin;
+export default SuplierComponent;

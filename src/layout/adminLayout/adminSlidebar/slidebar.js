@@ -34,6 +34,9 @@ function Sidebar() {
                         <Link to="/admin/bookcovertype">Bìa sách</Link>
                     </li>
                     <li>
+                        <Link to="/admin/supplier">Nhà cung cấp</Link>
+                    </li>
+                    <li>
                         <a href="/stats">Statistics</a>
                     </li>
                 </ul>

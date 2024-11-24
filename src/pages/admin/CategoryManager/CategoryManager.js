@@ -5,8 +5,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import style from './CategoryManager.module.scss';
-import BookForm2 from '../../../components/bookForm/BookForm2';
-import { ToastContainer } from 'react-toastify';
 import CategoryFormAdd from '../../../components/category/CategoryAddForm';
 import CategoryListItemAdmin from '../../../components/category/categoryListItemAdmin';
 const cx = classNames.bind(style);

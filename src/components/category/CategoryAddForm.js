@@ -8,6 +8,9 @@ import { bookService } from '../../services/bookService/bookService';
 import { toast } from 'react-toastify';
 import { categoryValidationSchema } from '../../formik/categoryValidationSchema';
 import { categoryService } from '../../services/categoryService';
+import RequiredStar from '../requiredStar/requiredStar';
+import Select from 'react-select';
+import { fomatListToSelection } from '../../utils/fomatListToSelect';
 const cx = classNames.bind(styles);
 
 function CategoryFormAdd({ onClose, onSuccess }) {
@@ -15,16 +18,27 @@ function CategoryFormAdd({ onClose, onSuccess }) {
     const [name, setName] = useState('');
     const [parentCategoryID, setParentCategoryID] = useState();
     const [description, setDescription] = useState();
-
+    const [fomatCate, setfomatCate] = useState();
     const resetForm = () => {
         setName();
         setParentCategoryID();
         setDescription();
     };
-
+    const fomatCategoryToSelection = (categories) => {
+        let result = [];
+        categories.forEach((category) => {
+            result.push({
+                value: category.categoryId,
+                label: `${category.name}`,
+            });
+        });
+        return result;
+    };
     const getCategory = async () => {
         const x = await categoryService.get();
         setCategories(x);
+        const y = fomatCategoryToSelection(x);
+        setfomatCate(y);
     };
 
     useEffect(() => {
@@ -66,13 +80,12 @@ function CategoryFormAdd({ onClose, onSuccess }) {
         resetForm();
         onSuccess();
     };
-// {category.subCategories && renderCategories(category.subCategories, level + 1)}
+    // {category.subCategories && renderCategories(category.subCategories, level + 1)}
     const renderCategories = (categories, level = 0) => {
         if (categories)
             return categories.map((category) => (
                 <React.Fragment key={category.categoryId}>
                     <option value={category.categoryId}>{`${'—'.repeat(level)} ${category.name}`}</option>
-                    
                 </React.Fragment>
             ));
     };
@@ -86,7 +99,7 @@ function CategoryFormAdd({ onClose, onSuccess }) {
                 <h2>Thêm sách danh mục mới</h2>
                 <div className={cx('row')}>
                     <label className={cx('label')}>
-                        Tên danh mục
+                        Tên danh mục <RequiredStar />
                         <input
                             type="text"
                             value={name}
@@ -96,17 +109,16 @@ function CategoryFormAdd({ onClose, onSuccess }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Danh mục cha
-                        <select
-                            value={parentCategoryID}
-                            onChange={(e) => {
-                                setParentCategoryID(e.target.value);
+                        Danh mục cha <RequiredStar />
+                        <Select
+                            className={cx('select-react')}
+                            placeholder="Chọn danh mục cha"
+                            options={fomatCate}
+                            onChange={(option) => {
+                                setParentCategoryID(option ? option.value : null);
                             }}
-                            className={cx('input')}
-                        >
-                            <option value="">Chọn danh mục cha</option>
-                            {renderCategories(categories)}
-                        </select>
+                            isClearable
+                        ></Select>
                     </label>
                 </div>
 

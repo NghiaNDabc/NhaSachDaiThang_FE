@@ -3,6 +3,7 @@ import style from './languageFormStyle.module.scss';
 import classNames from 'classnames/bind';
 import { languageService } from '../../services/languageService';
 import Button from '../button/button';
+import RequiredStar from '../requiredStar/requiredStar';
 
 const cx = classNames.bind(style);
 
@@ -32,7 +33,7 @@ function LanguageEditForm({ item, onClose }) {
                 <h2>Sửa ngôn ngữ</h2>
                 <div className={cx('row')}>
                     <label className={cx('label')}>
-                        Tên
+                        Tên<RequiredStar/>
                         <input
                             type="text"
                             value={name}

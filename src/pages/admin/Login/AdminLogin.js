@@ -234,7 +234,7 @@ function AdminLogin() {
             )}
 
             {/* ToastContainer for displaying popup notifications */}
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+            {/* <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} /> */}
             {/* <ToastContainer
                 style={{ zIndex: 100000000 }}
                 position="top-right"
