@@ -31,6 +31,7 @@ export const supplierService = {
     },
     async put(formData) {
         try {
+            debugger;
             const response = await axiosInstance.put('v1/Suppliers', formData);
             if (response.data.success) toast.success(response.data.message);
             else toast.error(response.data.errNessage || response.data.message);
@@ -49,7 +50,7 @@ export const supplierService = {
     },
     async changeStatus(id) {
         try {
-            const rp = await axiosInstance.put('/v1/Suppliers/changeStatus', id);
+            const rp = await axiosInstance.put('/v1/Suppliers/changeStatus?id=' + id);
             if (rp.status !== 200) {
                 toast.error(rp.data?.errMessage || 'Có lỗi xảy ra.');
                 return false;

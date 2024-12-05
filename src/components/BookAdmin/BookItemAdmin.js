@@ -40,9 +40,33 @@ function BookItemAdmin({ book, onRestock, onDelete }) {
             {isEdit && <BookEdit onClose={onClose} book={bookItem} />}
             {isSupply && <SupplierBookForm onClose={onCloseSupply} book={bookItem} />}
             <div className={cx('wrapper')}>
-                <img src={bookItem.mainImage ? bookItem.mainImage : null} />
                 <div className={cx('book-id')}>{bookItem.bookId}</div>
+                <div className={cx('image-wrapper')}>
+                    <img src={bookItem.mainImage ? bookItem.mainImage : null} alt={bookItem.title} />
+                    {bookItem.promotion > 0 && new Date(bookItem.promotionEndDate) > new Date() && (
+                        <div className={cx('discount-tag')}>{bookItem.promotion}%</div>
+                    )}
+                </div>
+                {/* <img src={bookItem.mainImage ? bookItem.mainImage : null} /> */}
+
                 <div className={cx('book-name')}>{bookItem.title}</div>
+                <div className={cx('book-price')}>
+                    {bookItem.promotion > 0 && new Date(bookItem.promotionEndDate) > new Date() ? (
+                        <>
+                            {/* Giá trước khuyến mãi (bị gạch ngang) */}
+                            <div className={cx('original-price')}>
+                                <s>{bookItem.price}đ</s>
+                            </div>
+                            {/* Giá sau khuyến mãi */}
+                            <div className={cx('discounted-price')}>
+                                {(bookItem.price * (1 - bookItem.promotion / 100)).toFixed(0)}đ
+                            </div>
+                        </>
+                    ) : (
+                        // Hiển thị giá bình thường nếu không có khuyến mãi
+                        <div className={cx('normal-price')}>{bookItem.price}đ</div>
+                    )}
+                </div>
                 <div className={cx('book-quanlity')}>{bookItem.quantity}</div>
                 <div className={cx('book-categoryName')}>{bookItem.categoryName}</div>
                 <div>
@@ -53,7 +77,7 @@ function BookItemAdmin({ book, onRestock, onDelete }) {
                         onClick={() => onChangeStatus(bookItem.bookId)}
                     />
                 </div>
-                <div>
+                {/* <div>
                     <Button
                         variant="add"
                         leftIcon={<FontAwesomeIcon icon={faPlus} />}
@@ -61,7 +85,7 @@ function BookItemAdmin({ book, onRestock, onDelete }) {
                     >
                         Nhập
                     </Button>
-                </div>
+                </div> */}
                 <div>
                     <Button
                         variant="edit"

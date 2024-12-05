@@ -11,14 +11,15 @@ import RequiredStar from '../requiredStar/requiredStar';
 import Select from 'react-select';
 import { useRole } from '../../contexts/roleContext';
 import { userService } from '../../services/userService';
-import { userValidationSchema } from '../../formik/userValidationSchem';
+import { userValidationSchema } from '../../formik/userValidationSchema';
 
 const cx = classNames.bind(styles);
 
-function UserEditForm({ item,onClose }) {
+function UserEditForm({ item, onClose }) {
     const { roles } = useRole();
     console.log(roles);
     const [fomatRoles, setfomatRoles] = useState([]);
+    const [images, setImages] = useState([]);
     // Validation schema with Yup
     useEffect(() => {
         if (roles && roles.length > 0) {
@@ -30,18 +31,13 @@ function UserEditForm({ item,onClose }) {
             );
         }
     }, [roles]);
-    const validationSchema = Yup.object().shape({
-        firstName: Yup.string().required('Tên không được để trống'),
-        lastName: Yup.string().required('Họ đệm không được để trống'),
-        roleId: Yup.string().required('Chức vụ không được để trống'),
-        email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
-        phone: Yup.string().required('Số điện thoại không được để trống'),
-        passWord: Yup.string().min(6, 'Mật khẩu phải ít nhất 6 ký tự').required('Mật khẩu không được để trống'),
-        confirmPassWord: Yup.string()
-            .oneOf([Yup.ref('passWord')], 'Mật khẩu nhập lại không khớp')
-            .required('Vui lòng xác nhận mật khẩu'),
-    });
-
+    const handleImageChange = (e) => {
+        const newImg = Array.from(e.target.files);
+        setImages((pre) => [...pre, ...newImg]);
+    };
+    const removeImage = (index) => {
+        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
     const handleSubmit = async (values, { setSubmitting }) => {
         const user = JSON.parse(localStorage.getItem('user'));
         const formData = new FormData();
@@ -70,7 +66,7 @@ function UserEditForm({ item,onClose }) {
                 <button onClick={onClose} className={cx('close-button')}>
                     X
                 </button>
-                <h2>Sửa người mới</h2>
+                <h2>Sửa người dùng</h2>
                 <Formik
                     initialValues={{
                         firstName: item.firstName,
@@ -138,8 +134,41 @@ function UserEditForm({ item,onClose }) {
                                     <ErrorMessage name="confirmPassWord" component="div" className={cx('error')} />
                                 </label>
                             </div> */}
+                            <div className={cx('label')}>
+                                Hình ảnh
+                                <input
+                                    onChange={handleImageChange}
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    className={cx('input')}
+                                />
+                                <div className={cx('image-preview-container')}>
+                                    {images &&
+                                        images.length > 0 &&
+                                        images.map((image, index) => (
+                                            <div key={index} className={cx('image-preview-wrapper')}>
+                                                <img
+                                                    src={URL.createObjectURL(image)}
+                                                    alt="Selected"
+                                                    className={cx('image-preview')}
+                                                />{' '}
+                                                <button
+                                                    className={cx('remove-image-button')}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        removeImage(index);
+                                                    }}
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
+                            <div className={cx('image-preview-container')}></div>
                             <Button type="submit" className={cx('submit-button')} variant="add" disabled={isSubmitting}>
-                                {isSubmitting ? 'Đang thêm...' : 'Thêm'}
+                                {isSubmitting ? 'Đang sửa..' : 'Sửa'}
                             </Button>
                         </Form>
                     )}

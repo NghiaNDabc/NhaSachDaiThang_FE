@@ -1,66 +1,165 @@
-import { useState } from 'react';
-import style from '../bookForm/BookForm2.module.scss';
+import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import style from './supplierbook.module.scss';
 import classNames from 'classnames/bind';
 import Button from '../button/button';
 import RequiredStar from '../requiredStar/requiredStar';
 import { useCategories } from '../../contexts/CategoryContext';
 import ReactQuill from 'react-quill';
-import { supplierBooksService } from '../../services/supplierBookService';
-import React from 'react';
-import { supplierBookValidationSchema } from '../../formik/supplierBookValidationSchema';
+import { bookService } from '../../services/bookService/bookService';
 import { toast } from 'react-toastify';
+import 'tippy.js/dist/tippy.css';
+import Select from 'react-select';
+import { supplierBooksService } from '../../services/supplierBookService';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 const cx = classNames.bind(style);
 
-function SupplierBookForm({ onClose, book }) {
-    const [title, setName] = useState(book.title);
-    const [bookID, setBookID] = useState(book.bookId);
-    const [supplyPrice, setSupplyPrice] = useState();
+function SupplierBookForm({ onAdd, onClose }) {
+    const [bookName, setBookName] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [bookList, setBookList] = useState([]);
+    const [note, setNote] = useState('');
+    const [reCal, setreCal] = useState(0);
+    const [supplyDate, setSupplyDate] = useState('');
     const [supplierId, setSupplierId] = useState('');
-    const [quanlity, setquanlity] = useState();
-    const [note, setNote] = useState();
-    const [supplyDate, setSupplyDate] = useState(Date.now());
     const { suppliers } = useCategories();
+    const [formatSupplier, setFormatSupplier] = useState();
+    const [vat, SetVat] = useState(0);
+    const [totalPrice, setTotalPeice] = useState(0);
+    const [nccErr, setNccErr] = useState('');
+    const [dateErr, setDateErr] = useState('');
+    const [listBookErr, setListBookErr] = useState('');
+    // Debounced function to search books
+    const handleBookSearch = debounce(async (bookName) => {
+        if (!bookName) return;
+        try {
+            const response = await bookService.getBooks(
+                null,
+                null,
+                bookName,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            );
+            setSuggestions(response.data || []);
+        } catch (error) {
+            toast.error('Error fetching book suggestions.');
+        }
+    }, 500);
+
+    const handleBookNameChange = (event) => {
+        const value = event.target.value;
+        setBookName(value);
+        if (value == null || value == '') setSuggestions([]);
+        handleBookSearch(value);
+    };
+    const formatSupplierFuc = (suppliers) => {
+        let rs = [];
+
+        suppliers.forEach((sup) => {
+            rs.push({
+                value: sup.supplierId,
+                label: sup.name,
+            });
+        });
+        return rs;
+    };
+    useEffect(() => {
+        if (suppliers && suppliers.length > 0) setFormatSupplier(formatSupplierFuc(suppliers));
+    }, [suppliers]);
+    const handleBookSelection = (book) => {
+        book.quantity = 0;
+        book.supplyPrice = 0;
+        setBookList((prev) => [...prev, book]);
+        setBookName(''); // Clear input after selection
+        setSuggestions([]); // Clear suggestions after selection
+    };
+
+    const handleRemoveBook = (bookId) => {
+        debugger;
+        setBookList((prev) => prev.filter((book) => book.bookId !== bookId));
+    };
+
+    const handleQuantityChange = (bookId, value) => {
+        setBookList((prev) => prev.map((book) => (book.bookId === bookId ? { ...book, quantity: value } : book)));
+    };
+
+    const handlePriceChange = (bookId, value) => {
+        setBookList((prev) => prev.map((book) => (book.bookId === bookId ? { ...book, supplyPrice: value } : book)));
+    };
+
+    useEffect(() => {
+        const calculateTotal = (bookList) => {
+            const totalWithoutVat = bookList.reduce((total, book) => {
+                const price = parseFloat(book.supplyPrice);
+                const quantity = parseInt(book.quantity, 10);
+
+                return total + price * quantity;
+            }, 0);
+
+            SetVat(totalWithoutVat * 0.1);
+
+            setTotalPeice(totalWithoutVat); // Return total including VAT
+        };
+        if (bookList) calculateTotal(bookList);
+    }, [bookList, reCal]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const formData = new FormData();
-        let supplierBookData = {
-            bookID,
-            supplierId,
-            supplyPrice,
-            quanlity,
-            supplyDate,
-        };
-        if (note)
-            supplierBookData = {
-                note,
-                ...supplierBookData,
-            };
-        // try {
-        //     await supplierBookValidationSchema.validate(supplierBookData, { abortEarly: false });
-        // } catch (err) {
-        //     // Hiển thị lỗi validate
-        //     if (err.inner) {
-        //         err.inner.forEach((validationError) => {
-        //             toast.error(validationError.message);
-        //         });
-        //     } else {
-        //         console.log(err);
-        //         toast.error('Có lỗi xảy ra khi thêm sách');
-        //     }
-        //     return;
-        // }
-        Object.keys(supplierBookData).forEach((key) => {
-            formData.append(key, supplierBookData[key]);
-        });
-        await supplierBooksService.post(formData);
+        debugger;
+        var isValid = true;
+        if (supplierId == '') {
+            setNccErr('Nhà cung cấp không được để trống');
+            isValid = false;
+        } else {
+            setNccErr('');
+        }
+        if (!supplyDate || supplyDate == '') {
+            setDateErr('Ngày nhập không được để trống');
+            isValid = false;
+        } else {
+            setDateErr('');
+        }
+        if (!bookList || bookList.length == 0) {
+            setListBookErr('Danh sách trống');
+            isValid = false;
+        } else {
+            let haserr = false;
+            bookList.forEach((book) => {
+                if (book.quanlity < 1 || book.supplyPrice < 0) {
+                    setListBookErr('Hãy kiểm tra lại số lượng và giá nhập');
+                    isValid = false;
+                    haserr = true;
+                    return;
+                }
+            });
+            if (haserr == false) {
+                setListBookErr('');
+            }
+        }
+        if (isValid == false) return;
+        const user = JSON.parse(localStorage.getItem('user'));
+        const supplierBooks = bookList.map((bookData) => ({
+            bookId: bookData.bookId,
+            supplyPrice: bookData.supplyPrice,
+            quantity: bookData.quantity,
+            supplyDate: supplyDate,
+            supplierId: supplierId,
+            createdBy: user.firstName + ' ' + user.lastName,
+        }));
+        const isSucces = await supplierBooksService.post(supplierBooks);
+        if (isSucces) onAdd();
     };
-    const renderSupplier = (suppliers) => {
-        return suppliers.map((supplier) => (
-            <React.Fragment key={supplier.supplierId}>
-                <option value={supplier.supplierId}>{`${supplier.name}`}</option>
-            </React.Fragment>
-        ));
-    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -68,23 +167,18 @@ function SupplierBookForm({ onClose, book }) {
                     X
                 </button>
                 <h2>Nhập sách</h2>
-                <h4>
-                    {bookID}: {title}
-                </h4>
                 <div className={cx('row')}>
                     <label className={cx('label')}>
                         Nhà cung cấp
                         <RequiredStar />
-                        <select
-                            value={supplierId}
-                            onChange={(e) => {
-                                setSupplierId(e.target.value);
-                            }}
-                            className={cx('input')}
-                        >
-                            <option value="">Chọn nhà cung cấp</option>
-                            {renderSupplier(suppliers)}
-                        </select>
+                        <Select
+                            className={cx('select-react')}
+                            options={formatSupplier}
+                            placeholder="Chọn nhà cung cấp"
+                            // value={formatSupplier.find((option) => option.value === supplierId)}
+                            onChange={(selected) => setSupplierId(selected ? selected.value : null)}
+                        />
+                        <div className={cx('error')}>{nccErr}</div>
                     </label>
                     <label className={cx('label')}>
                         Ngày nhập
@@ -96,40 +190,140 @@ function SupplierBookForm({ onClose, book }) {
                             className={cx('input')}
                             required
                         />
+                        <div className={cx('error')}>{dateErr}</div>
                     </label>
                 </div>
+
+                {/* Book Search and Selection */}
                 <div className={cx('row')}>
                     <label className={cx('label')}>
-                        Số lượng
+                        Tên sách
                         <RequiredStar />
-                        <input
-                            type="text"
-                            value={quanlity}
-                            onChange={(e) => setquanlity(e.target.value)}
-                            className={cx('input')}
-                            required
-                        />
-                    </label>
-                    <label className={cx('label')}>
-                        Giá
-                        <RequiredStar />
-                        <input
-                            type="text"
-                            value={supplyPrice}
-                            onChange={(e) => setSupplyPrice(e.target.value)}
-                            className={cx('input')}
-                            required
-                        />
+                        <Tippy
+                            content={
+                                suggestions.length > 0 && (
+                                    <div className={cx('suggestions')}>
+                                        {suggestions.map((book) => (
+                                            <div
+                                                key={book.bookId}
+                                                onClick={() => handleBookSelection(book)}
+                                                className={cx('suggestion-item')}
+                                            >
+                                                <div>
+                                                    <img
+                                                        style={{ width: '60px', marginRight: '8px' }}
+                                                        src={book.mainImage}
+                                                        alt={book.title}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <strong>{book.title}</strong>
+                                                    <br />
+                                                    <span>{book.author}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )
+                            }
+                            visible={!!suggestions.length} // Kiểm tra trước khi hiển thị
+                            interactive
+                            placement="top-start"
+                            offset={[0, 10]}
+                        >
+                            <input
+                                type="text"
+                                value={bookName}
+                                onChange={handleBookNameChange}
+                                className={cx('input')}
+                                required
+                            />
+                        </Tippy>
                     </label>
                 </div>
-                <div className={cx('row')}>
-                    <label className={cx('label')}>
-                        Ghi chú:
-                        <ReactQuill value={note} onChange={setNote} className={cx('description-editor')} theme="snow" />
-                    </label>
+
+                {/* Added Books */}
+                <div className={cx('book-list')}>
+                    {
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Tên</th>
+                                    <th>Số lượng(quyển)</th>
+                                    <th>Giá nhập(VND)</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {bookList.length > 0 &&
+                                    bookList.map((book) => {
+                                        return (
+                                            <tr key={book.bookId}>
+                                                <td>{book.bookId}</td>
+                                                <td>
+                                                    <img
+                                                        style={{ width: '60px' }}
+                                                        src={book.mainImage}
+                                                        alt={book.title}
+                                                    />
+                                                </td>
+                                                <td>{book.title}</td>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        defaultValue={0}
+                                                        value={book.quantity || ''}
+                                                        onChange={(e) =>
+                                                            handleQuantityChange(book.bookId, e.target.value)
+                                                        }
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        value={book.supplyPrice || ''}
+                                                        onChange={(e) => {
+                                                            handlePriceChange(book.bookId, e.target.value);
+                                                            setreCal((x) => x + 1);
+                                                        }}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        onClick={() => handleRemoveBook(book.bookId)}
+                                                        className={cx('remove-button')}
+                                                    >
+                                                        Xóa
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                            </tbody>
+                        </table>
+                    }
+                    <div className={cx('error')}>{listBookErr}</div>
                 </div>
-                <Button onClick={handleSubmit} className={cx('submit-button')} variant="add">
-                    Nhập sách
+                <br />
+                <div>
+                    <p>
+                        <b>Thuế giá trị gia tăng:</b> {vat}
+                    </p>{' '}
+                    {/* Display VAT */}
+                    <p>
+                        <b>Tổng tiền hàng:</b> {totalPrice}{' '}
+                    </p>{' '}
+                    {/* Display VAT */}
+                    <p>
+                        <b>Tổng phải trả:</b> {vat + totalPrice}
+                    </p>{' '}
+                    {/* Display VAT */}
+                </div>
+
+                <Button onClick={handleSubmit} className={cx('submit-button')}>
+                    Nhập hàng
                 </Button>
             </div>
         </div>

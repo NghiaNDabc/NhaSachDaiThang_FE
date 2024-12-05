@@ -1,0 +1,34 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    border-bottom: 1px solid gray;
+
+    justify-content: space-between;
+}
+// .id {
+//     width: 6%;
+//     text-align: center;
+// }
+
+.date {
+    width: 7%;
+}
+.total {
+    width: 10%;
+}
+.content {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
+.name {
+    width: 60%;
+    font-weight: bold;
+    text-align: left;
+}
+.action{
+    width: 20%;
+    display: flex;  
+    justify-content: space-between;
+}

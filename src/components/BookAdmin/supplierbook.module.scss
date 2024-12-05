@@ -1,0 +1,154 @@
+@import '../../styles/FormStyle.scss';
+// Define color variables for reuse
+$primary-color: #007bff;
+$danger-color: #e74c3c;
+$hover-bg: #f1f1f1;
+$border-color: #ddd;
+$input-bg: #f9f9f9;
+$card-bg: #f9f9f9;
+$hover-btn-color: #c0392b;
+
+.book-list {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: $card-bg;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        thead {
+            background-color: #f2f2f2;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid $border-color;
+        }
+
+        th {
+            font-weight: bold;
+            background-color: #efefef;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tbody {
+            tr {
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: $hover-bg;
+                }
+
+                td {
+                    img {
+                        width: 60px;
+                        border-radius: 5px;
+                    }
+
+                    input[type='number'] {
+                        width: 80px;
+                        padding: 8px;
+                        font-size: 14px;
+                        border: 1px solid $border-color;
+                        border-radius: 4px;
+                        background-color: $input-bg;
+                        text-align: center;
+
+                        &:focus {
+                            outline: none;
+                            border-color: $primary-color;
+                        }
+                    }
+
+                    .remove-button {
+                        padding: 6px 12px;
+                        background-color: $danger-color;
+                        color: #fff;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: background-color 0.3s ease;
+
+                        &:hover {
+                            background-color: $hover-btn-color;
+                        }
+
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+                }
+            }
+        }
+
+        tfoot {
+            text-align: right;
+            padding-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+
+    // Styling for the VAT and total price information
+    div {
+        p {
+            font-size: 16px;
+            margin: 8px 0;
+            color: #333;
+
+            &:last-child {
+                color: #27ae60; // Highlight the last total payment value
+            }
+        }
+    }
+}
+.suggestions {
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    width: 100%;
+    top: 10px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+}
+
+.suggestions {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+   
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+    background-color: #f4f4f4;
+}

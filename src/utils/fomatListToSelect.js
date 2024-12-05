@@ -1,4 +1,5 @@
-export const   fomatListToSelection = (categories, level = 0) => {
+export const fomatListToSelection = (categories, level = 0) => {
+    if (!categories || categories.length == 0) return [];
     let result = [];
     // result.push({
     //     value: '',
@@ -17,7 +18,7 @@ export const   fomatListToSelection = (categories, level = 0) => {
     });
     return result;
 };
-export const   fomatListLanguageToSelection = (languages) => {
+export const fomatListLanguageToSelection = (languages) => {
     let result = [];
     languages.forEach((language) => {
         result.push({
@@ -27,7 +28,7 @@ export const   fomatListLanguageToSelection = (languages) => {
     });
     return result;
 };
-export const   fomatListBookCoverTypeToSelection = (bookCovertypes) => {
+export const fomatListBookCoverTypeToSelection = (bookCovertypes) => {
     let result = [];
     bookCovertypes.forEach((bookCovertype) => {
         result.push({

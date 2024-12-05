@@ -1,0 +1,76 @@
+.section-title {
+    position: relative;
+    display: inline-block; // Chỉ chiếm nội dung
+    background-color: #28a745; // Màu xanh giống hình
+    color: #fff; // Màu chữ trắng
+    padding: 8px 16px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 4px 0 0 4px; // Bo góc bên trái
+
+    // Mũi tên nhọn
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -16px; // Khoảng cách ra ngoài
+        width: 0;
+        height: 0;
+        border-top: 22px solid transparent; // Cạnh trên mũi tên
+        border-bottom: 22px solid transparent; // Cạnh dưới mũi tên
+        border-left: 16px solid #28a745; // Mũi tên cùng màu nền
+    }
+}
+
+.book-list,
+.sach-giam-gia {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); // 4 phần tử trên 1 dòng
+    gap: 5px; // Khoảng cách giữa các phần tử
+    padding: 5px; // Khoảng cách bên trong
+    // background-color: #f9f9f9; // Màu nền (tùy chọn)
+    border-radius: 8px; // Bo góc (tùy chọn)
+}
+
+.sach-theo-danh-muc {
+    .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        .category-item {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: #ffe680; /* Màu vàng nhạt khi hover */
+                color: #333;
+            }
+
+            &.active {
+                background-color: #ffd700; /* Màu vàng đậm khi được chọn */
+                color: #fff;
+                border-color: #ffa500;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .book-section {
+        .book-list {
+
+            p {
+                text-align: center;
+                color: #888;
+            }
+        }
+    }
+}

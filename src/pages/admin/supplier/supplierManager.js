@@ -53,7 +53,23 @@ function SupplierManager() {
                 </Button>
             </div>
             {isAdd && <SuplierFormAdd onSuccess={() => setRefresh((p) => p + 1)} onClose={clickAdd} />}
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '10px',
+                    backgroundColor: '#f5f5f5',
+                    fontWeight: 'bold',
+                    borderBottom: '2px solid gray',
+                }}
+            >
+                <div style={{ width: '4%', textAlign: 'center' }}>ID</div>
+                <div style={{ width: '60%', textAlign: 'left', textIndent: '30px' }}>Tên nhà cung câp</div>
 
+                <div style={{ width: '20%' }}>Địa chỉ</div>
+
+                <div style={{ flexGrow: 1, textAlign: 'center' }}>Hành động</div>
+            </div>
             {suplierList &&
                 suplierList.length > 0 &&
                 suplierList.map((item, index) => (

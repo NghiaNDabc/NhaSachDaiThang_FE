@@ -14,7 +14,7 @@ export const CategoryProvider = ({ children }) => {
     useEffect(() => {
         const getCategory = async () => {
             const rs = await categoryService.get();
-            debugger;
+            
             setCategories(rs);
         };
         const getLanguage = async () => {
@@ -27,7 +27,8 @@ export const CategoryProvider = ({ children }) => {
         };
         const getSupplier = async () => {
             const isDel = false;
-            const rs = await supplierService.get(null, null, isDel);
+            const rs = await supplierService.get(null, null, false, null, null);
+            debugger;
             setSuppliers(rs);
         };
         getCategory();

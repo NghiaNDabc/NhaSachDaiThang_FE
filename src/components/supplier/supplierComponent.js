@@ -5,13 +5,14 @@ import Button from '../button/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareCheck, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { categoryService } from '../../services/categoryService';
+import { supplierService } from '../../services/supplierService';
 
 const cx = classNames.bind(style);
 function SuplierComponent({ item, onDelete, onEdit }) {
     const [supplier, setSupplier] = useState(item);
     const [isDel, setIsDel] = useState(supplier.isDel);
     const onChangeStatus = async (id) => {
-        const rs = categoryService.changeStatus(id);
+        const rs = supplierService.changeStatus(id);
         if (rs) setIsDel((pre) => !pre);
     };
 

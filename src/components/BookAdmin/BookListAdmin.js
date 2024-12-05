@@ -30,20 +30,12 @@ function BookListAdmin() {
     const [isAdd, setIsAdd] = useState(false);
 
     const clickAdd = () => {
+        if (isAdd == true) {
+            debugger;
+            fetchBoooks(query, pageNumber, pageSize);
+        }
         setIsAdd(!isAdd);
     };
-    // const [id, setId] = useState(null);
-    // const [bookName, setBookname] = useState(null);
-    // const [categoryId, setcategoryId] = useState(null);
-    // const [categoryName, setcategoryName] = useState(null);
-    // const [minPrice, setminPrice] = useState(null);
-    // const [maxPrice, setmaxprice] = useState(null);
-    // const [minQuantity, setminQuantity] = useState(null);
-    // const [maxQuantity, setmaxQuantity] = useState(null);
-    // const [isPromotion, setisPromotion] = useState(false);
-    // const [languageId, setlanguageId] = useState(null);
-    // const [bookCoverTypeId, setbookCoverTypeId] = useState(null);
-    // const [active, setactive] = useState(false);
 
     const [searchParams, setSearchParams] = useState({
         id: null,
@@ -113,58 +105,6 @@ function BookListAdmin() {
         debugger;
         setFomatCategories(x);
     }, [categories]);
-    // const fetchBoooks = async (
-    //     id = null,
-    //     categoryId = null,
-    //     bookName = null,
-    //     pageNumber = null,
-    //     pageSize = null,
-    //     active = false,
-    //     categoryName = null,
-    //     minPrice = null,
-    //     maxprice = null,
-    //     minQuatity = null,
-    //     maxQuantity = null,
-    //     isPromotion = null,
-    //     languageId = null,
-    //     bookCoverTypeId = null,
-    // ) => {
-    //     try {
-    //         const { data, count } = await bookService.getBooks(
-    //             id,
-    //             categoryId,
-    //             bookName,
-    //             pageNumber,
-    //             pageSize,
-    //             (active = false),
-    //             categoryName,
-    //             minPrice,
-    //             maxprice,
-    //             minQuatity,
-    //             maxQuantity,
-    //             isPromotion,
-    //             languageId,
-    //             bookCoverTypeId,
-    //         );
-    //         console.log(data);
-    //         setBooks(data);
-    //         alert(count);
-    //         setCountBook(count);
-    //         settotalPages(Math.ceil(count / pageSize));
-    //     } catch (error) {
-    //         toast.error(error);
-    //     }
-    // };
-    // useEffect(() => {
-    //     const getCount = async () => {
-    //         const response = await bookService.getCount();
-    //         console.log(response);
-    //         let count = response.activeBook + response.deactiveBook;
-    //         console.log('count' + response.activeBook + ' ' + response.deactiveBook);
-    //         setCountBook(count);
-    //     };
-    //     getCount();
-    // }, []);
     const loadBook = () => {
         debugger;
         fetchBoooks(query, pageNumber, pageSize);
@@ -300,7 +240,7 @@ function BookListAdmin() {
                     </div>
                     <div>
                         <Button variant="add" onClick={clickAdd} leftIcon={<FontAwesomeIcon icon={faPlus} />}>
-                            Thêm mới
+                            Thêm sách mới
                         </Button>
                     </div>
                 </div>
@@ -314,6 +254,24 @@ function BookListAdmin() {
             {/*  */}
             {isAdd && <BookForm onClose={clickAdd} />}
             <div className={cx('list-book')}>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '10px',
+                        backgroundColor: '#f5f5f5',
+                        fontWeight: 'bold',
+                        borderBottom: '2px solid gray',
+                    }}
+                >
+                    <div style={{ width: '4%', textAlign: 'center' }}>ID</div>
+                    <div style={{ width: '13%', textAlign: 'center' }}>Hình ảnh</div>
+                    <div style={{ width: '23%', textAlign: 'center' }}>Tên sách</div>
+                    <div style={{ width: '15%', textAlign: 'center' }}>Giá tiền</div>
+                    <div style={{ width: '8%' }}>Số lượng</div>
+                    <div style={{ width: '10%' }}>Danh mục</div>
+                    <div style={{ flexGrow: 1, textAlign: 'center' }}>Hành động</div>
+                </div>
                 {books && books.length > 0
                     ? books.map((book) => {
                           let id = book.bookId;

@@ -2,12 +2,19 @@ import 'react-quill/dist/quill.snow.css';
 import styles from './BookForm2.module.scss';
 import classNames from 'classnames/bind';
 import ReactQuill from 'react-quill';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../button/button';
 import { useCategories } from '../../contexts/CategoryContext';
 import { bookService } from '../../services/bookService/bookService';
 import { toast } from 'react-toastify';
 import { bookValidationSchema } from '../../formik/useBookFormik';
+import RequiredStar from '../requiredStar/requiredStar';
+import Select from 'react-select';
+import {
+    fomatListBookCoverTypeToSelection,
+    fomatListLanguageToSelection,
+    fomatListToSelection,
+} from '../../utils/fomatListToSelect';
 const cx = classNames.bind(styles);
 
 function BookForm2({ onClose }) {
@@ -27,6 +34,9 @@ function BookForm2({ onClose }) {
     const [images, setImages] = useState([]);
     const [weight, setWeight] = useState();
     const [price, setPrice] = useState();
+    const [formattedCategories, setFormattedCategories] = useState([]);
+    const [formattedLanguage, setformattedLanguage] = useState([]);
+    const [formattedBookcovertype, setformattedBookcovertype] = useState([]);
     const resetForm = () => {
         setTitile('');
         setAuthor('');
@@ -98,28 +108,16 @@ function BookForm2({ onClose }) {
 
         await bookService.postBook(formData);
     };
-    const renderCategories = (categories, level = 0) => {
-        return categories.map((category) => (
-            <React.Fragment key={category.categoryId}>
-                <option value={category.categoryId}>{`${'—'.repeat(level)} ${category.name}`}</option>
-                {category.subCategories && renderCategories(category.subCategories, level + 1)}
-            </React.Fragment>
-        ));
-    };
-    const renderBookCoverType = (bookCoverTypes) => {
-        return bookCoverTypes.map((bookCoverType) => (
-            <React.Fragment key={bookCoverType.bookCoverTypeId}>
-                <option value={bookCoverType.bookCoverTypeId}>{`${bookCoverType.name}`}</option>
-            </React.Fragment>
-        ));
-    };
-    const renderLanguages = (languages) => {
-        return languages.map((language) => (
-            <React.Fragment key={language.languageId}>
-                <option value={language.languageId}>{`${language.name}`}</option>
-            </React.Fragment>
-        ));
-    };
+
+    useEffect(() => {
+        console.log('avx');
+        const x = fomatListToSelection(categories);
+        const y = fomatListLanguageToSelection(languages);
+        const z = fomatListBookCoverTypeToSelection(bookCoverTypes);
+        setFormattedCategories(x);
+        setformattedLanguage(y);
+        setformattedBookcovertype(z);
+    }, [categories, languages, bookCoverTypes]);
     const removeImage = (index) => {
         setImages((prevImages) => prevImages.filter((_, i) => i !== index));
     };
@@ -132,7 +130,7 @@ function BookForm2({ onClose }) {
                 <h2>Thêm sách mới</h2>
                 <div className={cx('row')}>
                     <label className={cx('label')}>
-                        Tiêu đề
+                        Tiêu đề <RequiredStar />
                         <input
                             type="text"
                             value={title}
@@ -142,56 +140,38 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Danh mục
-                        <select
-                            value={categoryId}
-                            onChange={(e) => {
-                                setCategoryId(e.target.value);
-                            }}
-                            className={cx('input')}
-                        >
-                            <option value="">Chọn danh mục</option>
-                            {renderCategories(categories)}
-                        </select>
-                    </label>
-                    <label className={cx('label')}>
-                        Ngôn ngữ
-                        <select
-                            value={languageId}
-                            onChange={(e) => {
-                                setLanguageId(e.target.value);
-                            }}
-                            className={cx('input')}
-                        >
-                            <option value="">Chọn ngôn ngữ</option>
-                            {renderLanguages(languages)}
-                        </select>
-                    </label>
-                    <label className={cx('label')}>
-                        Loại bìa
-                        <select
-                            value={bookCoverTypeId}
-                            onChange={(e) => {
-                                setBookCoverTypeId(e.target.value);
-                            }}
-                            className={cx('input')}
-                        >
-                            <option value="">Chọn loại bìa</option>
-                            {renderBookCoverType(bookCoverTypes)}
-                        </select>
-                    </label>
-                    <label className={cx('label')}>
-                        Tác giả
-                        <input
-                            type="text"
-                            value={author}
-                            onChange={(e) => setAuthor(e.target.value)}
-                            className={cx('input')}
-                            required
+                        Danh mục <RequiredStar />
+                        <Select
+                            className={cx('select-react')}
+                            options={formattedCategories}
+                            placeholder="Chọn danh mục"
+                            value={formattedCategories.find((option) => option.value === categoryId)}
+                            onChange={(selected) => setCategoryId(selected ? selected.value : null)}
                         />
                     </label>
                     <label className={cx('label')}>
-                        Nhà xuất bản
+                        Ngôn ngữ <RequiredStar />
+                        <Select
+                            className={cx('select-react')}
+                            options={formattedLanguage}
+                            placeholder="Chọn ngôn ngữ"
+                            value={formattedLanguage.find((option) => option.value === languageId)}
+                            onChange={(selected) => setCategoryId(selected ? selected.value : null)}
+                        />
+                    </label>
+                    <label className={cx('label')}>
+                        Loại bìa <RequiredStar />
+                        <Select
+                            className={cx('select-react')}
+                            options={formattedBookcovertype}
+                            placeholder="Chọn ngôn ngữ"
+                            value={formattedBookcovertype.find((option) => option.value === bookCoverTypeId)}
+                            onChange={(selected) => setCategoryId(selected ? selected.value : null)}
+                        />
+                    </label>
+
+                    <label className={cx('label')}>
+                        Nhà xuất bản <RequiredStar />
                         <input
                             type="text"
                             value={publisher}
@@ -201,7 +181,7 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Năm xuất bản
+                        Năm xuất bản <RequiredStar />
                         <input
                             type="number"
                             value={publishYear}
@@ -212,7 +192,17 @@ function BookForm2({ onClose }) {
                 </div>
                 <div className={cx('row')}>
                     <label className={cx('label')}>
-                        Số trang
+                        Tác giả <RequiredStar />
+                        <input
+                            type="text"
+                            value={author}
+                            onChange={(e) => setAuthor(e.target.value)}
+                            className={cx('input')}
+                            required
+                        />
+                    </label>
+                    <label className={cx('label')}>
+                        Số trang <RequiredStar />
                         <input
                             type="text"
                             value={pageCount}
@@ -221,7 +211,7 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Kích thước (dài x rộng x cao cm)
+                        Kích thước <RequiredStar />
                         <input
                             type="text"
                             value={size}
@@ -230,7 +220,7 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Cân nặng (g)
+                        Cân nặng (g) <RequiredStar />
                         <input
                             type="number"
                             value={weight}
@@ -239,7 +229,7 @@ function BookForm2({ onClose }) {
                         />
                     </label>
                     <label className={cx('label')}>
-                        Giá bán (VND)
+                        Giá bán (VND) <RequiredStar />
                         <input
                             type="number"
                             value={price}

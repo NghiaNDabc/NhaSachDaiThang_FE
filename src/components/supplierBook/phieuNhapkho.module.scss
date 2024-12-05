@@ -1,0 +1,63 @@
+@import '../../styles/FormStyle.scss';
+.container {
+    padding: 10px 20px;
+    overflow: auto;
+    width: 900px; // Chiều rộng cố định
+    height: 800px; // Chiều cao cố định
+    
+}
+.header1 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.header2 {
+    display: flex;
+    justify-content: space-evenly;
+    div {
+        width: 33%;
+    }
+    margin-bottom: 20px;
+}
+.product-table {
+    table {
+        border-collapse: collapse; // Gộp đường viền lại
+        width: 100%; // Chiếm toàn bộ chiều rộng container
+
+        th,
+        td {
+            border: 1px solid #000; // Đường viền màu đen
+            padding: 8px; // Khoảng cách nội dung
+            // Căn giữa nội dung
+        }
+
+        th {
+            background-color: #f2f2f2; // Màu nền cho tiêu đề
+            font-weight: bold; // In đậm chữ
+            text-align: center;
+        }
+    }
+
+    // Khoảng cách giữa bảng và các phần tử xung quanh
+    margin: 20px 0;
+}
+.signature {
+    text-align: center;
+}
+.signature table {
+    width: 100%; /* Bảng rộng bằng div bên ngoài */ /* Loại bỏ khoảng cách giữa các ô */
+    text-align: center; /* Căn giữa nội dung các ô */
+}
+
+.signature td {
+    padding: 10px; /* Khoảng cách bên trong các ô */
+    text-align: center; /* Căn giữa nội dung trong ô */
+}
+.pdf-content {
+    width: 210mm; /* A4 width */
+    height: 297mm; /* A4 height */
+    padding: 10mm; /* Khoảng cách nội dung so với lề */
+    background-color: white; /* Đảm bảo nền trắng */
+    font-family: 'Arial', sans-serif; /* Font phổ biến */
+    box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng kích thước tổng */
+}

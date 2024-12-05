@@ -37,8 +37,11 @@ function Sidebar() {
                         <Link to="/admin/supplier">Nhà cung cấp</Link>
                     </li>
                     <li>
-                        <a href="/stats">Statistics</a>
+                        <Link to="/admin/test">Nhập hàng</Link>
                     </li>
+                    {/* <li>
+                        <a href="/stats">Statistics</a>
+                    </li> */}
                 </ul>
             </nav>
         </aside>

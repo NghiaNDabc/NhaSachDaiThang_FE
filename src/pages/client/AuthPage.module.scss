@@ -1,0 +1,92 @@
+.auth-form {
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        button {
+            flex: 1;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            background: #f7f7f7;
+            color: black;
+            &.active {
+                background: #ffd15b;
+                color: #fff;
+            }
+
+            &:hover {
+                background: #ffd15e;
+            }
+        }
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        &.otp-row {
+            // display: flex;
+
+            div {
+                flex: 1;
+                margin-right: 5px;
+
+                input {
+                    width: calc(100% - 80px);
+                }
+            }
+
+            .otp-btn {
+              
+                color: white;
+                border: none;
+                padding: 8px;
+                border-radius: 4px;
+                cursor: pointer;
+
+                &:hover {
+                    border: 1px solid #ffd15b;
+                }
+            }
+        }
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px;
+
+        color: black;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background: #f7f7f7;
+        &:hover {
+            border: 1px solid #ffd15b;
+        }
+    }
+}

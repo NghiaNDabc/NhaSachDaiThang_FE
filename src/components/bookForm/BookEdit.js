@@ -212,7 +212,7 @@ function BookEdit({ book, onClose }) {
                                 </label>
                                 <label className={cx('label')}>
                                     Ngày kết thúc khuyến mãi
-                                    <Field type="datetime-local" name="promotion" className={cx('input')} />
+                                    <Field type="datetime-local" name="promotionEndDate" className={cx('input')} />
                                     <ErrorMessage
                                         name="promotionEndDate"
                                         component="div"

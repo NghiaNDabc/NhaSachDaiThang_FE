@@ -46,13 +46,13 @@ function AdminLogin() {
         if (mailHelper.isValid(email)) {
             // Start cooldown
             await authService.changePass(email, otpCode, newPass);
-            setIsCooldown(true);
-            setTimer(30);
+            // setIsCooldown(true);
+            // setTimer(30);
 
-            // After 60 seconds, reset the cooldown
-            setTimeout(() => {
-                setIsCooldown(false);
-            }, 30000); // 60 seconds cooldown
+            // // After 60 seconds, reset the cooldown
+            // setTimeout(() => {
+            //     setIsCooldown(false);
+            // }, 30000); // 60 seconds cooldown
         } else {
             toast.error('Địa chỉ email không hợp lệ');
         }

@@ -8,7 +8,7 @@ export const RoleProvider = ({ children }) => {
     useEffect(() => {
         const getRoles = async () => {
             const rs = await roleService.get();
-            debugger;
+           
             setRoles(rs);
         };
         getRoles();

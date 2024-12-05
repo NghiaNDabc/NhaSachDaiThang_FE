@@ -1,0 +1,15 @@
+// ErrorAlert.module.scss
+.error-alert {
+    display: flex;
+    align-items: center;
+    background-color: #fdecea;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.icon {
+    margin-right: 8px;
+}

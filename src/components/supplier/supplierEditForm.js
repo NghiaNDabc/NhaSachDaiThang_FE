@@ -33,7 +33,7 @@ function SupplierEditForm({ item, onClose }) {
 
         try {
             await supplierService.put(formData);
-            toast.success('Sửa nhà cung cấp thành công!');
+
             onClose();
         } catch (error) {
             toast.error('Có lỗi xảy ra, vui lòng thử lại.');
@@ -99,8 +99,8 @@ function SupplierEditForm({ item, onClose }) {
                                     <ErrorMessage name="note" component="div" className={cx('error-message')} />
                                 </label>
                             </div>
-                            <br/>
-                            <br/>
+                            <br />
+                            <br />
                             <Button type="submit" className={cx('submit-button')} variant="add">
                                 Sửa
                             </Button>
