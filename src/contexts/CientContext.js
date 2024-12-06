@@ -11,7 +11,7 @@ export const ClientContextProvider = ({ children }) => {
     useEffect(() => {
         const getCategory = async () => {
             const rs = await categoryService.get(null, null, null, null, true);
-
+            debugger;
             setCategories(rs);
         };
 

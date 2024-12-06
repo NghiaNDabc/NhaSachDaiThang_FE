@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Users from './pages/admin/user/user';
 import { ToastContainer } from 'react-toastify';
 import BookManager from '../src/pages/admin/BookManager/BookManager';
-import BookForm2 from './components/bookForm/BookForm2';
 import { CategoryProvider } from './contexts/CategoryContext';
 import Error500 from './pages/error/Error500';
 import CategoryManager from './pages/admin/CategoryManager/CategoryManager';
@@ -24,7 +23,11 @@ import BookDetail from './components/bookClient/bookDetail';
 import { CartProvider } from './contexts/CartContext';
 import CartPage from './pages/cartAndOrder/cartAndOrder';
 import CategoryPage from './pages/client/bookByCateGory/bookBycategoty';
-
+import ResultCheckoutPage from './pages/ResultCheckoutPage/ResultCheckoutPage';
+import MyOrders from './pages/myOrders/myOrder';
+import AccountInfo from './pages/myAccountInfor/MyAccountInfor';
+import ChangePassword from './pages/myAccountInfor/ChangPassword';
+import SidebarUser1 from './layout/userLayout/SidebarUser1';
 function App() {
     return (
         <div className="App">
@@ -42,10 +45,29 @@ function App() {
                                     <ClientLayout>
                                         <Routes>
                                             <Route path="/" element={<HomePage />} />
+                                            <Route path="/resultcheckout" element={<ResultCheckoutPage />} />
                                             <Route path="/category/:categoryId" element={<CategoryPage />} />
                                             <Route path="/book/:bookId" element={<BookDetail />} />
                                             <Route path="auth" element={<AuthPage />} />
                                             <Route path="cart" element={<CartPage />} />
+                                            <Route
+                                                path="/myaccount/*"
+                                                element={
+                                                    <div style={{ display: 'flex' }}>
+                                                        <SidebarUser1/>
+                                                        <div style={{ flex: 1, padding: '20px' }}>
+                                                            <Routes>
+                                                                <Route path="order" element={<MyOrders />} />
+                                                                <Route path="accountinfo" element={<AccountInfo />} />
+                                                                <Route
+                                                                    path="changepassword"
+                                                                    element={<ChangePassword />}
+                                                                />
+                                                            </Routes>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            />
                                         </Routes>
                                     </ClientLayout>
                                 </CartProvider>

@@ -6,11 +6,10 @@ const cx = classNames.bind(style);
 // to={category.link}
 function Breadcrumb({ categories }) {
     return (
-        <div  className={cx('breadcrumb')}>
+        <div className={cx('breadcrumb')}>
             {categories.map((category, index) => (
                 <span key={index}>
-
-                    <Link >{category.name}</Link>
+                    <Link to={category.link}>{category.name}</Link>
                     {index < categories.length - 1 && ' > '}
                 </span>
             ))}

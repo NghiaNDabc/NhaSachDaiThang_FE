@@ -47,14 +47,16 @@ function ClientHeader() {
     return (
         <header className={cx('header')}>
             <div className={cx('container_header')}>
-                <div className={cx('logo')}>
-                    <div className={cx('img')}>
-                        <img src={logo} alt="Logo" />
+                <Link to={'/'}>
+                    <div style={{ cursor: 'pointer' }} className={cx('logo')}>
+                        <div className={cx('img')}>
+                            <img src={logo} alt="Logo" />
+                        </div>
+                        <h3 className={cx('text-logo')}>
+                            Nhà sách <br /> Đại Thắng
+                        </h3>
                     </div>
-                    <h3 className={cx('text-logo')}>
-                        Nhà sách <br /> Đại Thắng
-                    </h3>
-                </div>
+                </Link>
                 <div className={cx('category')}>
                     <FontAwesomeIcon className={cx('category-icon')} icon={faBars} />
                     <span style={{ fontSize: '28px', fontWeight: 'bold' }}>Danh Mục</span>
@@ -107,6 +109,9 @@ function ClientHeader() {
                             <div style={{ width: '170px' }} className={cx('user-menu')}>
                                 {auth && auth.user ? (
                                     <>
+                                        <Link to="/myaccount/order" className={cx('user-menu-item')}>
+                                            Tài khoản của tôi
+                                        </Link>
                                         <button style={{ width: '100%' }} onClick={logout}>
                                             Đăng xuất
                                         </button>

@@ -45,10 +45,10 @@ function BookClientItem({ book }) {
                             color: '#ff0000',
                         }}
                     >
-                        {isPromotion ? discountedPrice : price}đ
+                        {price &&discountedPrice&& isPromotion ? discountedPrice.toLocaleString() : price.toLocaleString()}đ
                     </div>
                     <div className={cx('giatruoc')}>
-                        {isPromotion ? price : ''} {isPromotion ? 'đ' : ''}
+                        {price && isPromotion ? price.toLocaleString() : ''} {isPromotion ? 'đ' : ''}
                     </div>
                 </div>
             </div>

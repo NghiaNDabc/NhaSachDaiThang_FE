@@ -108,7 +108,7 @@ const CartPage = () => {
                 .required('Số điện thoại là bắt buộc.'),
             email: Yup.string().email('Email không hợp lệ.'),
         }),
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const user = localStorage.getItem('user');
             let name = 'guest';
             let userId = null;
@@ -131,7 +131,16 @@ const CartPage = () => {
                 createdBy: name,
                 orderDetails,
             };
-            orderService.post(order)
+            switch (values.paymentMethod) {
+                case 'code':
+                    orderService.post(order);
+                    break;
+
+                case 'vnpay':
+                    order.status = 'Chờ thanh toán online';
+                    await orderService.postVnPay(order);
+                    break;
+            }
             console.log('Order submitted:', order);
             // Thêm API gửi order tại đây
         },

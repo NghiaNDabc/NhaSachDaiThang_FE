@@ -1,14 +1,71 @@
 import axiosInstance from '../api/axiosInstance';
 import { toast } from 'react-toastify';
 export const orderService = {
-    // async get() {
-    //     try {
-    //         const response = await axiosInstance.get('v1/Language');
-    //         return response.data.data;
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // },
+    async get(
+        orderId = null,
+        orderDate = null,
+        deliveredDate = null,
+        customerName = null,
+        status = null,
+        userId = null,
+        phoneNumber = null,
+        pageNumber = null,
+        pageSize = null,
+    ) {
+        try {
+            let url = 'v1/Order';
+            let params = new URLSearchParams();
+
+            if (orderId !== null && orderId !== '') {
+                params.append('orderId', orderId);
+            }
+            if (orderDate !== null && orderDate !== '') {
+                params.append('orderDate', orderDate);
+            }
+            if (deliveredDate !== null && deliveredDate !== '') {
+                params.append('deliveredDate', deliveredDate);
+            }
+            if (customerName !== null && customerName !== '') {
+                params.append('customerName', customerName);
+            }
+            if (status !== null && status !== '') {
+                params.append('status', status);
+            }
+            if (userId !== null && userId !== '') {
+                params.append('userId', userId);
+            }
+            if (phoneNumber !== null && phoneNumber !== '') {
+                params.append('phoneNumber', phoneNumber);
+            }
+            if (pageNumber !== null && pageSize !== null) {
+                params.append('pageNumber', pageNumber);
+                params.append('pageSize', pageSize);
+            }
+
+            if (params.toString()) {
+                url += `?${params.toString()}`;
+            }
+
+            const response = await axiosInstance.get(url);
+            if (response.status === 204) {
+                toast.warn('Không có đơn hàng nào');
+                return [];
+            }
+            if (response.status !== 200) {
+                toast.error(response.data?.errMessage || 'Có lỗi xảy ra khi lấy dữ liệu đơn hàng.');
+                return null;
+            }
+
+            const data = response.data.data;
+
+            debugger;
+            return { data };
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            toast.error('Lỗi kết nối. Vui lòng thử lại sau.');
+            throw error;
+        }
+    },
     async post(formData) {
         try {
             const response = await axiosInstance.post('v1/Order', formData);
@@ -16,6 +73,40 @@ export const orderService = {
             else toast.error(response.data.errNessage || response.data.message);
         } catch (error) {
             toast.error(error);
+        }
+    },
+    async postVnPay(formData) {
+        try {
+            const response = await axiosInstance.post('v1/VnPay', formData);
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+
+                // Chuyển hướng đến URL trả về
+                const paymentUrl = response.data.paymentUrl;
+                window.location.href = paymentUrl;
+            } else {
+                toast.error(response.data.errMessage || response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.message || 'Có lỗi xảy ra khi tạo URL thanh toán.');
+        }
+    },
+    async postVnPayByOrderId(orderId) {
+        try {
+            const response = await axiosInstance.post('v1/VnPay/' + orderId);
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+
+                // Chuyển hướng đến URL trả về
+                const paymentUrl = response.data.paymentUrl;
+                window.location.href = paymentUrl;
+            } else {
+                toast.error(response.data.errMessage || response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.message || 'Có lỗi xảy ra khi tạo URL thanh toán.');
         }
     },
     async delete(id) {

@@ -156,32 +156,34 @@ function BookDetail() {
                         <div className="mt-8 flex items-center gap-6">
                             {book.quantity > 0 ? (
                                 <>
-                                    <button
-                                        onClick={() => handleQuantityChange(quantity - 1)}
-                                        className="px-4 py-2 border rounded-md text-2xl"
-                                    >
-                                        -
-                                    </button>
-                                    <div style={{ position: 'relative' }}>
-                                        <input
-                                            type="number"
-                                            min="1"
-                                            value={quantity}
-                                            onChange={(e) => handleQuantityChange(Number(e.target.value))}
-                                            className="w-24 p-3 border rounded-md  text-center text-lg"
-                                        />
-                                        <p style={{ position: 'absolute', top: '40px', left: '-20px', width: '250px' }}>
+                                    <div className="flex items-center space-x-2 bg-white p-2 rounded-md shadow-md">
+                                        <button
+                                            onClick={() => handleQuantityChange(quantity - 1)}
+                                            className="px-5 py-3 border border-gray-300 rounded-l-md text-2xl font-bold text-gray-700 hover:bg-gray-200 transition"
+                                        >
+                                            -
+                                        </button>
+                                        <div className="relative">
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                value={quantity}
+                                                onChange={(e) => handleQuantityChange(Number(e.target.value))}
+                                                className="w-28 p-3 border-t border-b border-gray-300 text-center text-2xl text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                            />
                                             {errorMessage && (
-                                                <div style={{ color: 'red', fontSize: '14px' }}>{errorMessage}</div>
+                                                <p className="absolute top-12 left-0 w-full text-sm text-red-500 text-center">
+                                                    {errorMessage}
+                                                </p>
                                             )}
-                                        </p>
+                                        </div>
+                                        <button
+                                            onClick={() => handleQuantityChange(quantity + 1)}
+                                            className="px-5 py-3 border border-gray-300 rounded-r-md text-2xl font-bold text-gray-700 hover:bg-gray-200 transition"
+                                        >
+                                            +
+                                        </button>
                                     </div>
-                                    <button
-                                        onClick={() => handleQuantityChange(quantity + 1)}
-                                        className="px-4 py-2 border rounded-md text-2xl"
-                                    >
-                                        +
-                                    </button>
 
                                     <button
                                         onClick={handleAddToCart}
@@ -212,7 +214,7 @@ function BookDetail() {
                                     fontSize: '22px',
                                 }}
                             >
-                                {isPromotion ? discountedPrice : price} đ
+                                {isPromotion ? discountedPrice.toLocaleString() : price.toLocaleString()} đ
                             </span>
                             <span
                                 style={{
@@ -221,7 +223,7 @@ function BookDetail() {
                                     marginRight: '5px',
                                 }}
                             >
-                                {isPromotion ? price : ''}
+                                {isPromotion ? price.toLocaleString() : ''}
                             </span>
                             <span
                                 style={{

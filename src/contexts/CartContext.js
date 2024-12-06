@@ -5,7 +5,7 @@ export const CartContext = createContext();
 
 // Provider
 export const CartProvider = ({ children }) => {
-    const [cart, setCart, ] = useState(() => {
+    const [cart, setCart] = useState(() => {
         // Lấy dữ liệu từ localStorage nếu có
         const storedCart = localStorage.getItem('cart');
         return storedCart ? JSON.parse(storedCart) : [];
@@ -54,13 +54,21 @@ export const CartProvider = ({ children }) => {
         setCart(temp2);
         localStorage.setItem('cart', JSON.stringify(temp2));
     };
-    const deleteBookInCart= (productId)=>{
+    const deleteBookInCart = (productId) => {
         const storedCart = localStorage.getItem('cart');
         const tempcart = storedCart ? JSON.parse(storedCart) : [];
         const temp2 = tempcart.filter((item) => item.id !== productId);
         setCart(temp2);
         localStorage.setItem('cart', JSON.stringify(temp2));
-    }
+    };
+    const clear = () => {
+        setCart([]);
+        localStorage.setItem('cart', []);
+    };
     // Giá trị cung cấp cho các component con
-    return <CartContext.Provider value={{ cart, editCart, addToCart,deleteBookInCart }}>{children}</CartContext.Provider>;
+    return (
+        <CartContext.Provider value={{ cart, editCart, addToCart, deleteBookInCart, clear }}>
+            {children}
+        </CartContext.Provider>
+    );
 };

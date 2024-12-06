@@ -96,4 +96,13 @@ export const userService = {
             toast.error(error);
         }
     },
+    async ClientPut(formData) {
+        try {
+            const response = await axiosInstance.put('v1/User/client', formData);
+            if (response.data.success) toast.success(response.data.message);
+            else toast.error(response.data.errNessage || response.data.message);
+        } catch (error) {
+            toast.error(error);
+        }
+    },
 };

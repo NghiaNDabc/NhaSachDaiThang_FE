@@ -9,13 +9,14 @@ export const AuthProvider = ({ children }) => {
         isLoggedIn: false,
         user: null,
     });
+    const [user, setUser] = useState(null);
     useEffect(() => {
         const user = localStorage.getItem('user');
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
         if (user && accessToken && refreshToken) {
             const userparse = JSON.parse(user);
-            debugger;
+            setUser(userparse);
             const authget = {
                 user: userparse,
                 refreshToken,
@@ -40,11 +41,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        setAuth(null);
+        setAuth({
+            accessToken: null,
+            refreshToken: null,
+            isLoggedIn: false,
+            user: null,
+        });
         localStorage.clear();
     };
 
-    return <AuthContext.Provider value={{ auth, login, logout }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ auth,user, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
