@@ -42,6 +42,7 @@ export const supplierService = {
     async post(formData) {
         try {
             const response = await axiosInstance.post('v1/Suppliers', formData);
+            debugger;
             if (response.data.success) toast.success(response.data.message);
             else toast.error(response.data.errNessage || response.data.message);
         } catch (error) {

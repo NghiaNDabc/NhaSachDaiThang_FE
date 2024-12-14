@@ -174,7 +174,7 @@ function BookForm({ onClose }) {
                                     <ErrorMessage name="size" component="div" className={cx('error-message')} />
                                 </label>
                                 <label className={cx('label')}>
-                                    Cân nặng <RequiredStar />
+                                    Trọng lượng (g) <RequiredStar />
                                     <Field type="text" name="weight" className={cx('input')} />
                                     <ErrorMessage name="weight" component="div" className={cx('error-message')} />
                                 </label>
@@ -184,7 +184,7 @@ function BookForm({ onClose }) {
                                     <ErrorMessage name="price" component="div" className={cx('error-message')} />
                                 </label>
                                 <label className={cx('label')}>
-                                    Khuyến mãi
+                                    Khuyến mãi (%)
                                     <Field type="text" name="promotion" className={cx('input')} />
                                     <ErrorMessage name="promotion" component="div" className={cx('error-message')} />
                                 </label>
@@ -250,7 +250,7 @@ function BookForm({ onClose }) {
                             </div>
                             <div className={cx('image-preview-container')}></div>
                             <Button type="submit" className={cx('submit-button')} variant="add">
-                                Thêm sách mới
+                                Tạo mới
                             </Button>
 
                             <Button

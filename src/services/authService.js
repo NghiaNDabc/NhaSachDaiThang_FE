@@ -22,7 +22,7 @@ export const authService = {
                 return { success: false, message: 'Tên đăng nhập hoặc mật khẩu không đúng' };
             }
         } catch (err) {
-            toast.error('Có lỗi xảy ra khi đăng nhập');
+            // toast.error('Có lỗi xảy ra khi đăng nhập');
             return { success: false, message: 'Tên đăng nhập hoặc mật khẩu không đúng' };
         }
     },

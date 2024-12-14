@@ -69,6 +69,9 @@ axiosInstance.interceptors.response.use(
             }
         }
         debugger;
+        if (error.response.status === 403) {
+            window.location.href = '/auth';
+        }
         if (!error.response || !error.response.status || error.response.status === 500) {
             console.error('Server error or network connection issue:', error);
             window.location.href = '/error';

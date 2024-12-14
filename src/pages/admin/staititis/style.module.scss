@@ -1,0 +1,61 @@
+.app {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    .filters {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+  
+      .input-group {
+        display: flex;
+        flex-direction: column;
+      }
+  
+      button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  
+    .chart {
+      margin-bottom: 30px;
+    }
+  
+    .table-container {
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        th, td {
+          border: 1px solid #ddd;
+          padding: 10px;
+          text-align: left;
+        }
+  
+        img {
+          max-width: 50px;
+          height: auto;
+        }
+      }
+  
+      button {
+        padding: 10px 15px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+          background-color: #388e3c;
+        }
+      }
+    }
+  }
+  

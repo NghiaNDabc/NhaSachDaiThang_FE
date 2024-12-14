@@ -28,6 +28,11 @@ import MyOrders from './pages/myOrders/myOrder';
 import AccountInfo from './pages/myAccountInfor/MyAccountInfor';
 import ChangePassword from './pages/myAccountInfor/ChangPassword';
 import SidebarUser1 from './layout/userLayout/SidebarUser1';
+import OrdersByPhoneNumber from './pages/myOrders/searchOrderByPhoneNumber';
+import AdminOrderForm from './components/adminOrder/adminOrder';
+import OrdersManagement from './pages/admin/orderManagement/ordermanagement';
+import THongKe3 from './pages/admin/staititis/thongke3';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
     return (
         <div className="App">
@@ -46,15 +51,16 @@ function App() {
                                         <Routes>
                                             <Route path="/" element={<HomePage />} />
                                             <Route path="/resultcheckout" element={<ResultCheckoutPage />} />
-                                            <Route path="/category/:categoryId" element={<CategoryPage />} />
+                                            <Route path="/search" element={<CategoryPage />} />
                                             <Route path="/book/:bookId" element={<BookDetail />} />
                                             <Route path="auth" element={<AuthPage />} />
-                                            <Route path="cart" element={<CartPage />} />
+                                            <Route path="cart" element={<CartPage />} />{' '}
+                                            <Route path="orderbyphonenumber" element={<OrdersByPhoneNumber />} />
                                             <Route
                                                 path="/myaccount/*"
                                                 element={
                                                     <div style={{ display: 'flex' }}>
-                                                        <SidebarUser1/>
+                                                        <SidebarUser1 />
                                                         <div style={{ flex: 1, padding: '20px' }}>
                                                             <Routes>
                                                                 <Route path="order" element={<MyOrders />} />
@@ -80,6 +86,9 @@ function App() {
                         element={
                             <AdminLayout>
                                 <Routes>
+                                {/* <Route path="thongke" element={<Statitis />} />
+                                <Route path="thongke2" element={<Statistics2 />} /> */}
+                                <Route path="dashboard" element={<THongKe3 />} />
                                     <Route path="users" element={<Users />} />
                                     <Route
                                         path="product"
@@ -93,6 +102,8 @@ function App() {
                                     <Route path="language" element={<LanguageManager />} />
                                     <Route path="bookcovertype" element={<BookCoverTypeManager />} />
                                     <Route path="supplier" element={<SupplierManager />} />
+                                    <Route path="order" element={<OrdersManagement />} />
+                                    <Route path="order/add" element={<AdminOrderForm />} />
                                     <Route
                                         path="user"
                                         element={

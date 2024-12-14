@@ -1,19 +1,22 @@
 @import 'normalize.css';
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import 'react-toastify/dist/ReactToastify.css';
 :root {
     --primary: #8a0917;
     --black: #000;
     --white: #fff;
     --text-color: #333;
-    
+    --mau-logo: #ffd15b;
+    --hover-input: #2575fc;
 }
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    //font-family: Arial, Helvetica, sans-serif;
 }
-.text-logo{
+.text-logo {
     background: linear-gradient(135deg, #ff8a00, #e52e71);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -31,4 +34,23 @@ body {
 a[href] {
     color: var(--text-color);
     text-decoration: none;
+}
+input[type='date'] {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #ffffff;
+    color: #333;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        background: #f3f4f6;
+    }
+
+    &:focus {
+        border: 2px solid var(--hover-input);
+        box-shadow: 0 0 5px var(--hover-input);
+    }
 }

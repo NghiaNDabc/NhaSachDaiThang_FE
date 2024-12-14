@@ -3,19 +3,19 @@
     background-color: #f8f9fa; /* Màu nền nhạt */
     padding: 20px;
     border-right: 1px solid #ddd; /* Viền phải */
-  }
-  
-  .sidebar ul {
+}
+
+.sidebar ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
-  }
-  
-  .sidebar li {
+}
+
+.sidebar li {
     margin-bottom: 10px;
-  }
-  
-  .sidebar a {
+}
+
+.sidebar a {
     display: block;
     padding: 12px 16px;
     text-decoration: none;
@@ -23,18 +23,21 @@
     font-size: 16px;
     border-radius: 4px;
     transition: all 0.3s ease; /* Hiệu ứng chuyển động */
-  }
-  
-  .sidebar a:hover {
+}
+
+.sidebar a:hover {
     background-color: #e2e6ea; /* Màu nền khi hover */
     color: #007bff; /* Màu chữ khi hover */
-  }
-  
-  .sidebar a.active {
-    background-color: #007bff; /* Màu nền link đang được chọn */
+}
+.active {
+    background-color: #ffd15b; // Nền màu vàng khi active
+    font-weight: bold; // In đậm tên khi active
+    color: #333; // Đảm bảo chữ không thay đổi khi active
+}
+.sidebar a.active {
+    background-color: #ffd15b; /* Màu nền link đang được chọn */
     color: white; /* Màu chữ link đang được chọn */
     font-weight: bold;
-    border-left: 4px solid #0056b3; /* Đường viền trái nổi bật */
+    border-left: 4px solid green; /* Đường viền trái nổi bật */
     padding-left: 12px; /* Bù cho đường viền */
-  }
-  
+}

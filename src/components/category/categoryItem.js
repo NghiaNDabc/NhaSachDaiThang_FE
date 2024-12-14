@@ -12,7 +12,8 @@ function CategoryItemAdmin({ category, level, onDelete, onEdit }) {
     const [categoryItem, setCategoryItem] = useState(category);
     const [isDel, setIsDel] = useState(category.isDel);
     const onChangeStatus = async (id) => {
-        const rs = categoryService.changeStatus(id);
+        debugger
+        const rs = await categoryService.changeStatus(id);
         if (rs) setIsDel((pre) => !pre);
     };
 

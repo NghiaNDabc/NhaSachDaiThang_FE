@@ -1,0 +1,38 @@
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 5px;
+    background-color: #f9f9f9; /* Nền nhẹ */
+    border: 1px solid #ddd; /* Viền mờ */
+    border-radius: 8px; /* Bo góc */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng nổi */
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap; /* Tự xuống dòng khi không đủ chỗ */
+    gap: 16px; /* Khoảng cách giữa các phần tử */
+}
+
+.input {
+    flex: 1;
+    min-width: 180px; /* Đảm bảo input không quá nhỏ */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus {
+    border-color: #007bff; /* Màu xanh khi focus */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+.select {
+    flex: 1;
+    min-width: 180px;
+}

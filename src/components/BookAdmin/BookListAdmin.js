@@ -49,7 +49,7 @@ function BookListAdmin() {
         isPromotion: false,
         languageId: null,
         bookCoverTypeId: null,
-        active: false,
+        active: null,
     });
     const [query, setQuery] = useState(searchParams);
     const fetchBoooks = async (query, pageNumber, pageSize) => {
@@ -68,8 +68,8 @@ function BookListAdmin() {
                 languageId,
                 bookCoverTypeId,
             } = query;
-
-            const { data, count } = await bookService.getBooks(
+            debugger;
+            const { data, count } = await bookService.getBookAdmin(
                 id,
                 categoryId,
                 bookName,
@@ -191,7 +191,7 @@ function BookListAdmin() {
                             { value: false, label: 'Inactive' },
                         ]}
                         placeholder="Active"
-                        onChange={(option) => handleInputChange('active', option?.value || null)}
+                        onChange={(option) => handleInputChange('active', option?.value ?? null)}
                     />
                 </div>
                 <div className={cx('row')}>

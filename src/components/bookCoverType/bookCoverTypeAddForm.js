@@ -5,6 +5,7 @@ import Button from '../button/button';
 import { bookCoverTypeService } from '../../services/bookCoverTypeService';
 import { bookCoverTypeValidationSchema } from '../../formik/bookCoverTypeValidationSchema ';
 import { toast, ToastContainer } from 'react-toastify';
+import ToastCustom from '../toast/toastComponent';
 
 const cx = classNames.bind(style);
 
@@ -57,15 +58,9 @@ function BookCoverTypeAddForm({ onClose, onAdd }) {
                     </label>
                 </div>
                 <Button onClick={handleSubmit} className={cx('submit-button')} variant="add">
-                    Thêm 
+                    Thêm
                 </Button>
             </div>
-            <ToastContainer
-                style={{ zIndex: 100000000 }}
-                position="top-right"
-                autoClose={4000}
-                hideProgressBar={false}
-            />
         </div>
     );
 }

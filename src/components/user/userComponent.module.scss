@@ -1,9 +1,10 @@
+@import '../../styles/AdminComponent.scss';
 .wrapper {
     display: flex;
     align-items: center;
     padding: 10px 10px;
     border-bottom: 1px solid gray;
-   
+
     justify-content: space-between;
 }
 // .id {
@@ -11,7 +12,7 @@
 //     text-align: center;
 // }
 .name {
-    width: 60%;
+    width: 30%;
     font-weight: bold;
     text-align: left;
 }

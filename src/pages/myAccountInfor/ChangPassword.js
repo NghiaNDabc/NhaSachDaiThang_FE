@@ -1,26 +1,105 @@
-import React from "react";
-
+import React from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import style from './myAccountInfor.module.scss';
+import classNames from 'classnames/bind';
+import RequiredStar from '../../components/requiredStar/requiredStar';
+import { passWordValidation } from '../../formik/userValidationSchema';
+import { userService } from '../../services/userService';
+import { toast } from 'react-toastify';
+const cx = classNames.bind(style);
 const ChangePassword = () => {
-  return (
-    <div>
-      <h2>Đổi mật khẩu</h2>
-      <form>
-        <div>
-          <label>Mật khẩu cũ:</label>
-          <input type="password" />
-        </div>
-        <div>
-          <label>Mật khẩu mới:</label>
-          <input type="password" />
-        </div>
-        <div>
-          <label>Xác nhận mật khẩu:</label>
-          <input type="password" />
-        </div>
-        <button type="submit">Cập nhật</button>
-      </form>
-    </div>
-  );
+    const { user } = useAuth();
+    const handleSubmit = async (values) => {
+        // Lấy user hiện tại từ localStorage
+        alert('xx');
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+
+        // Thêm trường modifyBy vào values
+        values.modifyBy = `${currentUser.firstName} ${currentUser.lastName}`;
+
+        const formData = new FormData();
+
+        // Duyệt qua tất cả các field trong values và append vào formData
+        Object.keys(values).forEach((key) => {
+            formData.append(key, values[key]);
+        });
+
+        try {
+            // Gọi API để cập nhật thông tin
+            await userService.ChangePassword(formData);
+        } catch (err) {
+            toast.error('Có lỗi xảy ra khi cập nhật thông tin');
+        }
+    };
+    return (
+        <>
+            {user && (
+                <div>
+                    <h2>Đổi mật khẩu</h2>
+                    <div>
+                        <Formik
+                            initialValues={{
+                                password: '',
+                                newPassword: '',
+                                confirmPassWord: '',
+                                email: user.email,
+                            }}
+                            validationSchema={passWordValidation}
+                            onSubmit={handleSubmit} // handleSubmit tự động nhận values từ form
+                        >
+                            {() => (
+                                <Form>
+                                    <div className={cx('row')}>
+                                        <label className={cx('label')}>
+                                            Email <RequiredStar />
+                                            <Field type="text" name="email" className={cx('input')} readOnly />
+                                            <ErrorMessage name="email" component="div" className={cx('error')} />
+                                        </label>
+                                    </div>
+                                    <div className={cx('row')}>
+                                        <label className={cx('label')}>
+                                            Mật khẩu <RequiredStar />
+                                            <Field type="text" name="password" className={cx('input')} />
+                                            <ErrorMessage name="password" component="div" className={cx('error')} />
+                                        </label>
+                                    </div>
+                                    <div className={cx('row')}>
+                                        <label className={cx('label')}>
+                                            Mật khẩu mới <RequiredStar />
+                                            <Field type="text" name="newPassword" className={cx('input')} readOnly />
+                                            <ErrorMessage name="newPassword" component="div" className={cx('error')} />
+                                        </label>
+                                    </div>
+                                    <div className={cx('row')}>
+                                        <label className={cx('label')}>
+                                            Xác nhận mật khẩu
+                                            <RequiredStar />
+                                            <Field
+                                                type="text"
+                                                name="confirmPassWord"
+                                                className={cx('input')}
+                                                readOnly
+                                            />
+                                            <ErrorMessage
+                                                name="confirmPassWord"
+                                                component="div"
+                                                className={cx('error')}
+                                            />
+                                        </label>
+                                    </div>
+
+                                    <button className={cx('submit-button')} type="submit">
+                                        Lưu thông tin
+                                    </button>
+                                </Form>
+                            )}
+                        </Formik>
+                    </div>
+                </div>
+            )}
+        </>
+    );
 };
 
 export default ChangePassword;

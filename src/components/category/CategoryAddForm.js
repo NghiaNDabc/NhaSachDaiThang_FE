@@ -136,7 +136,7 @@ function CategoryFormAdd({ onClose, onSuccess }) {
                 <br />
                 <br />
                 <Button onClick={handleSubmit} className={cx('submit-button')} variant="add">
-                    Thêm danh mục mới
+                    Tạo mới
                 </Button>
             </div>
         </div>

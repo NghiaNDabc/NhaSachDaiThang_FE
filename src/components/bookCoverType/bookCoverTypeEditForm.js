@@ -5,7 +5,6 @@ import Button from '../button/button';
 import { bookCoverTypeService } from '../../services/bookCoverTypeService';
 import { categoryValidationSchema } from '../../formik/categoryValidationSchema';
 import { toast, ToastContainer } from 'react-toastify';
-import ToastCustom from '../toast/toastComponent';
 
 const cx = classNames.bind(style);
 
@@ -62,7 +61,6 @@ function BookCoverTypeEditForm({ item, onClose }) {
                     Sửa
                 </Button>
             </div>
-            <ToastCustom />
         </div>
     );
 }

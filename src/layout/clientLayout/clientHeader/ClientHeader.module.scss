@@ -1,9 +1,33 @@
-@import '../../adminLayout/adminSlidebar/slidebar.module.scss';
+// @import '../../adminLayout/adminSlidebar/slidebar.module.scss';
 * {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    .img {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        float: left;
+        height: 100%;
+    }
+    img {
+        width: 60px;
+        display: block;
+        border-radius: 10px;
+        line-height: 50px;
+    }
+    h3 {
+        height: 100%;
+    }
 }
 .img {
     display: flex;
@@ -67,37 +91,59 @@ img {
     margin-left: 8px;
 }
 .search {
-    // margin-top: 25px;
-    // margin-left: 50px;
     display: flex;
     align-items: center;
+    gap: 1px; /* Khoảng cách giữa input và button */
+   /* Khoảng cách so với các phần khác */
+   margin-left: -230px;
 }
+
 .search input {
     width: 400px;
-    height: 43px;
-    padding: 7px 30px 7px 5px;
-    border: solid 1px #ff6040;
-    outline: none;
+    height: 45px;
+    padding: 10px 15px;
+    border: 1px solid #ff6040;
+    border-radius: 5px; /* Bo góc */
+    font-size: 16px;
     font-style: italic;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s; /* Hiệu ứng chuyển đổi */
 }
+
+.search input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 5px rgba(204, 65, 37, 0.5);
+}
+
 .search button {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    background: #cc4125;
-    border: #cc4125;
-    color: black;
-    height: 43px;
+    width: 70px;
+    height: 45px;
+    background: var(--primary);
+    border: none;
+    border-radius: 5px; /* Bo góc */
+    color: white;
     cursor: pointer;
-    .fa-icon {
-        font-size: 20px;
-    }
+    transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng hover */
 }
 
 .search button:hover {
     background: #f90;
+    transform: scale(1.05); /* Tăng kích thước khi hover */
 }
+
+.search button:active {
+    transform: scale(0.95); /* Thu nhỏ khi bấm */
+}
+
+.search .fa-icon {
+    font-size: 20px;
+    margin: auto;
+    text-align: center
+}
+
 .icon {
     display: flex;
     color: #434343;
@@ -106,17 +152,25 @@ img {
 .icon_con .fa-icon {
     font-size: 36px;
     margin-right: 20px;
+
 }
 .fa-icon {
     font-size: 36px;
     margin-right: 20px;
 }
 .icon_con {
-    font-size: 12px;
+    font-size: 13px;
+    cursor: pointer;
+    // display: flex;
+    // flex-direction: column; /* Căn theo chiều dọc */
+    // align-items: center;    /* Căn giữa theo chiều ngang */
+    // justify-content: center; /* Căn giữa theo chiều dọc */
+    // text-align: center;     /* Căn giữa văn bản */
+    // height: 66px;          /* Điều chỉnh chiều cao theo thiết kế */         /* Điều chỉnh chiều rộng theo thiết kế */
     cursor: pointer;
 }
 .icon_con:hover > .fa-icon {
-    color: #cc4125;
+    color: var(--primary);
 }
 .user-login:hover {
     color: #f90;
@@ -198,7 +252,7 @@ img {
     cursor: pointer;
 }
 .login-w-gg:hover {
-    background-color: #cc4125;
+    background-color: var(--primary);
 }
 .login-w-gg img {
     height: 18px;
@@ -241,7 +295,7 @@ img {
     display: flex;
     justify-content: space-around;
     list-style-type: none;
-    background-color: #cc4125;
+    background-color: var(--primary);
     height: 45px;
     margin: auto;
 }
@@ -287,17 +341,18 @@ img {
 }
 
 .category {
+    margin-left: -100px;
     position: relative;
-
     .category-icon {
         font-size: 24px;
-        color: #ff0000; // Màu đỏ chủ đạo
+        color: var(--primary);// Màu đỏ chủ đạo
         cursor: pointer;
     }
     .category-icon {
         font-size: 28px;
     }
     .category-menu {
+        width: 250px;
         display: none;
         position: absolute;
         top: 100%; // Hiển thị ngay bên dưới icon
@@ -312,17 +367,17 @@ img {
             margin: 0;
             padding: 0;
             box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); /* Bóng mờ đen */
-            border:  1px solid red;
+            border:  1px solid var(--primary);
             li {
                 position: relative;
                 padding: 10px 20px;
                 background-color: white;
-                color: #fff;
+                color: black;
                 cursor: pointer;
                 border-bottom: 1px solid #fff;
 
                 &:hover {
-                    background-color: #ff4d4d; // Màu đỏ nhạt khi hover
+                    background-color:var(--primary); // Màu đỏ nhạt khi hover
                 }
 
                 span {
@@ -336,13 +391,13 @@ img {
                     top: 0;
                     left: 100%; // Hiển thị bên phải menu cha
                     background-color: #fff;
-                    border: 1px solid #ff0000;
+                    border: 1px solid var(--primary);
                     min-width: 200px;
                     z-index: 10;
 
                     li {
                         padding: 10px;
-                        color: #ff0000; // Màu chữ đỏ
+                        color: var(--primary); // Màu chữ đỏ
                         background-color: #fff;
 
                         &:hover {
@@ -392,3 +447,53 @@ img {
 .user-menu-item:hover {
     background-color: #f4f4f4;
 }
+/* Container for suggestions */
+.suggestions {
+    max-height: 300px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;/* Giới hạn chiều cao */
+    overflow-y: auto; /* Thêm thanh cuộn khi nội dung quá dài */
+   // width: 390px; /* Cùng kích thước với ô input */
+}
+
+/* Each suggestion item */
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.suggestion-item:hover {
+    background: #f9f9f9; /* Thay đổi màu nền khi hover */
+}
+
+/* Image in suggestion */
+.suggestion-item img {
+    // flex-shrink: 0; /* Đảm bảo kích thước cố định */
+    // border-radius: 4px; /* Bo góc ảnh */
+}
+
+/* Text in suggestion */
+.suggestion-item div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+/* No suggestions message (optional) */
+.no-suggestions {
+    padding: 10px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+.tippy-box[data-theme='light'] {
+    background-color: #fff !important;  /* Màu nền sáng */
+    color: #333 !important;  /* Màu chữ tối */
+    width: 200%;
+}
+

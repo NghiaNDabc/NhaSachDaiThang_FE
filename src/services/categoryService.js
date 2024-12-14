@@ -53,7 +53,8 @@ export const categoryService = {
     },
     async changeStatus(id) {
         try {
-            const rp = await axiosInstance.put('/v1/Categories/changeStatus', id);
+            debugger;
+            const rp = await axiosInstance.put('/v1/Categories/changeStatus?id=' + id);
             if (rp.status !== 200) {
                 toast.error(rp.data?.errMessage || 'Có lỗi xảy ra.');
                 return false;
@@ -92,20 +93,20 @@ export const categoryService = {
             toast.error(error);
         }
     },
-    async changeStatus(id) {
-        try {
-            const rp = await axiosInstance.put('/v1/Categories/changeStatus', id);
-            if (rp.status !== 200) {
-                toast.error(rp.data?.errMessage || 'Có lỗi xảy ra khi lấy dữ liệu sách.');
-                return false;
-            } else {
-                toast.success(rp.data.message);
-                return true;
-            }
-        } catch (error) {
-            console.error(error);
-            toast.error('Lỗi kết nối. Vui lòng thử lại sau.');
-            throw error;
-        }
-    },
+    // async changeStatus(id) {
+    //     try {
+    //         const rp = await axiosInstance.put('/v1/Categories/changeStatus', id);
+    //         if (rp.status !== 200) {
+    //             toast.error(rp.data?.errMessage || 'Có lỗi xảy ra khi lấy dữ liệu sách.');
+    //             return false;
+    //         } else {
+    //             toast.success(rp.data.message);
+    //             return true;
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //         toast.error('Lỗi kết nối. Vui lòng thử lại sau.');
+    //         throw error;
+    //     }
+    // },
 };

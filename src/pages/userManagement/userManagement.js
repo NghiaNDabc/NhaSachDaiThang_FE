@@ -16,6 +16,9 @@ function UserManagement() {
     const [editId, setEitId] = useState();
     const [refresh, setRefresh] = useState(0);
     const clickAdd = async () => {
+        if (isAdd) {
+            fetchUser();
+        }
         setIsAdd(!isAdd);
     };
     const fetchUser = async () => {
@@ -27,9 +30,9 @@ function UserManagement() {
         fetchUser();
     }, [refresh]);
 
-    const handleDelete = async (language) => {
+    const handleDelete = async (user) => {
         const result = await Swal.fire({
-            title: `Bạn có chắc chắn muốn xóa: ${language.name}`,
+            title: `Bạn có chắc chắn muốn xóa: ${user.firstName}`,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -39,8 +42,8 @@ function UserManagement() {
         });
 
         if (result.isConfirmed) {
-            console.log(language.userId);
-            await userService.delete(language.userId);
+            console.log(user.userId);
+            await userService.delete(user.userId);
             fetchUser();
         }
     };

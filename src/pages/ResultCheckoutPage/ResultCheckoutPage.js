@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCancel, faDollar } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../contexts/AuthContext';
 import { orderService } from '../../services/orderService';
+import { getStatusColor } from '../../utils/orderstatusHepler';
 const cx = classNames.bind(styles); // Để sử dụng với className
 
 const ResultCheckoutPage = () => {
@@ -27,42 +28,44 @@ const ResultCheckoutPage = () => {
     const thanhtoan = async () => {
         orderService.postVnPayByOrderId(orderId);
     };
+    const fetchOrderDetails = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5030/api/v1/order?orderId=${orderId}`);
+            const order = response.data.data;
+            if (order.status === 'Chờ thanh toán online') {
+                setIsOnlinePayted(false);
+                setMessageOnlinePayted('(Chưa thanh toán online)');
+            }
+            setOrderData(order);
+
+            // Gọi API lấy chi tiết sách dựa trên bookId
+            const details = order.orderDetails;
+            //  await Promise.all(
+            //     order.orderDetails.map(async (detail) => {
+            //         const res = await axios.get(`http://localhost:5030/api/v1/Book/active?id=${detail.bookId}`);
+            //         const book = res.data.data;
+            //         return { ...detail, mainImage: book.mainImage, title: book.title }; // Gộp thông tin sách và orderDetails
+            //     }),
+            // );
+            setBookDetails(details);
+        } catch {
+            setError('Không thể tải thông tin đơn hàng hoặc chi tiết sách. Vui lòng thử lại.');
+        }
+    };
+
+    const cancelOrder = async () => {
+        try {
+            await orderService.cancel(orderId);
+            await fetchOrderDetails(); // Gọi lại hàm fetchOrderDetails sau khi hủy đơn hàng
+        } catch {
+            setError('Hủy đơn hàng không thành công. Vui lòng thử lại.');
+        }
+    };
+
     useEffect(() => {
         if (success === 'True') {
             clear();
-            axios
-                .get(`http://localhost:5030/api/v1/order?orderId=${orderId}`) // Đường dẫn API lấy đơn hàng
-                .then((response) => {
-                    const order = response.data.data;
-                    if (order.status == 'Chờ thanh toán online') {
-                        setIsOnlinePayted(false);
-                        setMessageOnlinePayted('(Chưa thanh toán online)');
-                    }
-                    setOrderData(order);
-
-                    // Gọi API lấy chi tiết sách dựa trên bookId
-                    const fetchBookDetails = async () => {
-                        try {
-                            const details = await Promise.all(
-                                order.orderDetails.map(async (detail) => {
-                                    const res = await axios.get(
-                                        `http://localhost:5030/api/v1/Book/active?id=${detail.bookId}`,
-                                    );
-                                    const book = res.data.data;
-                                    return { ...detail, mainImage: book.mainImage, title: book.title }; // Gộp thông tin sách và orderDetails
-                                }),
-                            );
-                            setBookDetails(details);
-                        } catch {
-                            setError('Không thể tải thông tin chi tiết sách. Vui lòng thử lại.');
-                        }
-                    };
-
-                    fetchBookDetails();
-                })
-                .catch(() => {
-                    setError('Không thể tải thông tin đơn hàng. Vui lòng thử lại.');
-                });
+            fetchOrderDetails();
         } else {
             setError('Đặt hàng không thành công.');
         }
@@ -70,7 +73,7 @@ const ResultCheckoutPage = () => {
 
     return (
         <div className={cx('container')}>
-            <h1>Kết quả thanh toán</h1>
+            <h1>Thông tin đơn hàng</h1>
             {success === 'True' ? (
                 orderData ? (
                     <div>
@@ -93,6 +96,9 @@ const ResultCheckoutPage = () => {
                             <strong>Tên người nhận:</strong> {orderData.recipientName}
                         </p>
                         <p>
+                            <strong>Số điện thoại :</strong> {orderData.phone}
+                        </p>
+                        <p>
                             <strong>Địa chỉ:</strong> {orderData.shippingAddress}
                         </p>
                         <p>
@@ -102,7 +108,12 @@ const ResultCheckoutPage = () => {
                             <strong>Phương thức thanh toán:</strong> {orderData.paymentMethod}
                         </p>
                         <p>
-                            <strong>Trạng thái:</strong> {orderData.status}
+                            <strong>Trạng thái:</strong>
+                            <span
+                                style={{
+                                    color: getStatusColor(orderData.status),
+                                }}
+                            >{orderData.status}</span>
                         </p>
 
                         <h3>Chi tiết đơn hàng</h3>
@@ -165,9 +176,15 @@ const ResultCheckoutPage = () => {
                         ) : (
                             <div></div>
                         )}
-                        <Button leftIcon={<FontAwesomeIcon icon={faCancel} />} variant="delete">
-                            Hủy đơn
-                        </Button>
+                        {orderData && orderData.status != 'Đã hủy' && (
+                            <Button
+                                onClick={() => cancelOrder()}
+                                leftIcon={<FontAwesomeIcon icon={faCancel} />}
+                                variant="delete"
+                            >
+                                Hủy đơn
+                            </Button>
+                        )}
                     </>
                 ) : (
                     IsOnlinePayted && <div></div>

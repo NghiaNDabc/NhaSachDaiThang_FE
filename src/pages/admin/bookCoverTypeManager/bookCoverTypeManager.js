@@ -11,6 +11,8 @@ import { bookService } from '../../../services/bookService/bookService';
 import BookCoverTypeAddForm from '../../../components/bookCoverType/bookCoverTypeAddForm';
 import BookCoverTypeComponent from '../../../components/bookCoverType/bookCoverTypeItem';
 import BookCoverTypeEditForm from '../../../components/bookCoverType/bookCoverTypeEditForm';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // const cx = classNames.bind(style);
 function BookCoverTypeManager() {
     const [bookCoverTypeList, setBookCoverTypeList] = useState([]);

@@ -1,9 +1,8 @@
 .sidebar {
     width: 250px;
     background-color: #f5f5f5;
-    // color: white;
     color: #333;
-    padding:8px 20px;
+    padding: 8px 20px;
     display: flex;
     flex-direction: column;
     border-right: 1px solid gray;
@@ -12,50 +11,14 @@
         font-size: 24px;
         font-weight: bold;
         margin-bottom: 20px;
-        height: 100px;
-        //border-bottom: 1px solid gray ;
-        padding-bottom: 20px;
-        //display: flex;
-        //justify-content: center;
-        .img {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            float: left;
-            height: 100%;
-        }
-        img {
-            width: 60px;
-            display: block;
-            border-radius: 10px;
-
-            margin-right: 20px;
-            line-height: 50px;
-        }
+        display: flex;
         h3 {
             height: 100%;
         }
     }
-
-    // nav ul {
-    //     list-style: none;
-    //     padding: 0;
-
-    //     li {
-    //         margin: 10px 0;
-
-    //         a {
-    //             //color: white;
-    //             text-decoration: none;
-    //             font-size: 16px;
-    //             transition: color 0.3s;
-
-    //             &:hover {
-    //                 color: #3498db;
-    //             }
-    //         }
-    //     }
-    // }
+    nav {
+        height: 800px;
+    }
     nav ul {
         list-style: none;
         padding: 0;
@@ -63,22 +26,40 @@
 
         li {
             margin: 15px 0;
+            display: flex;
+            align-items: center;
 
             a {
-                display: block;
+                display: flex;
+                align-items: center;
                 padding: 10px;
                 border-radius: 8px;
                 color: #333;
                 font-size: 16px;
                 font-weight: 500;
                 text-decoration: none;
-                //text-align: center;
                 transition: background-color 0.3s ease, color 0.3s ease;
+                width: 100%;
+
+                &.active {
+                    background-color: var(--mau-logo); // Nền màu vàng khi active
+                    font-weight: bold; // In đậm tên khi active
+                    color: #333; // Đảm bảo chữ không thay đổi khi active
+                }
+
+                i {
+                    margin-right: 10px; // Cách đều giữa icon và text
+                }
 
                 &:hover {
                     background-color: #e0e0e0; // Màu nền xám nhạt khi hover
                     color: var(--primary); // Màu chữ xanh dương khi hover
                 }
+            }
+            .active {
+                background-color:var(--mau-logo); // Nền màu vàng khi active
+                font-weight: bold; // In đậm tên khi active
+                color: #333; // Đảm bảo chữ không thay đổi khi active
             }
         }
     }

@@ -28,7 +28,22 @@ function BookDetail() {
     const { addToCart } = useContext(CartContext);
     useEffect(() => {
         const getBook = async () => {
-            const { data } = await bookService.getBooks(bookId);
+            const { data } = await bookService.getBooks(
+                bookId,
+                null,
+                null,
+                null,
+                null,
+                true,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            );
             setBook(data);
             setPrice(data.price);
             const isGiamGia =

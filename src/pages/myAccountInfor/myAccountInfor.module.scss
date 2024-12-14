@@ -1,0 +1,62 @@
+.wrapper {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 1600px;
+    position: relative;
+}
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: red;
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 20px;
+}
+.label {
+    flex: 1;
+}
+.row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.input {
+    border-radius: 4px;
+    width: 100%;
+    padding: 8px;
+    height: 38px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+}
+.description-editor {
+    height: 150px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+.submit-button {
+    float: right;
+    margin-top: 5px;
+}
+.select-react {
+    margin-top: 5px;
+}
+
+.error-message {
+    color: red;
+}
+.error{
+    color: red;
+}

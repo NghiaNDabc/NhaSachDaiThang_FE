@@ -119,7 +119,7 @@ function CategoryFormEdit({ category, onClose }) {
                 <br />
                 <br />
                 <Button onClick={handleSubmit} className={cx('submit-button')} variant="add">
-                    Sửa
+                    Cập nhật
                 </Button>
             </div>
         </div>

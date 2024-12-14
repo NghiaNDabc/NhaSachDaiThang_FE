@@ -8,37 +8,38 @@ import classNames from 'classnames/bind';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import RequiredStar from '../../components/requiredStar/requiredStar';
 const cx = classNames.bind(style);
+
 const AccountInfo = () => {
     const { user } = useAuth();
+
     const handleSubmit = async (values) => {
-        const user = JSON.parse(localStorage.getItem('user'));
+        // Lấy user hiện tại từ localStorage
+        alert('xx');
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+
+        // Thêm trường modifyBy vào values
+        values.modifyBy = `${currentUser.firstName} ${currentUser.lastName}`;
+
         const formData = new FormData();
 
-        // Add createdBy field
-        values.modifyBy = `${user.firstName} ${user.lastName}`;
-
-        // Append all fields to FormData
+        // Duyệt qua tất cả các field trong values và append vào formData
         Object.keys(values).forEach((key) => {
             formData.append(key, values[key]);
         });
 
         try {
+            // Gọi API để cập nhật thông tin
             await userService.ClientPut(formData);
-            toast.success('Sửa thông tin thành');
+            toast.success('Sửa thông tin thành công');
         } catch (err) {
-            toast.error('Có lỗi xảy ra khi thêm người dùng');
+            toast.error('Có lỗi xảy ra khi cập nhật thông tin');
         }
     };
+
     return (
         <>
             {user && (
                 <div>
-                    {/* <h2>Thông tin tài khoản</h2>
-                    <p>Tên: {user.firstName}</p>
-                    <p>Email: {user.email}</p>
-                    <p>Điện thoại: {user.phone}</p>
-                    <p>Địa chỉ: {user.address}</p> */}
-
                     <Formik
                         initialValues={{
                             firstName: user.firstName,
@@ -47,13 +48,11 @@ const AccountInfo = () => {
                             email: user.email,
                             phone: user.phone,
                             idNumber: user.idNumber,
-                            passWord: '',
-                            confirmPassWord: '',
                         }}
                         validationSchema={userValidationSchema}
-                        onSubmit={handleSubmit}
+                        onSubmit={handleSubmit} // handleSubmit tự động nhận values từ form
                     >
-                        {({ values, setFieldValue, isSubmitting }) => (
+                        {() => (
                             <Form>
                                 <div className={cx('row')}>
                                     <label className={cx('label')}>
@@ -70,7 +69,7 @@ const AccountInfo = () => {
                                 <div className={cx('row')}>
                                     <label className={cx('label')}>
                                         Email <RequiredStar />
-                                        <Field type="text" name="email" className={cx('input')} />
+                                        <Field type="text" name="email" className={cx('input')} readOnly />
                                         <ErrorMessage name="email" component="div" className={cx('error')} />
                                     </label>
                                     <label className={cx('label')}>
@@ -78,18 +77,14 @@ const AccountInfo = () => {
                                         <Field type="text" name="idNumber" className={cx('input')} />
                                     </label>
                                     <label className={cx('label')}>
-                                        Số điện thoại <RequiredStar />
+                                        Số điện thoại
                                         <Field type="text" name="phone" className={cx('input')} />
                                         <ErrorMessage name="phone" component="div" className={cx('error')} />
                                     </label>
                                 </div>
                                 <div className={cx('image-preview-container')}></div>
-                                <button
-                                    onClick={() => handleSubmit(values)}
-                                    className={cx('submit-button')}
-                                    variant="add"
-                                >
-                                    Sửa
+                                <button className={cx('submit-button')} type="submit">
+                                    Lưu thông tin
                                 </button>
                             </Form>
                         )}

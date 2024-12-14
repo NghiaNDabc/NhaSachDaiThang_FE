@@ -170,7 +170,7 @@ function UserAddForm({ onClose }) {
                             </div>
                             <div className={cx('image-preview-container')}></div>
                             <Button type="submit" className={cx('submit-button')} variant="add" disabled={isSubmitting}>
-                                {isSubmitting ? 'Đang thêm...' : 'Thêm'}
+                                {isSubmitting ? 'Đang thêm...' : 'Tạo mới'}
                             </Button>
                         </Form>
                     )}

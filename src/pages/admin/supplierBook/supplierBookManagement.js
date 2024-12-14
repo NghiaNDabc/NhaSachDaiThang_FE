@@ -16,7 +16,7 @@ function SupplierManagement() {
     const [supplierBookList, setSupplierBookList] = useState([]);
     const [isAdd, setIsAdd] = useState(false);
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(12);
     const [editId, setEitId] = useState();
     const [refresh, setRefresh] = useState(0);
     const [searchParams, setsearchParams] = useState(0);
@@ -212,7 +212,7 @@ function SupplierManagement() {
                 </div>
                 <div>
                     <select value={pageSize} onChange={(e) => handlePagesizeChange(e.target.value)}>
-                        <option value={10}>10</option>
+                        <option value={12}>12</option>
                         <option value={13}>13</option>
                         <option value={15}>15</option>
                         <option value={18}>18</option>

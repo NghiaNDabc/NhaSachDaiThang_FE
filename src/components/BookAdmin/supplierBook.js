@@ -54,7 +54,7 @@ function SupplierBookForm({ onAdd, onClose }) {
         } catch (error) {
             toast.error('Error fetching book suggestions.');
         }
-    }, 500);
+    }, 1500);
 
     const handleBookNameChange = (event) => {
         const value = event.target.value;
@@ -166,7 +166,7 @@ function SupplierBookForm({ onAdd, onClose }) {
                 <button onClick={onClose} className={cx('close-button')}>
                     X
                 </button>
-                <h2>Nhập sách</h2>
+                <h2>Thêm mới đơn nhập hàng</h2>
                 <div className={cx('row')}>
                     <label className={cx('label')}>
                         Nhà cung cấp
@@ -197,8 +197,7 @@ function SupplierBookForm({ onAdd, onClose }) {
                 {/* Book Search and Selection */}
                 <div className={cx('row')}>
                     <label className={cx('label')}>
-                        Tên sách
-                        <RequiredStar />
+                        Tên sách muốn thêm
                         <Tippy
                             content={
                                 suggestions.length > 0 && (
@@ -308,22 +307,22 @@ function SupplierBookForm({ onAdd, onClose }) {
                 </div>
                 <br />
                 <div>
-                    <p>
+                    {/* <p>
                         <b>Thuế giá trị gia tăng:</b> {vat}
+                    </p>{' '} */}
+                    {/* Display VAT */}
+                    <p>
+                        <b>Tổng tiền hàng:</b> {totalPrice.toLocaleString()}{' đ'}
                     </p>{' '}
                     {/* Display VAT */}
                     <p>
-                        <b>Tổng tiền hàng:</b> {totalPrice}{' '}
-                    </p>{' '}
-                    {/* Display VAT */}
-                    <p>
-                        <b>Tổng phải trả:</b> {vat + totalPrice}
+                        <b>Tổng phải trả:</b> { totalPrice.toLocaleString()}{' đ'}
                     </p>{' '}
                     {/* Display VAT */}
                 </div>
 
                 <Button onClick={handleSubmit} className={cx('submit-button')}>
-                    Nhập hàng
+                    Tạo mới
                 </Button>
             </div>
         </div>

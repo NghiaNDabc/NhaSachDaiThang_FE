@@ -15,9 +15,14 @@ const CartPage = () => {
     const [totalAmount, setTotalAmount] = useState(0);
     const handleQuantityChange = (bookId, newQuantity) => {
         setBooks((prevBooks) => {
+            // const afterBook = prevBooks.map((book) =>
+            //     book.bookId === bookId
+            //         ? { ...book, soluongmua: Math.max(1, Math.min(newQuantity, book.quantity)) } // thiên biến vạn hóa
+            //         : book,
+            // );
             const afterBook = prevBooks.map((book) =>
                 book.bookId === bookId
-                    ? { ...book, soluongmua: Math.max(1, Math.min(newQuantity, book.quantity)) }
+                    ? { ...book, soluongmua: newQuantity } // thiên biến vạn hóa
                     : book,
             );
             const total = afterBook.reduce((sum, book) => {
@@ -126,16 +131,15 @@ const CartPage = () => {
                 ...values,
                 userId,
                 totalAmount,
-                status: 'Chờ xử lý',
+                status: 'Chờ xác nhận',
                 createdDate: new Date(),
                 createdBy: name,
                 orderDetails,
             };
             switch (values.paymentMethod) {
-                case 'code':
-                    orderService.post(order);
+                case 'cod':
+                    await orderService.post(order);
                     break;
-
                 case 'vnpay':
                     order.status = 'Chờ thanh toán online';
                     await orderService.postVnPay(order);
@@ -209,14 +213,14 @@ const CartPage = () => {
                                                     Giá:{' '}
                                                     <span>
                                                         {book.price != book.priceAfterDiscount
-                                                            ? book.priceAfterDiscount
-                                                            : book.price}
+                                                            ? book.priceAfterDiscount.toLocaleString()
+                                                            : book.price.toLocaleString()}
                                                         ₫
                                                     </span>{' '}
                                                     <del>
                                                         <i>
                                                             {book.price != book.priceAfterDiscount
-                                                                ? book.price + '₫'
+                                                                ? book.price.toLocaleString() + '₫'
                                                                 : ''}
                                                         </i>
                                                     </del>
@@ -234,7 +238,7 @@ const CartPage = () => {
                                                     onClick={() =>
                                                         handleQuantityChange(book.bookId, book.soluongmua - 1)
                                                     }
-                                                    disabled={book.soluongmua <= 1}
+                                                    //disabled={book.soluongmua <= 1}
                                                 >
                                                     -
                                                 </button>
@@ -249,14 +253,14 @@ const CartPage = () => {
                                                     onClick={() =>
                                                         handleQuantityChange(book.bookId, book.soluongmua + 1)
                                                     }
-                                                    disabled={book.soluongmua >= book.quantity}
+                                                   // disabled={book.soluongmua >= book.quantity}
                                                 >
                                                     +
                                                 </button>
                                             </td>
                                             {/* Thành tiền */}
                                             <td style={{ border: '1px solid #ddd', padding: '8px', color: 'red' }}>
-                                                {book.priceAfterDiscount * book.soluongmua}₫
+                                                {(book.priceAfterDiscount * book.soluongmua).toLocaleString()}₫
                                             </td>
                                         </tr>
                                     );
@@ -264,7 +268,7 @@ const CartPage = () => {
                             </tbody>
                         </table>
                         <h3 style={{ textAlign: 'right', marginTop: '20px', fontSize: '20px', fontWeight: 'bold' }}>
-                            Tổng tiền: {totalAmount}₫
+                            Tổng tiền: {totalAmount.toLocaleString()}₫
                         </h3>
                     </div>
 

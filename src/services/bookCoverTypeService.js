@@ -30,6 +30,7 @@ export const bookCoverTypeService = {
     async delete(id) {
         try {
             const response = await axiosInstance.delete('/v1/BookCoverType/?id=' + id);
+            debugger
             if (response.data.success) toast.success(response.data.message);
             else toast.error(response.data.errNessage || response.data.message);
         } catch (error) {

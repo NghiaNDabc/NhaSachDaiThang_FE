@@ -3,6 +3,7 @@ import { orderService } from '../../services/orderService';
 import { useAuth } from '../../contexts/AuthContext';
 import style from './myorrder.module.scss';
 import classNames from 'classnames/bind';
+import { getStatusColor } from '../../utils/orderstatusHepler';
 
 const cx = classNames.bind(style);
 const MyOrders = () => {
@@ -35,6 +36,7 @@ const MyOrders = () => {
             <table className={cx('order-table')}>
                 <thead>
                     <tr>
+                        <th>STT</th>
                         <th>Mã đơn hàng</th>
                         <th>Ngày đặt</th>
                         <th>Tổng tiền</th>
@@ -43,12 +45,20 @@ const MyOrders = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map((order) => (
+                    {orders.map((order, index) => (
                         <tr key={order.orderId}>
+                            <td>{index + 1}</td>
                             <td>{order.orderId}</td>
                             <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                             <td>{order.totalAmount.toLocaleString()} VND</td>
-                            <td>{order.status}</td>
+                            <td
+                                style={{
+                                    color: getStatusColor(order.status),
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                {order.status}
+                            </td>
                             <td>
                                 <button
                                     className={cx('action-button')}

@@ -52,7 +52,6 @@ function UserEditForm({ item, onClose }) {
 
         try {
             await userService.put(formData);
-            toast.success('Sửa người dùng thành công');
             onClose();
         } catch (err) {
             toast.error('Có lỗi xảy ra khi thêm người dùng');
@@ -69,6 +68,7 @@ function UserEditForm({ item, onClose }) {
                 <h2>Sửa người dùng</h2>
                 <Formik
                     initialValues={{
+                        userId: item.userId,
                         firstName: item.firstName,
                         lastName: item.lastName,
                         roleId: item.roleId,

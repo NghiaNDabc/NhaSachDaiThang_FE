@@ -55,19 +55,19 @@ function BookItemAdmin({ book, onRestock, onDelete }) {
                         <>
                             {/* Giá trước khuyến mãi (bị gạch ngang) */}
                             <div className={cx('original-price')}>
-                                <s>{bookItem.price}đ</s>
+                                <s>{bookItem.price.toLocaleString()}đ</s>
                             </div>
                             {/* Giá sau khuyến mãi */}
                             <div className={cx('discounted-price')}>
-                                {(bookItem.price * (1 - bookItem.promotion / 100)).toFixed(0)}đ
+                                {(bookItem.price * (1 - bookItem.promotion / 100)).toLocaleString()}đ
                             </div>
                         </>
                     ) : (
                         // Hiển thị giá bình thường nếu không có khuyến mãi
-                        <div className={cx('normal-price')}>{bookItem.price}đ</div>
+                        <div className={cx('normal-price')}>{bookItem.price.toLocaleString()}đ</div>
                     )}
                 </div>
-                <div className={cx('book-quanlity')}>{bookItem.quantity}</div>
+                <div className={cx('book-quanlity')}>{bookItem.quantity??0}</div>
                 <div className={cx('book-categoryName')}>{bookItem.categoryName}</div>
                 <div>
                     <Button

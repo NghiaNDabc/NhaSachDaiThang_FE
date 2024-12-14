@@ -100,7 +100,9 @@ function PhieuNhapKho({ supplierBook, onClose }) {
                     <div className={cx('header2')}>
                         <div></div>
                         <div style={{ textAlign: 'center' }}>
-                            <h3><b>PHIẾU NHẬP KHO</b></h3>
+                            <h3>
+                                <b>PHIẾU NHẬP KHO</b>
+                            </h3>
                             <i>
                                 Ngày {datetime.getDate()}, tháng {datetime.getMonth() + 1}, năm {datetime.getFullYear()}
                             </i>
@@ -125,8 +127,8 @@ function PhieuNhapKho({ supplierBook, onClose }) {
                                         S <br /> T <br /> T
                                     </th>
                                     <th>
-                                        Tên, nhãn hiệu quy cách, phẩm chất, vật tư,
-                                        <br /> dụng cụ, sản phẩm, hàng hóa
+                                        Tên, nhãn hiệu quy cách, phẩm chất,
+                                        <br /> vật tư, dụng cụ, sản phẩm, hàng hóa
                                     </th>
                                     <th>Mã số</th>
                                     <th>Đơn vị tính</th>
@@ -153,8 +155,8 @@ function PhieuNhapKho({ supplierBook, onClose }) {
                                         <td>{book.bookId}</td>
                                         <td>Quyển</td>
                                         <td>{book.quantity}</td>
-                                        <td>{book.supplyPrice}</td>
-                                        <td>{tinhTien(book.quantity, book.supplyPrice)}</td>
+                                        <td>{book.supplyPrice.toLocaleString()}</td>
+                                        <td>{tinhTien(book.quantity, book.supplyPrice).toLocaleString()}</td>
                                     </tr>
                                 ))}
                                 <tr>
@@ -165,10 +167,10 @@ function PhieuNhapKho({ supplierBook, onClose }) {
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <b>{tinhTongTien()}</b>
+                                        <b>{tinhTongTien().toLocaleString()}</b>
                                     </td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <td></td>
                                     <th>Thuế GTGT 10%:</th>
                                     <td></td>
@@ -176,7 +178,7 @@ function PhieuNhapKho({ supplierBook, onClose }) {
                                     <td></td>
                                     <td></td>
                                     <td>{tinhTongTien() * 0.1}</td>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                     <td></td>
                                     <th>Tổng tiền phải thanh toán:</th>
@@ -185,7 +187,7 @@ function PhieuNhapKho({ supplierBook, onClose }) {
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <b>{tinhTongTien() * 1.1}</b>
+                                        <b>{tinhTongTien().toLocaleString()}</b>
                                     </td>
                                 </tr>
                             </tbody>
