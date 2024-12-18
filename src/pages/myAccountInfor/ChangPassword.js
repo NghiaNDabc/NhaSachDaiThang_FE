@@ -11,8 +11,8 @@ const cx = classNames.bind(style);
 const ChangePassword = () => {
     const { user } = useAuth();
     const handleSubmit = async (values) => {
+        debugger;
         // Lấy user hiện tại từ localStorage
-        alert('xx');
         const currentUser = JSON.parse(localStorage.getItem('user'));
 
         // Thêm trường modifyBy vào values
@@ -42,7 +42,7 @@ const ChangePassword = () => {
                             initialValues={{
                                 password: '',
                                 newPassword: '',
-                                confirmPassWord: '',
+                                confirmPassword: '',
                                 email: user.email,
                             }}
                             validationSchema={passWordValidation}
@@ -56,33 +56,25 @@ const ChangePassword = () => {
                                             <Field type="text" name="email" className={cx('input')} readOnly />
                                             <ErrorMessage name="email" component="div" className={cx('error')} />
                                         </label>
-                                    </div>
-                                    <div className={cx('row')}>
                                         <label className={cx('label')}>
                                             Mật khẩu <RequiredStar />
-                                            <Field type="text" name="password" className={cx('input')} />
+                                            <Field type="password" name="password" className={cx('input')} />
                                             <ErrorMessage name="password" component="div" className={cx('error')} />
                                         </label>
                                     </div>
+
                                     <div className={cx('row')}>
                                         <label className={cx('label')}>
                                             Mật khẩu mới <RequiredStar />
-                                            <Field type="text" name="newPassword" className={cx('input')} readOnly />
+                                            <Field type="password" name="newPassword" className={cx('input')} />
                                             <ErrorMessage name="newPassword" component="div" className={cx('error')} />
                                         </label>
-                                    </div>
-                                    <div className={cx('row')}>
                                         <label className={cx('label')}>
                                             Xác nhận mật khẩu
                                             <RequiredStar />
-                                            <Field
-                                                type="text"
-                                                name="confirmPassWord"
-                                                className={cx('input')}
-                                                readOnly
-                                            />
+                                            <Field type="password" name="confirmPassword" className={cx('input')} />
                                             <ErrorMessage
-                                                name="confirmPassWord"
+                                                name="confirmPassword"
                                                 component="div"
                                                 className={cx('error')}
                                             />
@@ -90,7 +82,7 @@ const ChangePassword = () => {
                                     </div>
 
                                     <button className={cx('submit-button')} type="submit">
-                                        Lưu thông tin
+                                        Cập nhật
                                     </button>
                                 </Form>
                             )}

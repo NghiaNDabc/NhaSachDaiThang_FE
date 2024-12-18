@@ -69,7 +69,7 @@ const SalesTable = ({ data }) => {
                     <tr>
                         <th>Hình ảnh</th>
                         <th>Tên sách</th>
-                        <th>Số lượng</th>
+                        <th>SL đã bán</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -70,7 +70,7 @@ const OrderEditForm = ({ orderData, onClose }) => {
                 <button onClick={onClose} className={cx('close-button')}>
                     X
                 </button>
-                <h1>Sửa đơn hàng: {orderData.orderId}</h1>
+                <h1>Mã đơn hàng: {orderData.orderId}</h1>
                 <form onSubmit={formik.handleSubmit}>
                     <div className={cx('row')}>
                         <label className={cx('label')}>
@@ -172,10 +172,17 @@ const OrderEditForm = ({ orderData, onClose }) => {
                             fontSize: '20px', // Áp dụng màu dựa trên giá trị hiện tại
                         }}
                     >
+                        <>Phương thức thanh toán:</> {orderData.paymentMethod}
+                    </p>
+                    <p
+                        style={{
+                            fontSize: '20px', // Áp dụng màu dựa trên giá trị hiện tại
+                        }}
+                    >
                         <strong>Tổng số tiền:</strong> {orderData.totalAmount.toLocaleString()} VND
                     </p>
                     <button type="submit" className={cx('button')}>
-                        Lưu thông tin
+                        Cập nhật
                     </button>
                     <table className={cx('orderTable')}>
                         <thead>

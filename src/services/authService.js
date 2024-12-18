@@ -123,4 +123,19 @@ export const authService = {
             throw err;
         }
     },
+    getInfor: async () => {
+        try {
+            const respone = await axiosInstance.get('v1/Auth/infor');
+            if (respone.data.success) {
+                return respone.data.data;
+            } else {
+                return null;
+                toast.error(respone.data.errMessage || JSON.stringify(respone.errors));
+            }
+        } catch (err) {
+            console.log(err);
+            toast.error(err);
+            throw err;
+        }
+    },
 };

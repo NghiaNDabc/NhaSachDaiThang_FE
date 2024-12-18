@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { userService } from '../../services/userService';
 import { useAuth } from '../../contexts/AuthContext';
-import { userValidationSchema } from '../../formik/userValidationSchema';
+import { userEditValidationSchema, userValidationSchema } from '../../formik/userValidationSchema';
 import { toast } from 'react-toastify';
 import style from './myAccountInfor.module.scss';
 import classNames from 'classnames/bind';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import RequiredStar from '../../components/requiredStar/requiredStar';
+import { authService } from '../../services/authService';
+import { data } from 'autoprefixer';
 const cx = classNames.bind(style);
 
 const AccountInfo = () => {
-    const { user } = useAuth();
+    const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        const getInfor = async () => {
+            data = await authService.getInfor();
+            setUser(data);
+        };
+        getInfor();
+    }, []);
     const handleSubmit = async (values) => {
         // Lấy user hiện tại từ localStorage
-        alert('xx');
+
         const currentUser = JSON.parse(localStorage.getItem('user'));
 
         // Thêm trường modifyBy vào values
         values.modifyBy = `${currentUser.firstName} ${currentUser.lastName}`;
-
+        values.userId = currentUser.userId;
         const formData = new FormData();
 
         // Duyệt qua tất cả các field trong values và append vào formData
@@ -30,7 +39,6 @@ const AccountInfo = () => {
         try {
             // Gọi API để cập nhật thông tin
             await userService.ClientPut(formData);
-            toast.success('Sửa thông tin thành công');
         } catch (err) {
             toast.error('Có lỗi xảy ra khi cập nhật thông tin');
         }
@@ -49,7 +57,7 @@ const AccountInfo = () => {
                             phone: user.phone,
                             idNumber: user.idNumber,
                         }}
-                        validationSchema={userValidationSchema}
+                        validationSchema={userEditValidationSchema}
                         onSubmit={handleSubmit} // handleSubmit tự động nhận values từ form
                     >
                         {() => (
@@ -75,6 +83,7 @@ const AccountInfo = () => {
                                     <label className={cx('label')}>
                                         Số CCCD
                                         <Field type="text" name="idNumber" className={cx('input')} />
+                                        <ErrorMessage name="idNumber" component="div" className={cx('error')} />
                                     </label>
                                     <label className={cx('label')}>
                                         Số điện thoại
@@ -84,7 +93,7 @@ const AccountInfo = () => {
                                 </div>
                                 <div className={cx('image-preview-container')}></div>
                                 <button className={cx('submit-button')} type="submit">
-                                    Lưu thông tin
+                                    Cập nhật
                                 </button>
                             </Form>
                         )}

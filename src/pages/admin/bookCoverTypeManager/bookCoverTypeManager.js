@@ -13,6 +13,7 @@ import BookCoverTypeComponent from '../../../components/bookCoverType/bookCoverT
 import BookCoverTypeEditForm from '../../../components/bookCoverType/bookCoverTypeEditForm';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ToastCustom from '../../../components/toast/toastComponent';
 // const cx = classNames.bind(style);
 function BookCoverTypeManager() {
     const [bookCoverTypeList, setBookCoverTypeList] = useState([]);
@@ -80,6 +81,7 @@ function BookCoverTypeManager() {
                         )}
                     </>
                 ))}
+                 {/* <ToastCustom/> */}
         </div>
     );
 }

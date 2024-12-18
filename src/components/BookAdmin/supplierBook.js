@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import style from './supplierbook.module.scss';
 import classNames from 'classnames/bind';
@@ -31,36 +31,75 @@ function SupplierBookForm({ onAdd, onClose }) {
     const [dateErr, setDateErr] = useState('');
     const [listBookErr, setListBookErr] = useState('');
     // Debounced function to search books
-    const handleBookSearch = debounce(async (bookName) => {
-        if (!bookName) return;
-        try {
-            const response = await bookService.getBooks(
-                null,
-                null,
-                bookName,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-            );
-            setSuggestions(response.data || []);
-        } catch (error) {
-            toast.error('Error fetching book suggestions.');
-        }
-    }, 1500);
+    // const handleBookSearch = debounce(async (bookName) => {
+    //     if (!bookName) return;
+    //     try {
+    //         const response = await bookService.getBooks(
+    //             null,
+    //             null,
+    //             bookName,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //         );
+    //         setSuggestions(response.data || []);
+    //     } catch (error) {
+    //         toast.error('Error fetching book suggestions.');
+    //     }
+    // }, 1500);
+
+    // const handleBookNameChange = (event) => {
+    //     const value = event.target.value;
+    //     setBookName(value);
+    //     if (value == null || value == '') setSuggestions([]);
+    //     handleBookSearch(value);
+    // };
+    const debounceSearch = useCallback(
+        debounce(async (value) => {
+            if (value.trim() === '') {
+                setSuggestions([]);
+                return;
+            }
+
+            try {
+                const response = await bookService.getBooks(
+                    null,
+                    null,
+                    value,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                );
+                setSuggestions(response.data || []);
+            } catch (error) {
+                toast.error('Error fetching book suggestions.');
+            }
+        }, 1000),
+        [], // Tạo hàm debounce chỉ một lần
+    );
 
     const handleBookNameChange = (event) => {
         const value = event.target.value;
         setBookName(value);
-        if (value == null || value == '') setSuggestions([]);
-        handleBookSearch(value);
+
+        // Gọi debounceSearch với chuỗi mới
+        debounceSearch(value.trim());
     };
     const formatSupplierFuc = (suppliers) => {
         let rs = [];
@@ -154,6 +193,7 @@ function SupplierBookForm({ onAdd, onClose }) {
             quantity: bookData.quantity,
             supplyDate: supplyDate,
             supplierId: supplierId,
+            title: bookData.title,
             createdBy: user.firstName + ' ' + user.lastName,
         }));
         const isSucces = await supplierBooksService.post(supplierBooks);
@@ -312,11 +352,13 @@ function SupplierBookForm({ onAdd, onClose }) {
                     </p>{' '} */}
                     {/* Display VAT */}
                     <p>
-                        <b>Tổng tiền hàng:</b> {totalPrice.toLocaleString()}{' đ'}
+                        <b>Tổng tiền hàng:</b> {totalPrice.toLocaleString()}
+                        {' đ'}
                     </p>{' '}
                     {/* Display VAT */}
                     <p>
-                        <b>Tổng phải trả:</b> { totalPrice.toLocaleString()}{' đ'}
+                        <b>Tổng phải trả:</b> {totalPrice.toLocaleString()}
+                        {' đ'}
                     </p>{' '}
                     {/* Display VAT */}
                 </div>

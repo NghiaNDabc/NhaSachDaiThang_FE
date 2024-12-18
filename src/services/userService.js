@@ -105,4 +105,13 @@ export const userService = {
             toast.error(error);
         }
     },
+    async ChangePassword(formData){
+        try {
+            const response = await axiosInstance.put('v1/User/client/changepassword', formData);
+            if (response.data.success) toast.success(response.data.message);
+            else toast.error(response.data.errNessage || response.data.message);
+        } catch (error) {
+            toast.error(error);
+        }
+    }
 };

@@ -102,7 +102,7 @@ function AdminLogin() {
                             <input
                                 className={cx('form-input')}
                                 type="text"
-                                placeholder="Username"
+                                placeholder="Email"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 autoComplete="username"
@@ -117,7 +117,7 @@ function AdminLogin() {
                             <input
                                 className={cx('form-input')}
                                 type={showPassword ? 'text' : 'password'}
-                                placeholder="Password"
+                                placeholder="Mật khẩu"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 autoComplete="current-password"

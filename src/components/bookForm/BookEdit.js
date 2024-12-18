@@ -138,7 +138,7 @@ function BookEdit({ book, onClose }) {
                                         options={formattedLanguage}
                                         onChange={(selectedOption) => setFieldValue('languageId', selectedOption.value)}
                                         value={
-                                            formattedCategories.find((option) => option.value === values.languageId) ||
+                                            formattedLanguage.find((option) => option.value === values.languageId) ||
                                             null
                                         }
                                     />
@@ -155,7 +155,7 @@ function BookEdit({ book, onClose }) {
                                             setFieldValue('bookCoverTypeId', selectedOption.value)
                                         }
                                         value={
-                                            formattedCategories.find(
+                                            formattedBookcovertype.find(
                                                 (option) => option.value === values.bookCoverTypeId,
                                             ) || null
                                         }

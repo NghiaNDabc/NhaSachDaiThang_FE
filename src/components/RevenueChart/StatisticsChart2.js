@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { Line, Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title } from 'chart.js';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Tooltip,
+} from 'chart.js';
 import style from './statisticchaer2.module.scss';
 import classNames from 'classnames/bind';
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip);
 const cx = classNames.bind(style);
 const StatisticsChart = ({ data }) => {
     const [chartType, setChartType] = useState('line');
@@ -56,14 +65,26 @@ const StatisticsChart = ({ data }) => {
             },
         ],
     };
-
+    const options = {
+        responsive: true,
+        plugins: {
+            tooltip: {
+                enabled: true, // Ensure tooltip is enabled
+                callbacks: {
+                    label: function (context) {
+                        return `${context.raw.toLocaleString()} VND`;
+                    },
+                },
+            },
+        },
+    };
     return (
         <div className={cx('chart-container')}>
             <h2>Biểu đồ doanh thu</h2>
             <div className={cx('controls')}>
                 <label>
                     Loại biểu đò
-                    <select value={timeFrame} onChange={(e) => setChartType(e.target.value)}>
+                    <select value={chartType} onChange={(e) => setChartType(e.target.value)}>
                         <option value="line">Biểu đồ đường</option>
                         <option value="bar">Biểu đồ cột</option>
                     </select>
@@ -80,7 +101,11 @@ const StatisticsChart = ({ data }) => {
                 </label>
             </div>
             <div className={cx('chart')}>
-                {chartType === 'line' ? <Line data={chartData} /> : <Bar data={chartData} />}
+                {chartType === 'line' ? (
+                    <Line options={options} data={chartData} />
+                ) : (
+                    <Bar options={options} data={chartData} />
+                )}
             </div>
             <div className={cx('tong-doanh-thu')}>
                 Tổng doanh thu:{' '}

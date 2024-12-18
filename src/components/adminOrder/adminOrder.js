@@ -415,7 +415,7 @@ function AdminOrderForm() {
                         </div>
 
                         <button type="submit" className={cx('button')}>
-                            Đặt hàng
+                            Thêm đơn hàng mới
                         </button>
                     </form>
                 </div>

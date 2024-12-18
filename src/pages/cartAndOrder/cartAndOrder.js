@@ -7,6 +7,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './cartAndOrder.module.scss';
 import { orderService } from '../../services/orderService';
+import { serverUrl } from '../../api/axiosInstance';
 
 const cx = classNames.bind(styles);
 const CartPage = () => {
@@ -22,7 +23,7 @@ const CartPage = () => {
             // );
             const afterBook = prevBooks.map((book) =>
                 book.bookId === bookId
-                    ? { ...book, soluongmua: newQuantity } // thiên biến vạn hóa
+                    ? { ...book, soluongmua: Math.max(1, newQuantity) } // thiên biến vạn hóa
                     : book,
             );
             const total = afterBook.reduce((sum, book) => {
@@ -59,7 +60,7 @@ const CartPage = () => {
             try {
                 const fetchedBooks = await Promise.all(
                     cart.map(async (item) => {
-                        const response = await fetch(`http://localhost:5030/api/v1/Book/active?id=${item.id}`);
+                        const response = await fetch(`${serverUrl}/v1/Book/active?id=${item.id}`);
                         const json = await response.json(); // Lấy JSON từ response
                         const book = json.data;
                         const priceAfterDiscount =
@@ -253,7 +254,7 @@ const CartPage = () => {
                                                     onClick={() =>
                                                         handleQuantityChange(book.bookId, book.soluongmua + 1)
                                                     }
-                                                   // disabled={book.soluongmua >= book.quantity}
+                                                    // disabled={book.soluongmua >= book.quantity}
                                                 >
                                                     +
                                                 </button>

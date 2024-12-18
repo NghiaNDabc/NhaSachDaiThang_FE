@@ -268,7 +268,7 @@ function BookListAdmin() {
                     <div style={{ width: '13%', textAlign: 'center' }}>Hình ảnh</div>
                     <div style={{ width: '23%', textAlign: 'center' }}>Tên sách</div>
                     <div style={{ width: '15%', textAlign: 'center' }}>Giá tiền</div>
-                    <div style={{ width: '8%' }}>Số lượng</div>
+                    <div style={{ width: '8%' }}>Số lượng còn</div>
                     <div style={{ width: '10%' }}>Danh mục</div>
                     <div style={{ flexGrow: 1, textAlign: 'center' }}>Hành động</div>
                 </div>

@@ -1,29 +1,25 @@
+import React, { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import 'react-quill/dist/quill.snow.css';
 import styles from './CategoryAddForm.module.scss';
 import classNames from 'classnames/bind';
 import ReactQuill from 'react-quill';
-import React, { useEffect, useState } from 'react';
 import Button from '../button/button';
-import { bookService } from '../../services/bookService/bookService';
+import { categoryService } from '../../services/categoryService';
 import { toast } from 'react-toastify';
 import { categoryValidationSchema } from '../../formik/categoryValidationSchema';
-import { categoryService } from '../../services/categoryService';
 import RequiredStar from '../requiredStar/requiredStar';
 import Select from 'react-select';
 import { fomatListToSelection } from '../../utils/fomatListToSelect';
+
 const cx = classNames.bind(styles);
 
 function CategoryFormAdd({ onClose, onSuccess }) {
-    const [categories, setCategories] = useState();
-    const [name, setName] = useState('');
-    const [parentCategoryID, setParentCategoryID] = useState();
-    const [description, setDescription] = useState();
-    const [fomatCate, setfomatCate] = useState();
-    const resetForm = () => {
-        setName();
-        setParentCategoryID();
-        setDescription();
-    };
+    const [categories, setCategories] = useState([]);
+    const [fomatCate, setfomatCate] = useState([]);
+
+    // Function to format categories to selection options
     const fomatCategoryToSelection = (categories) => {
         let result = [];
         categories.forEach((category) => {
@@ -34,6 +30,7 @@ function CategoryFormAdd({ onClose, onSuccess }) {
         });
         return result;
     };
+
     const getCategory = async () => {
         const x = await categoryService.get();
         setCategories(x);
@@ -44,51 +41,53 @@ function CategoryFormAdd({ onClose, onSuccess }) {
     useEffect(() => {
         getCategory();
     }, []);
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const user = JSON.parse(localStorage.getItem('user'));
-        const formData = new FormData();
-        let categoryData = {
-            name,
-            description,
-            createdBy: user.firstName + ' ' + user.lastName,
-        };
-        if (parentCategoryID) {
-            categoryData = {
-                parentCategoryID,
-                ...categoryData,
+
+    // Formik hook for managing form state and validation
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            parentCategoryID: null,
+            description: '',
+        },
+        validationSchema: categoryValidationSchema,
+        onSubmit: async (values) => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const formData = new FormData();
+            let categoryData = {
+                name: values.name,
+                description: values.description,
+                createdBy: `${user.firstName} ${user.lastName}`,
             };
-        }
-        try {
-            await categoryValidationSchema.validate(categoryData, { abortEarly: false });
-        } catch (err) {
-            // Hiển thị lỗi validate
-            if (err.inner) {
-                err.inner.forEach((validationError) => {
-                    toast.error(validationError.message);
-                });
-            } else {
-                toast.error('Có lỗi xảy ra khi thêm sách');
+            if (values.parentCategoryID != null && values.parentCategoryID != '') {
+                categoryData = {
+                    ...categoryData,
+                    parentCategoryID: values.parentCategoryID,
+                };
             }
-            return;
-        }
-        Object.keys(categoryData).forEach((key) => {
-            formData.append(key, categoryData[key]);
-        });
-        await categoryService.post(formData);
-        await getCategory();
-        resetForm();
-        onSuccess();
-    };
-    // {category.subCategories && renderCategories(category.subCategories, level + 1)}
-    const renderCategories = (categories, level = 0) => {
-        if (categories)
-            return categories.map((category) => (
-                <React.Fragment key={category.categoryId}>
-                    <option value={category.categoryId}>{`${'—'.repeat(level)} ${category.name}`}</option>
-                </React.Fragment>
-            ));
-    };
+            try {
+                await categoryValidationSchema.validate(categoryData, { abortEarly: false });
+            } catch (err) {
+                // Show validation errors
+                if (err.inner) {
+                    err.inner.forEach((validationError) => {
+                        toast.error(validationError.message);
+                    });
+                } else {
+                    toast.error('Có lỗi xảy ra khi thêm danh mục');
+                }
+                return;
+            }
+            // Append data to FormData
+            Object.keys(categoryData).forEach((key) => {
+                formData.append(key, categoryData[key]);
+            });
+            await categoryService.post(formData);
+            await getCategory();
+            formik.resetForm(); // Reset Formik form after successful submission
+            onSuccess();
+        },
+    });
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -96,48 +95,62 @@ function CategoryFormAdd({ onClose, onSuccess }) {
                     X
                 </button>
 
-                <h2>Thêm sách danh mục mới</h2>
-                <div className={cx('row')}>
-                    <label className={cx('label')}>
-                        Tên danh mục <RequiredStar />
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className={cx('input')}
-                            required
-                        />
-                    </label>
-                    <label className={cx('label')}>
-                        Danh mục cha <RequiredStar />
-                        <Select
-                            className={cx('select-react')}
-                            placeholder="Chọn danh mục cha"
-                            options={fomatCate}
-                            onChange={(option) => {
-                                setParentCategoryID(option ? option.value : null);
-                            }}
-                            isClearable
-                        ></Select>
-                    </label>
-                </div>
+                <h2>Thêm danh mục mới</h2>
+                <form onSubmit={formik.handleSubmit}>
+                    <div className={cx('row')}>
+                        <label className={cx('label')}>
+                            Tên danh mục <RequiredStar />
+                            <input
+                                type="text"
+                                name="name"
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={cx('input')}
+                                required
+                            />
+                            {formik.touched.name && formik.errors.name && (
+                                <div className={cx('error')}>{formik.errors.name}</div>
+                            )}
+                        </label>
+                        <label className={cx('label')}>
+                            Danh mục cha <RequiredStar />
+                            <Select
+                                className={cx('select-react')}
+                                name="parentCategoryID"
+                                placeholder="Chọn danh mục cha"
+                                options={fomatCate}
+                                value={fomatCate.find((option) => option.value === formik.values.parentCategoryID)}
+                                onChange={(option) =>
+                                    formik.setFieldValue('parentCategoryID', option ? option.value : null)
+                                }
+                                isClearable
+                            />
+                            {formik.touched.parentCategoryID && formik.errors.parentCategoryID && (
+                                <div className={cx('error')}>{formik.errors.parentCategoryID}</div>
+                            )}
+                        </label>
+                    </div>
 
-                <div className={cx('row')}>
-                    <label className={cx('label')}>
-                        Mô tả:
-                        <ReactQuill
-                            value={description}
-                            onChange={setDescription}
-                            className={cx('description-editor')}
-                            theme="snow"
-                        />
-                    </label>
-                </div>
-                <br />
-                <br />
-                <Button onClick={handleSubmit} className={cx('submit-button')} variant="add">
-                    Tạo mới
-                </Button>
+                    <div className={cx('row')}>
+                        <label className={cx('label')}>
+                            Mô tả:
+                            <ReactQuill
+                                value={formik.values.description}
+                                onChange={(value) => formik.setFieldValue('description', value)}
+                                className={cx('description-editor')}
+                                theme="snow"
+                            />
+                            {formik.touched.description && formik.errors.description && (
+                                <div className={cx('error')}>{formik.errors.description}</div>
+                            )}
+                        </label>
+                    </div>
+
+                    <Button type="submit" className={cx('submit-button')} variant="add">
+                        Tạo mới
+                    </Button>
+                </form>
             </div>
         </div>
     );

@@ -12,13 +12,7 @@ const cx = classNames.bind(styles);
 function AuthPage({ initialTab = 'login' }) {
     const { login } = useAuth();
     const [activeTab, setActiveTab] = useState(initialTab); // 'login', 'register', 'forgotPassword'
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-    //     const result = await authService.clientLogin(username, password);
-    //     if (result.success) {
-    //         window.location.href = '/';
-    //     }
-    // };
+
     const handleSendMailRegis = async (email) => {
         if (mailHelper.isValid(email)) {
             await authService.sendOtpRegister(email);
@@ -32,23 +26,47 @@ function AuthPage({ initialTab = 'login' }) {
     // Formik validation schemas
     const validationSchemas = {
         login: Yup.object({
-            email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
-            password: Yup.string().required('Mật khẩu không được để trống'),
+            email: Yup.string()
+                .email('Email không hợp lệ')
+                .required('Email không được để trống')
+                .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Định dạng email không hợp lệ'),
+            password: Yup.string()
+                .required('Mật khẩu không được để trống')
+                .test('no-spaces', 'Mật khẩu không được chứa dấu cách', (value) => !/\s/.test(value)),
         }),
         register: Yup.object({
-            email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
-            otp: Yup.string().required('OTP không được để trống'),
-            firstName: Yup.string().required('Tên không được để trống'),
-            lastName: Yup.string().required('Họ đệm không được để trống'),
-            password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Mật khẩu không được để trống'),
+            email: Yup.string()
+                .email('Email không hợp lệ')
+                .required('Email không được để trống')
+                .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Định dạng email không hợp lệ'),
+            otp: Yup.string()
+                .required('OTP không được để trống')
+                .test('no-spaces', 'OTP không được chứa dấu cách', (value) => !/\s/.test(value)),
+            firstName: Yup.string().trim().required('Tên không được để trống'),
+            lastName: Yup.string().trim().required('Họ đệm không được để trống'),
+            password: Yup.string()
+                .test('no-spaces', 'Mật khẩu không được chứa dấu cách', (value) => !/\s/.test(value))
+                .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+                .max(20, 'Mật khẩu tối đa 20 ký tự')
+                .required('Mật khẩu không được để trống'),
             confirmPassword: Yup.string()
                 .oneOf([Yup.ref('password')], 'Mật khẩu không khớp')
                 .required('Bắt buộc xác nhận mật khẩu'),
         }),
         forgotPassword: Yup.object({
-            email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
-            otp: Yup.string().required('OTP'),
-            password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Mật khẩu không được để trống'),
+            email: Yup.string()
+                .email('Email không hợp lệ')
+                .required('Email không được để trống')
+                .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Định dạng email không hợp lệ'),
+            otp: Yup.string()
+                .trim()
+                .required('OTP không được để trống')
+                .test('no-spaces', 'OTP không được chứa dấu cách', (value) => !/\s/.test(value)),
+            password: Yup.string()
+                .test('no-spaces', 'Mật khẩu không được chứa dấu cách', (value) => !/\s/.test(value))
+                .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+                .required('Mật khẩu không được để trống')
+                .max(20, 'Mật khẩu tối đa 20 ký tự'),
             confirmPassword: Yup.string()
                 .oneOf([Yup.ref('password')], 'Mật khẩu không khớp')
                 .required('Bắt buộc xác nhận mật khẩu'),
@@ -74,7 +92,7 @@ function AuthPage({ initialTab = 'login' }) {
                             values.password,
                         );
                         if (success) {
-                            debugger
+                            debugger;
                             login(user, token, refreshToken);
                             window.location.href = '/';
                         }
@@ -84,8 +102,8 @@ function AuthPage({ initialTab = 'login' }) {
                         let registerData = {
                             email: values.email,
                             otp: values.otp,
-                            firstName: values.firstName,
-                            lastName: values.lastName,
+                            firstName: values.firstName.trim(),
+                            lastName: values.lastName.trim(),
                             password: values.password,
                         };
                         Object.keys(registerData).forEach((key) => {

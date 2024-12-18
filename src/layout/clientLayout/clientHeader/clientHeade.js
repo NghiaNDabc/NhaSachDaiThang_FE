@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import style from './ClientHeader.module.scss';
 import classNames from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCaretDown, faCartPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import {  faUser } from '@fortawesome/free-regular-svg-icons';
 import logo from '../../../assets/nhasachdaithang.png';
 import { useClientContext } from '../../../contexts/CientContext';
-import ClientSlideBar from './clientSideBar/clientSlidebar';
+
 import { useAuth } from '../../../contexts/AuthContext';
 import { CartContext } from '../../../contexts/CartContext';
 import Tippy from '@tippyjs/react';
@@ -42,7 +42,7 @@ function ClientHeader() {
         // Tự động ẩn tooltip chỉ khi không còn focus và không có tương tác với suggestion
         setTimeout(() => {
             setFocus(false);
-        }, 100); // Đợi 100ms để tránh mất focus quá nhanh
+        }, 500); // Đợi 100ms để tránh mất focus quá nhanh
     };
 
     const [suggestions, setSuggestions] = useState([]);
@@ -81,45 +81,45 @@ function ClientHeader() {
             toast.warning('Vui lòng nhập tên sách để tìm kiếm!');
         }
     };
+    const debounceSearch = useCallback(
+        debounce(async (value) => {
+            if (value.trim() === '') {
+                setSuggestions([]);
+                return;
+            }
 
-    const handleBookSearch = debounce(async (bookName) => {
-        if (bookName.trim() == '') {
-            setSuggestions([]);
-            return;
-        }
-
-        try {
-            const response = await bookService.getBooks(
-                null,
-                null,
-                bookName,
-                null,
-                null,
-                true,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-            );
-            setSuggestions(response.data || []);
-        } catch (error) {
-            toast.error('Error fetching book suggestions.');
-        }
-    }, 1000);
+            try {
+                const response = await bookService.getBooks(
+                    null,
+                    null,
+                    value,
+                    null,
+                    null,
+                    true,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                );
+                setSuggestions(response.data || []);
+            } catch (error) {
+                toast.error('Error fetching book suggestions.');
+            }
+        }, 1000),
+        [], // Tạo hàm debounce chỉ một lần
+    );
 
     const handleBookNameChange = (event) => {
         const value = event.target.value;
         setBookName(value);
-        if (value == null || value == '') setSuggestions([]);
-        else {
-            handleBookSearch(value);
-        }
-    };
 
+        // Gọi debounceSearch với chuỗi mới
+        debounceSearch(value);
+    };
     return (
         <header className={cx('header')}>
             <div className={cx('container_header')}>
@@ -130,7 +130,7 @@ function ClientHeader() {
                         alignItems: 'center',
                     }}
                 >
-                    <div style={{ cursor: 'pointer' }} className={cx('logo')}>
+                    <div className={cx('logo')}>
                         <div className={cx('img')}>
                             <img src={logo} alt="Logo" />
                         </div>
@@ -214,16 +214,7 @@ function ClientHeader() {
                         <FontAwesomeIcon className={cx('fa-icon')} icon={faMagnifyingGlass} />
                     </button>
                 </div>
-                <div
-                    style={{
-                        height: '68px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        width: '190px',
-                    }}
-                    className={cx('icon')}
-                >
+                <div className={cx('icon')}>
                     <div
                         className={cx('icon_con', 'user-icon')}
                         onMouseEnter={handleUserIconHover}

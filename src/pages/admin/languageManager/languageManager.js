@@ -11,6 +11,7 @@ import LanguageComponent from '../../../components/language/languageItem';
 import LanguageAddForm from '../../../components/language/languageAddForm';
 import LanguageEditForm from '../../../components/language/languageEditForm';
 import Swal from 'sweetalert2';
+import ToastCustom from '../../../components/toast/toastComponent';
 // const cx = classNames.bind(style);
 function LanguageManager() {
     const [languageList, setLanguageList] = useState([]);
@@ -80,6 +81,7 @@ function LanguageManager() {
                         )}
                     </>
                 ))}
+            {/* <ToastCustom /> */}
         </div>
     );
 }

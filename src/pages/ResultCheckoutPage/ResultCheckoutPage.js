@@ -10,6 +10,7 @@ import { faCancel, faDollar } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../contexts/AuthContext';
 import { orderService } from '../../services/orderService';
 import { getStatusColor } from '../../utils/orderstatusHepler';
+import { serverUrl } from '../../api/axiosInstance';
 const cx = classNames.bind(styles); // Để sử dụng với className
 
 const ResultCheckoutPage = () => {
@@ -30,7 +31,7 @@ const ResultCheckoutPage = () => {
     };
     const fetchOrderDetails = async () => {
         try {
-            const response = await axios.get(`http://localhost:5030/api/v1/order?orderId=${orderId}`);
+            const response = await axios.get(`${serverUrl}/v1/order?orderId=${orderId}`);
             const order = response.data.data;
             if (order.status === 'Chờ thanh toán online') {
                 setIsOnlinePayted(false);
