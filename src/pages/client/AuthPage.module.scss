@@ -1,3 +1,4 @@
+@import '../../styles/sendOtpbtn.scss';
 .auth-form {
     width: 400px;
     margin: auto;
@@ -62,16 +63,7 @@
             }
 
             .otp-btn {
-              
-                color: white;
-                border: none;
                 padding: 8px;
-                border-radius: 4px;
-                cursor: pointer;
-
-                &:hover {
-                    border: 1px solid #ffd15b;
-                }
             }
         }
     }

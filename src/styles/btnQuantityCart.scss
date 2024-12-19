@@ -1,0 +1,19 @@
+.wrap-btn-quantity {
+    border: 1px solid black;
+    font-size: 18px;
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input {
+        text-align: center;
+        height: 100%;
+        outline: none;
+    }
+    button {
+        border: none;
+        background-color: white;
+        color: black;
+    }
+}

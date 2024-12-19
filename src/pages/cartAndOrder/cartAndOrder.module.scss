@@ -1,4 +1,6 @@
 @import '../../styles/button.scss';
+@import '../../styles/btnQuantityCart.scss';
+@import '../../styles/bookOrderTable.scss';
 .container {
     padding: 20px;
     border: 1px solid #ddd;
@@ -8,56 +10,43 @@
     max-width: 600px;
     margin: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.title {
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.formGroup {
-    margin-bottom: 15px;
-}
-
-.label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-.input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.input:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.errorMessage {
-    color: red;
-    font-size: 1.1rem;
-    margin-top: 5px;
-}
-
-.radioGroup {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.radio {
-    margin-right: 5px;
+    .title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .formGroup {
+        margin-bottom: 15px;
+        .label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            color: #333;
+            :focus {
+                border-color: #007bff;
+                outline: none;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+        }
+    }
+    .radioGroup {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .radio {
+        margin-right: 5px;
+    }
 }
 
 .button {
@@ -70,4 +59,3 @@
     font-weight: bold;
     cursor: pointer;
 }
-

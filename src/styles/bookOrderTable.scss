@@ -1,0 +1,18 @@
+.book-order-table {
+    width: 100%;
+    border-collapse: collapse;
+    td,
+    th {
+        border: 1px solid #ddd;
+        height: 100%;
+        padding: 8px;
+    }
+
+    .del-btn {
+        background-color: transparent;
+        color: black;
+        :hover {
+            color: red;
+        }
+    }
+}
