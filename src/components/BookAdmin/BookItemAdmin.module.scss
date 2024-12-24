@@ -10,14 +10,13 @@
     .wrapper {
         position: relative;
     }
-    
+
     .image-wrapper {
         width: 10%;
         position: relative;
         display: inline-block;
     }
-    
-    
+
     .discount-tag {
         position: absolute;
         top: 0px;
@@ -25,30 +24,31 @@
         background-color: rgba(255, 0, 0, 0.8);
         color: white;
         padding: 4px 8px;
-        border-radius:50%;
+        border-radius: 50%;
         font-size: 14px;
         font-weight: bold;
         z-index: 10;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-    
-    .book-id, .book-quanlity{
+
+    .book-id,
+    .book-quanlity {
         width: 4%;
         text-align: center;
     }
     .book-name {
         width: 20%;
     }
-    .book-categoryName{
+    .book-categoryName {
         width: 10%;
     }
     justify-content: space-between;
 }
-.active{
+.active {
     color: green;
     font-size: 25px;
 }
-.deactive{
+.deactive {
     color: red;
     font-size: 25px;
 }
@@ -61,16 +61,14 @@
 .original-price {
     color: #999; /* Màu xám cho giá trước khuyến mãi */
     text-decoration: line-through; /* Gạch ngang */
-  
 }
 
 .discounted-price {
     color: #e63946; /* Màu đỏ nổi bật cho giá sau khuyến mãi */
-    
+
     font-weight: bold;
 }
 
 .normal-price {
-    
     color: #000; /* Màu mặc định nếu không có khuyến mãi */
 }

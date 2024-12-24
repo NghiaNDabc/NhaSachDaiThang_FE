@@ -11,7 +11,6 @@ import { bookService } from '../../../services/bookService/bookService';
 import BookCoverTypeAddForm from '../../../components/bookCoverType/bookCoverTypeAddForm';
 import BookCoverTypeComponent from '../../../components/bookCoverType/bookCoverTypeItem';
 import BookCoverTypeEditForm from '../../../components/bookCoverType/bookCoverTypeEditForm';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ToastCustom from '../../../components/toast/toastComponent';
 // const cx = classNames.bind(style);
@@ -39,7 +38,7 @@ function BookCoverTypeManager() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xác nhận',
+            confirmButtonText: 'Ok',
             cancelButtonText: 'Hủy',
         });
 
@@ -54,11 +53,27 @@ function BookCoverTypeManager() {
         <div>
             <div>
                 <Button variant="add" onClick={clickAdd} leftIcon={<FontAwesomeIcon icon={faPlus} />}>
-                    Thêm mới
+                    Thêm mới bìa sách
                 </Button>
             </div>
             {isAdd && <BookCoverTypeAddForm onAdd={() => setRefresh((p) => p + 1)} onClose={clickAdd} />}
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '10px',
+                    backgroundColor: '#f5f5f5',
+                    fontWeight: 'bold',
+                    borderBottom: '2px solid gray',
+                }}
+            >
+                <div style={{ width: '4%', textAlign: 'left' }}>ID</div>
+                <div style={{ width: '60%', textAlign: 'left', textIndent: '80px' }}>Tên loại bìa sách</div>
 
+                <div style={{ width: '20%' }}></div>
+
+                <div style={{ flexGrow: 1, textAlign: 'center' }}>Hành động</div>
+            </div>
             {bookCoverTypeList &&
                 bookCoverTypeList.length > 0 &&
                 bookCoverTypeList.map((item, index) => (
@@ -81,7 +96,7 @@ function BookCoverTypeManager() {
                         )}
                     </>
                 ))}
-                 {/* <ToastCustom/> */}
+                 <ToastCustom/>
         </div>
     );
 }

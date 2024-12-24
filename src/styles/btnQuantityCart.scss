@@ -15,5 +15,9 @@
         border: none;
         background-color: white;
         color: black;
+        &:disabled{
+            color: #ccc;
+        }
     }
+    
 }

@@ -1,0 +1,31 @@
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-table th,
+.order-table td {
+    font-size: 18px;
+    padding: 10px 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.order-table th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    color: #555;
+}
+
+.order-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.order-table tr:hover {
+    background-color: #f1f1f1;
+}

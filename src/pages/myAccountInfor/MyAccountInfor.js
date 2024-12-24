@@ -9,6 +9,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import RequiredStar from '../../components/requiredStar/requiredStar';
 import { authService } from '../../services/authService';
 import { data } from 'autoprefixer';
+import Button from '../../../src/components/button/button';
 const cx = classNames.bind(style);
 
 const AccountInfo = () => {
@@ -47,7 +48,7 @@ const AccountInfo = () => {
     return (
         <>
             {user && (
-                <div>
+                <div className={cx('container')}>
                     <Formik
                         initialValues={{
                             firstName: user.firstName,
@@ -92,9 +93,10 @@ const AccountInfo = () => {
                                     </label>
                                 </div>
                                 <div className={cx('image-preview-container')}></div>
-                                <button className={cx('submit-button')} type="submit">
+
+                                <Button className={cx('submit-button')} type="submit">
                                     Cập nhật
-                                </button>
+                                </Button>
                             </Form>
                         )}
                     </Formik>

@@ -54,7 +54,7 @@ function UserAddForm({ onClose }) {
         });
         try {
             await userService.post(formData);
-            toast.success('Thêm người dùng thành công');
+            // toast.success('Thêm người dùng thành công');
             onClose();
         } catch (err) {
             toast.error('Có lỗi xảy ra khi thêm người dùng');

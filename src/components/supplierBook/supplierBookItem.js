@@ -2,7 +2,7 @@ import style from './itemComponent.module.scss';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import Button from '../button/button';
-import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPenToSquare, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const cx = classNames.bind(style);
 function SupplierBookComponent({ item, onEdit, onDelete }) {
@@ -53,7 +53,7 @@ function SupplierBookComponent({ item, onEdit, onDelete }) {
                     <div>
                         <Button
                             variant="edit"
-                            leftIcon={<FontAwesomeIcon icon={faPenToSquare} />}
+                            leftIcon={<FontAwesomeIcon icon={faEye} />}
                             onClick={() => onEdit(item.supplierBookId)}
                         >
                             Xem / in

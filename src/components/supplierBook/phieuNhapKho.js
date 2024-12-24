@@ -25,53 +25,53 @@ function PhieuNhapKho({ supplierBook, onClose }) {
 
     const tinhTien = (soluong, gia) => parseInt(gia) * parseInt(soluong);
 
-    // Chức năng in PDF
-    // const handleExportPDF = async () => {
-    //     const element = document.getElementById('pdf-content');
-    //     const canvas = await html2canvas(element, { scale: 2 });
-    //     const imgData = canvas.toDataURL('image/png');
-    //     const pdf = new jsPDF('p', 'mm', 'a4');
-    //     const pdfWidth = pdf.internal.pageSize.getWidth();
-    //     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-    //     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    //     pdf.save(`PhieuNhapKho_${supplierBook.supplierBookId}.pdf`);
-    // };
+    //Chức năng in PDF
     const handleExportPDF = async () => {
-        try {
-            // Lấy nội dung từ phần tử cần xuất
-            const element = document.getElementById('pdf-content');
-            const canvas = await html2canvas(element, { scale: 2 });
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-            // Kiểm tra xem File System Access API có được hỗ trợ không
-            if ('showSaveFilePicker' in window) {
-                // Mở hộp thoại để chọn nơi lưu file
-                const fileHandle = await window.showSaveFilePicker({
-                    suggestedName: `PhieuNhapKho_${supplierBook.supplierBookId}.pdf`,
-                    types: [
-                        {
-                            description: 'PDF Document',
-                            accept: { 'application/pdf': ['.pdf'] },
-                        },
-                    ],
-                });
-
-                // Ghi dữ liệu vào file được chọn
-                const writable = await fileHandle.createWritable();
-                await writable.write(pdf.output('blob')); // Xuất dữ liệu dưới dạng blob
-                await writable.close();
-            } else {
-                // Trường hợp không hỗ trợ File System Access API, dùng cách mặc định
-                pdf.save(`PhieuNhapKho_${supplierBook.supplierBookId}.pdf`);
-            }
-        } catch (error) {
-            console.error('Error exporting PDF:', error);
-        }
+        const element = document.getElementById('pdf-content');
+        const canvas = await html2canvas(element, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`PhieuNhapKho_${supplierBook.supplierBookId}.pdf`);
     };
+    // const handleExportPDF = async () => {
+    //     try {
+    //         // Lấy nội dung từ phần tử cần xuất
+    //         const element = document.getElementById('pdf-content');
+    //         const canvas = await html2canvas(element, { scale: 2 });
+    //         const imgData = canvas.toDataURL('image/png');
+    //         const pdf = new jsPDF('p', 'mm', 'a4');
+    //         const pdfWidth = pdf.internal.pageSize.getWidth();
+    //         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    //         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+    //         // Kiểm tra xem File System Access API có được hỗ trợ không
+    //         if ('showSaveFilePicker' in window) {
+    //             // Mở hộp thoại để chọn nơi lưu file
+    //             const fileHandle = await window.showSaveFilePicker({
+    //                 suggestedName: `PhieuNhapKho_${supplierBook.supplierBookId}.pdf`,
+    //                 types: [
+    //                     {
+    //                         description: 'PDF Document',
+    //                         accept: { 'application/pdf': ['.pdf'] },
+    //                     },
+    //                 ],
+    //             });
+
+    //             // Ghi dữ liệu vào file được chọn
+    //             const writable = await fileHandle.createWritable();
+    //             await writable.write(pdf.output('blob')); // Xuất dữ liệu dưới dạng blob
+    //             await writable.close();
+    //         } else {
+    //             // Trường hợp không hỗ trợ File System Access API, dùng cách mặc định
+    //             pdf.save(`PhieuNhapKho_${supplierBook.supplierBookId}.pdf`);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error exporting PDF:', error);
+    //     }
+    // };
 
     return (
         <div className={cx('wrapper')}>

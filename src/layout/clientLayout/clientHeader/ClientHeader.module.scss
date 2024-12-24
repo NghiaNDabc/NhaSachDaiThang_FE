@@ -1,9 +1,4 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
+@import '../../../styles/suggestionSearch.scss';
 
 .logo {
     font-size: 24px;
@@ -143,6 +138,7 @@
                 .sub-menu {
                     display: none;
                     position: absolute;
+                    min-height: 100%;
                     top: 0;
                     left: 100%;
                     background-color: #fff;
@@ -197,43 +193,4 @@
             }
         }
     }
-}
-
-.suggestions {
-    max-height: 300px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    overflow-y: auto;
-
-    .suggestion-item {
-        display: flex;
-        align-items: center;
-        padding: 5px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.2s;
-
-        &:hover {
-            background: #f9f9f9;
-        }
-
-        div {
-            display: flex;
-            flex-direction: column;
-        }
-    }
-
-    .no-suggestions {
-        padding: 10px;
-        text-align: center;
-        color: #888;
-        font-style: italic;
-    }
-}
-
-.tippy-box[data-theme='light'] {
-    background-color: #fff !important;
-    color: #333 !important;
-    width: 200%;
 }

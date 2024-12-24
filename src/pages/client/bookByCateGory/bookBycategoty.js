@@ -62,7 +62,7 @@ function CategoryPage() {
             if (category) {
                 breadcrumbs.unshift({
                     name: category.name,
-                    link: `/category/${category.categoryId}`,
+                    link: `/search?categoryId=${category.categoryId}`,
                 });
                 currentCategoryId = category.parentCategoryID;
             } else {
@@ -73,7 +73,7 @@ function CategoryPage() {
     }, [categories, categoryId]);
     useEffect(() => {
         fetchBooks();
-    }, [categoryId, page, priceFilter]);
+    }, [bookName,categoryId, page, priceFilter]);
 
     const handlePriceFilterChange = (filter) => {
         setPriceFilter(filter);

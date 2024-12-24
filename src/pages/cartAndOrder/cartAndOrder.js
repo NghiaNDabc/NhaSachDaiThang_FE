@@ -14,6 +14,7 @@ const CartPage = () => {
     const { cart, editCart, deleteBookInCart } = useContext(CartContext); // Cart chỉ chứa { id, quantity }
     const [books, setBooks] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
+
     const handleQuantityChange = (bookId, newQuantity) => {
         setBooks((prevBooks) => {
             // const afterBook = prevBooks.map((book) =>
@@ -158,16 +159,12 @@ const CartPage = () => {
                     {/* Bên trái: Danh sách sản phẩm */}
                     <div style={{ marginRight: '20px' }}>
                         {/* <h2>Giỏ Hàng</h2> */}
-                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <table className={cx('book-order-table')}>
                             <thead>
                                 <tr>
-                                    <th colSpan="2" style={{ border: '1px solid #ddd', padding: '8px' }}>
-                                        Sản phẩm
-                                    </th>
-                                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Số lượng</th>
-                                    <th style={{ border: '1px solid #ddd', padding: '8px', width: '150px' }}>
-                                        Thành tiền
-                                    </th>
+                                    <th colSpan="2">Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th style={{ width: '150px' }}>Thành tiền</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -175,35 +172,32 @@ const CartPage = () => {
                                     return (
                                         <tr key={book.bookId}>
                                             {/* Hình ảnh */}
-                                            <td
-                                                style={{
-                                                    display: 'flex',
-                                                    border: '1px solid #ddd',
-                                                    padding: '8px',
-                                                    textAlign: 'center',
-                                                }}
-                                            >
-                                                <button
-                                                    onClick={() => {
-                                                        handleDeleteBook(book.bookId);
+                                            <td>
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
                                                     }}
-                                                    style={{ backgroundColor: 'transparent', color: 'black' }}
                                                 >
-                                                    <FontAwesomeIcon icon={faTrash} />
-                                                </button>
-                                                <img
-                                                    src={book.mainImage}
-                                                    alt={book.title}
-                                                    style={{ width: '80px', height: 'auto' }}
-                                                />
+                                                    <button
+                                                        className={cx('del-btn')}
+                                                        onClick={() => {
+                                                            handleDeleteBook(book.bookId);
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash} />
+                                                    </button>
+                                                    <img
+                                                        src={book.mainImage}
+                                                        alt={book.title}
+                                                        style={{ width: '80px', height: 'auto' }}
+                                                    />
+                                                </div>
                                             </td>
                                             {/* Thông tin */}
                                             <td
                                                 style={{
                                                     width: '300px',
                                                     wordBreak: 'break-word',
-                                                    border: '1px solid #ddd',
-                                                    padding: '8px',
                                                 }}
                                             >
                                                 <h4>
@@ -228,39 +222,38 @@ const CartPage = () => {
                                                 </p>
                                             </td>
                                             {/* Số lượng */}
-                                            <td
-                                                style={{
-                                                    border: '1px solid #ddd',
-                                                    padding: '8px',
-                                                    textAlign: 'center',
-                                                }}
-                                            >
-                                                <button
-                                                    onClick={() =>
-                                                        handleQuantityChange(book.bookId, book.soluongmua - 1)
-                                                    }
-                                                    //disabled={book.soluongmua <= 1}
-                                                >
-                                                    -
-                                                </button>
-                                                <input
-                                                    onChange={(e) =>
-                                                        handleQuantityChange(book.bookId, parseInt(e.target.value) || 1)
-                                                    }
-                                                    style={{ width: '30px' }}
-                                                    value={book.soluongmua}
-                                                />
-                                                <button
-                                                    onClick={() =>
-                                                        handleQuantityChange(book.bookId, book.soluongmua + 1)
-                                                    }
-                                                    // disabled={book.soluongmua >= book.quantity}
-                                                >
-                                                    +
-                                                </button>
+                                            <td>
+                                                <div className={cx('wrap-btn-quantity')}>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleQuantityChange(book.bookId, book.soluongmua - 1)
+                                                        }
+                                                        disabled={book.soluongmua <= 1}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <input
+                                                        onChange={(e) =>
+                                                            handleQuantityChange(
+                                                                book.bookId,
+                                                                parseInt(e.target.value) || 1,
+                                                            )
+                                                        }
+                                                        style={{ width: '30px' }}
+                                                        value={book.soluongmua}
+                                                    />
+                                                    <button
+                                                        onClick={() =>
+                                                            handleQuantityChange(book.bookId, book.soluongmua + 1)
+                                                        }
+                                                        disabled={book.soluongmua >= book.quantity}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
                                             </td>
                                             {/* Thành tiền */}
-                                            <td style={{ border: '1px solid #ddd', padding: '8px', color: 'red' }}>
+                                            <td className="gia-tien-red">
                                                 {(book.priceAfterDiscount * book.soluongmua).toLocaleString()}₫
                                             </td>
                                         </tr>
@@ -288,7 +281,7 @@ const CartPage = () => {
                                     onBlur={formik.handleBlur}
                                 />
                                 {formik.touched.recipientName && formik.errors.recipientName && (
-                                    <p className={cx('errorMessage')}>{formik.errors.recipientName}</p>
+                                    <p className={cx('error')}>{formik.errors.recipientName}</p>
                                 )}
                             </div>
 
@@ -303,7 +296,7 @@ const CartPage = () => {
                                     onBlur={formik.handleBlur}
                                 />
                                 {formik.touched.shippingAddress && formik.errors.shippingAddress && (
-                                    <p className={cx('errorMessage')}>{formik.errors.shippingAddress}</p>
+                                    <p className={cx('error')}>{formik.errors.shippingAddress}</p>
                                 )}
                             </div>
 
@@ -318,7 +311,7 @@ const CartPage = () => {
                                     onBlur={formik.handleBlur}
                                 />
                                 {formik.touched.phone && formik.errors.phone && (
-                                    <p className={cx('errorMessage')}>{formik.errors.phone}</p>
+                                    <p className={cx('error')}>{formik.errors.phone}</p>
                                 )}
                             </div>
 
@@ -333,7 +326,7 @@ const CartPage = () => {
                                     onBlur={formik.handleBlur}
                                 />
                                 {formik.touched.email && formik.errors.email && (
-                                    <p className={cx('errorMessage')}>{formik.errors.email}</p>
+                                    <p className={cx('error')}>{formik.errors.email}</p>
                                 )}
                             </div>
 

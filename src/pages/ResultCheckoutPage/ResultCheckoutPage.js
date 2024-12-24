@@ -11,6 +11,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { orderService } from '../../services/orderService';
 import { getStatusColor } from '../../utils/orderstatusHepler';
 import { serverUrl } from '../../api/axiosInstance';
+import Swal from 'sweetalert2';
 const cx = classNames.bind(styles); // Để sử dụng với className
 
 const ResultCheckoutPage = () => {
@@ -21,6 +22,7 @@ const ResultCheckoutPage = () => {
     const { clear } = useContext(CartContext);
     const [IsOnlinePayted, setIsOnlinePayted] = useState(true);
     const [messageOnlinePayted, setMessageOnlinePayted] = useState('(Đã thanh toán qua VNPay)');
+    const [canCancel, setCanCacel] = useState();
     // Lấy tham số từ URL
     const orderId = searchParams.get('orderId');
     const success = searchParams.get('success');
@@ -36,6 +38,14 @@ const ResultCheckoutPage = () => {
             if (order.status === 'Chờ thanh toán online') {
                 setIsOnlinePayted(false);
                 setMessageOnlinePayted('(Chưa thanh toán online)');
+            }
+            if (
+                order.status === 'Chờ thanh toán online' ||
+                order.status === 'Chờ xác nhận' ||
+                order.status === 'Đã xác nhận' ||
+                order.status === 'Đang xử lý'
+            ) {
+                setCanCacel(true);
             }
             setOrderData(order);
 
@@ -55,11 +65,23 @@ const ResultCheckoutPage = () => {
     };
 
     const cancelOrder = async () => {
-        try {
-            await orderService.cancel(orderId);
-            await fetchOrderDetails(); // Gọi lại hàm fetchOrderDetails sau khi hủy đơn hàng
-        } catch {
-            setError('Hủy đơn hàng không thành công. Vui lòng thử lại.');
+        const result = await Swal.fire({
+            title: `Bạn có chắc chắn muốn hủy đơn hàng không?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok',
+            cancelButtonText: 'Hủy',
+        });
+        if (result.isConfirmed) {
+            try {
+                await orderService.cancel(orderId);
+                await fetchOrderDetails(); // Gọi lại hàm fetchOrderDetails sau khi hủy đơn hàng
+                setCanCacel(false);
+            } catch {
+                setError('Hủy đơn hàng không thành công. Vui lòng thử lại.');
+            }
         }
     };
 
@@ -97,7 +119,13 @@ const ResultCheckoutPage = () => {
                             <strong>Tên người nhận:</strong> {orderData.recipientName}
                         </p>
                         <p>
+                            <strong>Ngày đặt:</strong> {orderData.createdDate}
+                        </p>
+                        <p>
                             <strong>Số điện thoại :</strong> {orderData.phone}
+                        </p>
+                        <p>
+                            <strong>Email :</strong> {orderData.email}
                         </p>
                         <p>
                             <strong>Địa chỉ:</strong> {orderData.shippingAddress}
@@ -114,7 +142,9 @@ const ResultCheckoutPage = () => {
                                 style={{
                                     color: getStatusColor(orderData.status),
                                 }}
-                            >{orderData.status}</span>
+                            >
+                                {orderData.status}
+                            </span>
                         </p>
 
                         <h3>Chi tiết đơn hàng</h3>
@@ -177,7 +207,7 @@ const ResultCheckoutPage = () => {
                         ) : (
                             <div></div>
                         )}
-                        {orderData && orderData.status != 'Đã hủy' && (
+                        {canCancel && (
                             <Button
                                 onClick={() => cancelOrder()}
                                 leftIcon={<FontAwesomeIcon icon={faCancel} />}

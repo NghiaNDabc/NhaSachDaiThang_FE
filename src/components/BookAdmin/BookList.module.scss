@@ -29,18 +29,20 @@
     flex: 1;
     min-width: 180px; /* Đảm bảo input không quá nhỏ */
     padding: 8px 12px;
-    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
     color: #333;
     outline: none;
     transition: border-color 0.3s ease;
+    color: #333;
+    border: 1px solid var(--grey);
+    &:focus {
+        border: 1px solid var(--hover-input);
+        outline: none; // kích hoạt nếu cần loại bỏ viền mặc định
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
 }
 
-.input:focus {
-    border-color: #007bff; /* Màu xanh khi focus */
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
-}
 
 .select {
     flex: 1;
@@ -74,16 +76,6 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
-// button:hover {
-//     background-color: #0056b3; /* Đậm hơn khi hover */
-// }
-
-// .list-book {
-//     display: grid;
-//     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-//     gap: 15px;
-// }
 .not-found {
     display: flex;
     justify-content: center;

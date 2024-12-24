@@ -57,7 +57,7 @@ function CategoryListAdmin({ refreshTrigger }) {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xác nhận',
+            confirmButtonText: 'Ok',
             cancelButtonText: 'Hủy',
         });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import classNames from 'classnames/bind';
@@ -12,17 +12,36 @@ const cx = classNames.bind(styles);
 function AuthPage({ initialTab = 'login' }) {
     const { login } = useAuth();
     const [activeTab, setActiveTab] = useState(initialTab); // 'login', 'register', 'forgotPassword'
-
+    const [isCooldown, setIsCooldown] = useState(false);
+    const [timer, setTimer] = useState(30);
     const handleSendMailRegis = async (email) => {
         if (mailHelper.isValid(email)) {
+            setIsCooldown(true);
+            setTimer(30);
             await authService.sendOtpRegister(email);
+            setTimeout(() => {
+                setIsCooldown(false);
+            }, 30000);
         }
     };
     const handleSendMailForgot = async (email) => {
         if (mailHelper.isValid(email)) {
+            setIsCooldown(true);
+            setTimer(30);
             await authService.sendOtpForgotPass(email);
+            setTimeout(() => {
+                setIsCooldown(false);
+            }, 30000);
         }
     };
+    useEffect(() => {
+        if (isCooldown && timer > 0) {
+            const interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [isCooldown, timer]);
     // Formik validation schemas
     const validationSchemas = {
         login: Yup.object({
@@ -196,9 +215,10 @@ function AuthPage({ initialTab = 'login' }) {
                                 <button
                                     type="button"
                                     onClick={() => handleSendMailRegis(formik.values.email)}
-                                    className={cx('otp-btn')}
+                                    className={cx('otp-btn', 'send-button')}
+                                    disabled={isCooldown}
                                 >
-                                    Gửi OTP
+                                    {isCooldown ? ` ${timer}s` : 'Gửi OTP'}
                                 </button>
                             </div>
                             {formik.touched.email && formik.errors.email && (
@@ -297,9 +317,10 @@ function AuthPage({ initialTab = 'login' }) {
                                 <button
                                     onClick={() => handleSendMailForgot(formik.values.email)}
                                     type="button"
-                                    className={cx('otp-btn')}
+                                    className={cx('otp-btn', 'send-button')}
+                                    disabled={isCooldown}
                                 >
-                                    Gửi OTP
+                                    {isCooldown ? ` ${timer}s` : 'Gửi OTP'}
                                 </button>
                             </div>
                             {formik.touched.email && formik.errors.email && (

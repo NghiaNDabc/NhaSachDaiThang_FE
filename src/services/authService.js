@@ -46,7 +46,7 @@ export const authService = {
                 return { success: false, message: 'Tên đăng nhập hoặc mật khẩu không đúng' };
             }
         } catch (err) {
-            toast.error('Có lỗi xảy ra khi đăng nhập');
+            // toast.error('Có lỗi xảy ra khi đăng nhập');
             return { success: false, message: 'Tên đăng nhập hoặc mật khẩu không đúng' };
         }
     },
@@ -77,7 +77,7 @@ export const authService = {
         } catch (err) {
             console.log(err);
             toast.error(err);
-            throw err;
+          
         }
     },
     sendOtpRegister: async (email) => {
@@ -92,7 +92,7 @@ export const authService = {
         } catch (err) {
             console.log(err);
             toast.error(err);
-            throw err;
+          
         }
     },
     changePass: async (email, otpCode, newPass) => {
@@ -106,7 +106,7 @@ export const authService = {
         } catch (err) {
             console.log(err);
             toast.error(err);
-            throw err;
+         
         }
     },
     register: async (formData) => {
@@ -120,7 +120,7 @@ export const authService = {
         } catch (err) {
             console.log(err);
             toast.error(err);
-            throw err;
+       
         }
     },
     getInfor: async () => {
@@ -135,7 +135,7 @@ export const authService = {
         } catch (err) {
             console.log(err);
             toast.error(err);
-            throw err;
+         
         }
     },
 };

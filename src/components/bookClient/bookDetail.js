@@ -66,7 +66,7 @@ function BookDetail() {
                     if (category) {
                         breadcrumbs.unshift({
                             name: category.name,
-                            link: `/category/${category.categoryId}`,
+                            link: `/search?categoryId=${category.categoryId}`,
                         });
                         currentCategoryId = category.parentCategoryID;
                     } else {
@@ -222,8 +222,8 @@ function BookDetail() {
                         </h3>
                         <div>
                             <span
+                                className="gia-tien-red"
                                 style={{
-                                    color: 'red',
                                     fontWeight: 'bold',
                                     marginRight: '5px',
                                     fontSize: '22px',
@@ -240,20 +240,22 @@ function BookDetail() {
                             >
                                 {isPromotion ? price.toLocaleString() : ''}
                             </span>
-                            <span
-                                style={{
-                                    display: 'inline-block',
-                                    color: 'white',
-                                    fontWeight: 'bold',
-                                    marginRight: '5px',
-                                    backgroundColor: 'red',
-                                    fontSize: '18px',
-                                    borderRadius: '10px',
-                                    padding: '2px',
-                                }}
-                            >
-                                {isPromotion ? '-' + book.promotion + '%' : ''}
-                            </span>
+                            {isPromotion && (
+                                <span
+                                    style={{
+                                        display: 'inline-block',
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        marginRight: '5px',
+                                        backgroundColor: 'red',
+                                        fontSize: '18px',
+                                        borderRadius: '10px',
+                                        padding: '2px',
+                                    }}
+                                >
+                                    {'-' + book.promotion + '%'}
+                                </span>
+                            )}
                         </div>
                         {/* Thông tin sách */}
                         <br />

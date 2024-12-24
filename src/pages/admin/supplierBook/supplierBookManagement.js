@@ -11,6 +11,8 @@ import Button from '../../../components/button/button';
 import Select from 'react-select';
 import { useCategories } from '../../../contexts/CategoryContext';
 import PhieuNhapKho from '../../../components/supplierBook/phieuNhapKho';
+import { ToastContainer } from 'react-toastify';
+import ToastCustom from '../../../components/toast/toastComponent';
 const cx = classNames.bind(style);
 function SupplierManagement() {
     const [supplierBookList, setSupplierBookList] = useState([]);
@@ -88,7 +90,7 @@ function SupplierManagement() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xác nhận',
+            confirmButtonText: 'OK',
             cancelButtonText: 'Hủy',
         });
 
@@ -143,7 +145,7 @@ function SupplierManagement() {
                     </div>
                     <div>
                         <Button variant="add" onClick={clickAdd} leftIcon={<FontAwesomeIcon icon={faPlus} />}>
-                            Nhập sách
+                            Thêm mới đơn nhập sách
                         </Button>
                     </div>
                 </div>
@@ -169,10 +171,10 @@ function SupplierManagement() {
                 }}
             >
                 <div style={{ width: '4%', textAlign: 'center' }}>ID</div>
-                <div style={{ width: '55%', textAlign: 'center' }}>Tên nhà cung câp</div>
+                <div style={{ width: '55%', textAlign: 'left', textIndent: '40px' }}>Tên nhà cung cấp</div>
 
-                <div style={{ width: '10%' }}>Ngày nhập</div>
-                <div style={{ width: '10    %', textAlign: 'center' }}>Tổng tiền</div>
+                <div style={{ width: '10%',textIndent: '20px' }}>Ngày nhập</div>
+                <div style={{ width: '12%', textAlign: 'center' }}>Tổng tiền</div>
                 <div style={{ flexGrow: 1, textAlign: 'center' }}>Hành động</div>
             </div>
             {supplierBookList &&
@@ -220,6 +222,7 @@ function SupplierManagement() {
                     </select>
                 </div>
             </div>
+            <ToastCustom/>
         </div>
     );
 }

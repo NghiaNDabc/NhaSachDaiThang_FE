@@ -95,7 +95,7 @@ function SuplierFormAdd({ onClose, onSuccess }) {
 
                             <br />
                             <Button type="submit" disabled={isSubmitting} className={cx('submit-button')} variant="add">
-                                {isSubmitting ? 'Đang xử lý...' : 'Thêm nhà cung cấp'}
+                                {isSubmitting ? 'Đang xử lý...' : 'Tạo mới'}
                             </Button>
                         </Form>
                     )}

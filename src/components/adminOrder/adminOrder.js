@@ -158,7 +158,7 @@ function AdminOrderForm() {
                         <label className={cx('label')}>
                             Nhập tên sách cần thêm
                             <RequiredStar />
-                            <Tippy
+                            <Tippy 
                                 content={
                                     suggestions.length > 0 && (
                                         <div className={cx('suggestions')}>
@@ -195,6 +195,7 @@ function AdminOrderForm() {
                                 visible={!!suggestions.length} // Kiểm tra trước khi hiển thị
                                 interactive
                                 placement="top-start"
+                                theme="light"
                                 offset={[0, 10]}
                             >
                                 <input
@@ -208,14 +209,12 @@ function AdminOrderForm() {
                         </label>
                     </div>
 
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <table className={cx('book-order-table')}>
                         <thead>
                             <tr>
-                                <th colSpan="2" style={{ border: '1px solid #ddd', padding: '8px' }}>
-                                    Sản phẩm
-                                </th>
-                                <th style={{ border: '1px solid #ddd', padding: '8px' }}>Số lượng</th>
-                                <th style={{ border: '1px solid #ddd', padding: '8px', width: '150px' }}>Thành tiền</th>
+                                <th colSpan="2">Sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th style={{ width: '150px' }}>Thành tiền</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -224,35 +223,28 @@ function AdminOrderForm() {
                                     return (
                                         <tr key={book.bookId}>
                                             {/* Hình ảnh */}
-                                            <td
-                                                style={{
-                                                    display: 'flex',
-                                                    border: '1px solid #ddd',
-                                                    padding: '8px',
-                                                    textAlign: 'center',
-                                                }}
-                                            >
-                                                <button
-                                                    onClick={() => {
-                                                        handleDeleteBook(book.bookId);
-                                                    }}
-                                                    style={{ backgroundColor: 'transparent', color: 'black' }}
-                                                >
-                                                    <FontAwesomeIcon icon={faTrash} />
-                                                </button>
-                                                <img
-                                                    src={book.mainImage}
-                                                    alt={book.title}
-                                                    style={{ width: '80px', height: 'auto' }}
-                                                />
+                                            <td>
+                                                <div style={{ display: 'flex' }}>
+                                                    <button
+                                                        className={cx('del-btn')}
+                                                        onClick={() => {
+                                                            handleDeleteBook(book.bookId);
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash} />
+                                                    </button>
+                                                    <img
+                                                        src={book.mainImage}
+                                                        alt={book.title}
+                                                        style={{ width: '80px', height: 'auto' }}
+                                                    />
+                                                </div>
                                             </td>
                                             {/* Thông tin */}
                                             <td
                                                 style={{
                                                     width: '300px',
                                                     wordBreak: 'break-word',
-                                                    border: '1px solid #ddd',
-                                                    padding: '8px',
                                                 }}
                                             >
                                                 <h4>
@@ -277,39 +269,38 @@ function AdminOrderForm() {
                                                 </p>
                                             </td>
                                             {/* Số lượng */}
-                                            <td
-                                                style={{
-                                                    border: '1px solid #ddd',
-                                                    padding: '8px',
-                                                    textAlign: 'center',
-                                                }}
-                                            >
-                                                <button
-                                                    onClick={() =>
-                                                        handleQuantityChange(book.bookId, book.soluongmua - 1)
-                                                    }
-                                                    disabled={book.soluongmua <= 1}
-                                                >
-                                                    -
-                                                </button>
-                                                <input
-                                                    onChange={(e) =>
-                                                        handleQuantityChange(book.bookId, parseInt(e.target.value) || 1)
-                                                    }
-                                                    style={{ width: '30px' }}
-                                                    value={book.soluongmua}
-                                                />
-                                                <button
-                                                    onClick={() =>
-                                                        handleQuantityChange(book.bookId, book.soluongmua + 1)
-                                                    }
-                                                    disabled={book.soluongmua >= book.quantity}
-                                                >
-                                                    +
-                                                </button>
+                                            <td>
+                                                <div className={cx('wrap-btn-quantity')}>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleQuantityChange(book.bookId, book.soluongmua - 1)
+                                                        }
+                                                        disabled={book.soluongmua <= 1}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <input
+                                                        onChange={(e) =>
+                                                            handleQuantityChange(
+                                                                book.bookId,
+                                                                parseInt(e.target.value) || 1,
+                                                            )
+                                                        }
+                                                        style={{ width: '30px' }}
+                                                        value={book.soluongmua}
+                                                    />
+                                                    <button
+                                                        onClick={() =>
+                                                            handleQuantityChange(book.bookId, book.soluongmua + 1)
+                                                        }
+                                                        disabled={book.soluongmua >= book.quantity}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
                                             </td>
                                             {/* Thành tiền */}
-                                            <td style={{ border: '1px solid #ddd', padding: '8px', color: 'red' }}>
+                                            <td className="gia-tien-red">
                                                 {(book.priceAfterDiscount * book.soluongmua).toLocaleString()}₫
                                             </td>
                                         </tr>
@@ -337,7 +328,7 @@ function AdminOrderForm() {
                                 onBlur={formik.handleBlur}
                             />
                             {formik.touched.recipientName && formik.errors.recipientName && (
-                                <p className={cx('errorMessage')}>{formik.errors.recipientName}</p>
+                                <p className={cx('error')}>{formik.errors.recipientName}</p>
                             )}
                         </div>
 
@@ -352,7 +343,7 @@ function AdminOrderForm() {
                                 onBlur={formik.handleBlur}
                             />
                             {formik.touched.shippingAddress && formik.errors.shippingAddress && (
-                                <p className={cx('errorMessage')}>{formik.errors.shippingAddress}</p>
+                                <p className={cx('error')}>{formik.errors.shippingAddress}</p>
                             )}
                         </div>
 
@@ -367,7 +358,7 @@ function AdminOrderForm() {
                                 onBlur={formik.handleBlur}
                             />
                             {formik.touched.phone && formik.errors.phone && (
-                                <p className={cx('errorMessage')}>{formik.errors.phone}</p>
+                                <p className={cx('error')}>{formik.errors.phone}</p>
                             )}
                         </div>
 
@@ -382,7 +373,7 @@ function AdminOrderForm() {
                                 onBlur={formik.handleBlur}
                             />
                             {formik.touched.email && formik.errors.email && (
-                                <p className={cx('errorMessage')}>{formik.errors.email}</p>
+                                <p className={cx('error')}>{formik.errors.email}</p>
                             )}
                         </div>
 

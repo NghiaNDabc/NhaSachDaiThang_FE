@@ -7,6 +7,7 @@ import RequiredStar from '../../components/requiredStar/requiredStar';
 import { passWordValidation } from '../../formik/userValidationSchema';
 import { userService } from '../../services/userService';
 import { toast } from 'react-toastify';
+import Button from '../../components/button/button';
 const cx = classNames.bind(style);
 const ChangePassword = () => {
     const { user } = useAuth();
@@ -35,8 +36,7 @@ const ChangePassword = () => {
     return (
         <>
             {user && (
-                <div>
-                    <h2>Đổi mật khẩu</h2>
+                <div className={cx('container')}>
                     <div>
                         <Formik
                             initialValues={{
@@ -81,9 +81,9 @@ const ChangePassword = () => {
                                         </label>
                                     </div>
 
-                                    <button className={cx('submit-button')} type="submit">
+                                    <Button className={cx('submit-button')} type="submit">
                                         Cập nhật
-                                    </button>
+                                    </Button>
                                 </Form>
                             )}
                         </Formik>

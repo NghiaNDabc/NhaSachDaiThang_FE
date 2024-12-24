@@ -11,9 +11,7 @@ import {
     FaBookOpen,
     FaTruck,
     FaUser,
-    FaSupple,
     FaIntercom,
-    FaCar,
     FaCartArrowDown,
 } from 'react-icons/fa'; // Import các icon từ Font Awesome
 import Header from '../adminHeader/Header';
@@ -47,7 +45,7 @@ function Sidebar() {
                             to="/admin/product"
                             className={cx('link', { active: location.pathname === '/admin/product' })}
                         >
-                            <FaBook /> <span>Quản lý sách</span>
+                            <FaBook /> <span>Quản lý sản phẩm</span>
                         </NavLink>
                     </li>
                     <li>

@@ -9,6 +9,14 @@ export const userValidationSchema = Yup.object().shape({
         .required('Email không được để trống')
         .max(100, 'Tối đa 100 ký tự')
         .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Định dạng email không hợp lệ'),
+    passWord: Yup.string()
+        .test('no-spaces', 'Mật khẩu không được chứa dấu cách', (value) => !/\s/.test(value))
+        .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+        .max(20, 'Mật khẩu tối đa 20 ký tự')
+        .required('Mật khẩu không được để trống'),
+    confirmPassWord: Yup.string()
+        .oneOf([Yup.ref('passWord')], 'Mật khẩu không khớp..')
+        .required('Vui lòng xác nhận mật khẩu'),
 });
 export const userEditValidationSchema = Yup.object().shape({
     firstName: Yup.string().required('Tên không được để trống').max(100, 'Tối đa 100 ký tự'),

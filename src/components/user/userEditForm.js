@@ -3,9 +3,7 @@ import styles from './userAddForm.module.scss';
 import classNames from 'classnames/bind';
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import Button from '../button/button';
-import { bookService } from '../../services/bookService/bookService';
 import { toast } from 'react-toastify';
 import RequiredStar from '../requiredStar/requiredStar';
 import Select from 'react-select';
@@ -75,8 +73,8 @@ function UserEditForm({ item, onClose }) {
                         email: item.email,
                         phone: item.phone,
                         idNumber: item.idNumber,
-                        passWord: '',
-                        confirmPassWord: '',
+                        passWord: '111111',
+                        confirmPassWord: '111111',
                     }}
                     validationSchema={userValidationSchema}
                     onSubmit={handleSubmit}
@@ -168,7 +166,7 @@ function UserEditForm({ item, onClose }) {
                             </div>
                             <div className={cx('image-preview-container')}></div>
                             <Button type="submit" className={cx('submit-button')} variant="add" disabled={isSubmitting}>
-                                {isSubmitting ? 'Đang sửa..' : 'Sửa'}
+                                {isSubmitting ? 'Đang cập nhật..' : 'Cập nhật'}
                             </Button>
                         </Form>
                     )}

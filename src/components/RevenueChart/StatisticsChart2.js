@@ -83,7 +83,7 @@ const StatisticsChart = ({ data }) => {
             <h2>Biểu đồ doanh thu</h2>
             <div className={cx('controls')}>
                 <label>
-                    Loại biểu đò
+                    Loại biểu đồ
                     <select value={chartType} onChange={(e) => setChartType(e.target.value)}>
                         <option value="line">Biểu đồ đường</option>
                         <option value="bar">Biểu đồ cột</option>
@@ -113,7 +113,7 @@ const StatisticsChart = ({ data }) => {
                     .reduce((total, item) => {
                         return total + item.totalRevenue;
                     }, 0)
-                    .toLocaleString() + ' VND'}
+                    .toLocaleString() + ' ₫'}
             </div>
         </div>
     );

@@ -37,7 +37,7 @@ function UserManagement() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xác nhận',
+            confirmButtonText: 'OK',
             cancelButtonText: 'Hủy',
         });
 
@@ -64,7 +64,23 @@ function UserManagement() {
                     onClose={clickAdd}
                 />
             )}
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '10px',
+                    backgroundColor: '#f5f5f5',
+                    fontWeight: 'bold',
+                    borderBottom: '2px solid gray',
+                }}
+            >
+                <div style={{ width: '4%', textAlign: 'left' }}>ID</div>
+                <div style={{ width: '60%', textAlign: 'left', textIndent: '80px' }}>Họ tên người dùng</div>
 
+                <div style={{ width: '15%',textAlign: 'center', }}>Quyền</div>
+
+                <div style={{ flexGrow: 1, textAlign: 'center' }}>Hành động</div>
+            </div>
             {userList &&
                 userList.length > 0 &&
                 userList.map((item, index) => (

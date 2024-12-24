@@ -55,6 +55,7 @@ function Button({
         'button-add': variant === 'add',
         'button-edit': variant === 'edit',
         'button-delete': variant === 'delete',
+        'button-default': !variant || variant === 'default', 
     });
     return (
         <Comp className={classes} {...props}>

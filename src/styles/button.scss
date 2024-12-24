@@ -4,7 +4,8 @@
     cursor: pointer;
 
     &:hover {
-        background-color: #b63a21;
+        background-color: var(--mau-logo);
+        color: black;
        
     }
 }

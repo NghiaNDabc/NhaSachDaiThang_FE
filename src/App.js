@@ -37,6 +37,12 @@ function App() {
     return (
         <div className="App">
             <Router>
+            <ToastContainer
+                style={{ zIndex: 100000000 }}
+                position="top-right"
+                autoClose={4000}
+                hideProgressBar={false}
+            />
                 <Routes>
                     <Route path="/error" element={<Error500 />} />
                     <Route path="/admin" element={<AdminLogin />}></Route>
@@ -128,12 +134,7 @@ function App() {
                     />
                 </Routes>
             </Router>
-            <ToastContainer
-                style={{ zIndex: 100000000 }}
-                position="top-right"
-                autoClose={4000}
-                hideProgressBar={false}
-            />
+  
         </div>
     );
 }

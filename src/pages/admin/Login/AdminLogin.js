@@ -25,13 +25,13 @@ function AdminLogin() {
     const [showPassword, setShowPassword] = useState(false);
     const [isForgotPassword, setIsForgotPassword] = useState(false);
     const [isCooldown, setIsCooldown] = useState(false);
-    const [timer, setTimer] = useState(60);
+    const [timer, setTimer] = useState(30);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         const result = await authService.login(username, password);
         if (result.success) {
-            window.location.href = '/admin/product';
+            window.location.href = '/admin/dashboard';
         }
     };
 
@@ -60,10 +60,10 @@ function AdminLogin() {
 
     const handleSendClick = async () => {
         if (mailHelper.isValid(email)) {
-            // Start cooldown
-            await authService.sendOtpForgotPass(email);
             setIsCooldown(true);
             setTimer(30);
+            // Start cooldown
+            await authService.sendOtpForgotPass(email);
 
             // After 60 seconds, reset the cooldown
             setTimeout(() => {
@@ -127,7 +127,9 @@ function AdminLogin() {
                                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                             </span>
                         </div>
-                        <Button className={cx('login-button')}>Login</Button>
+                        <Button variant="edit" className={cx('login-button')}>
+                            Đăng nhập
+                        </Button>
                     </div>
 
                     <div className={cx('footer')}>
@@ -168,7 +170,7 @@ function AdminLogin() {
                                 onClick={handleSendClick}
                                 disabled={isCooldown}
                             >
-                                {isCooldown ? ` ${timer}s` : 'Gửi'}
+                                {isCooldown ? ` ${timer}s` : 'Gửi OTP'}
                             </button>
                         </div>
                         <div className={cx('input-group')}>
@@ -177,7 +179,7 @@ function AdminLogin() {
                             </span>
                             <input
                                 className={cx('form-input')}
-                                type={showPassword ? 'text' : 'password'}
+                                type={'text'}
                                 placeholder="OTP"
                                 value={otpCode}
                                 onChange={(e) => setOtpCode(e.target.value)}
@@ -218,7 +220,7 @@ function AdminLogin() {
                             </span>
                         </div>
 
-                        <Button className={cx('login-button')}>Đổi mật khẩu</Button>
+                        <Button variant='edit' className={cx('login-button')}>Lấy lại mật khẩu</Button>
                     </div>
 
                     <div className={cx('footer')}>
@@ -232,15 +234,6 @@ function AdminLogin() {
                     </div>
                 </form>
             )}
-
-            {/* ToastContainer for displaying popup notifications */}
-            {/* <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} /> */}
-            {/* <ToastContainer
-                style={{ zIndex: 100000000 }}
-                position="top-right"
-                autoClose={4000}
-                hideProgressBar={false}
-            /> */}
         </div>
     );
 }

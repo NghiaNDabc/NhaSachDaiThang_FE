@@ -1,5 +1,6 @@
 /* Styles for the book detail page */
 @import '../../styles/button.scss';
+@import '../../styles/btnQuantityCart.scss';
 .book-detail {
     display: flex;
     gap: 20px;
@@ -72,16 +73,7 @@
 .add-to-cart button:hover {
     background-color: #0056b3;
 }
-// .button {
-//     background-color: #6aa84f;
 
-//     cursor: pointer;
-
-//     &:hover {
-//         background-color: #b63a21;
-//         color: black;
-//     }
-// }
 .hethang {
     width: 100%;
     border: 0;

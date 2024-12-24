@@ -3,9 +3,8 @@ import classNames from 'classnames/bind';
 import style from './CategoryItem.module.scss';
 import Button from '../button/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareCheck, faPlus, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faSquareCheck, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { categoryService } from '../../services/categoryService';
-import CategoryFormEdit from './CategoryEditForm';
 
 const cx = classNames.bind(style);
 function CategoryItemAdmin({ category, level, onDelete, onEdit }) {

@@ -13,7 +13,6 @@ import Button from '../button/button';
 import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fomatListToSelection } from '../../utils/fomatListToSelect';
-import BookForm2 from '../bookForm/BookForm2';
 import BookForm from '../bookForm/BookForm';
 
 const cx = classNames.bind(style);
@@ -31,7 +30,6 @@ function BookListAdmin() {
 
     const clickAdd = () => {
         if (isAdd == true) {
-            debugger;
             fetchBoooks(query, pageNumber, pageSize);
         }
         setIsAdd(!isAdd);
@@ -102,11 +100,9 @@ function BookListAdmin() {
     };
     useEffect(() => {
         const x = fomatListToSelection(categories);
-        debugger;
         setFomatCategories(x);
     }, [categories]);
     const loadBook = () => {
-        debugger;
         fetchBoooks(query, pageNumber, pageSize);
     };
     useEffect(() => {
@@ -134,14 +130,16 @@ function BookListAdmin() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xác nhận',
+            confirmButtonText: 'OK',
             cancelButtonText: 'Hủy',
         });
 
         if (result.isConfirmed) {
             await bookService.delete(bookItem.bookId); // Gọi hàm xóa
             //Swal.fire('Đã xóa!', 'Sách đã được xóa.', 'success');
-            loadBook();
+            setPageNumber(1);
+            fetchBoooks(query, 1, pageSize);
+            //loadBook();
             // fetchBoooks();
         }
     }, []);
@@ -240,7 +238,7 @@ function BookListAdmin() {
                     </div>
                     <div>
                         <Button variant="add" onClick={clickAdd} leftIcon={<FontAwesomeIcon icon={faPlus} />}>
-                            Thêm sách mới
+                            Thêm mới sách
                         </Button>
                     </div>
                 </div>

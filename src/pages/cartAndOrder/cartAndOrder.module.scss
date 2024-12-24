@@ -12,7 +12,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     .title {
         text-align: center;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        font-weight: bold;
         margin-bottom: 20px;
         color: #333;
     }
@@ -23,19 +24,6 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: #555;
-        }
-        .input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1.2rem;
-            color: #333;
-            :focus {
-                border-color: #007bff;
-                outline: none;
-                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-            }
         }
     }
     .radioGroup {
@@ -58,4 +46,18 @@
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+}
+.input {
+    width: 100%;
+    padding: 10px;
+
+    border-radius: 5px;
+    font-size: 1.2rem;
+    color: #333;
+    border: 1px solid var(--grey);
+    &:focus {
+        border: 1px solid var(--hover-input);
+        outline: none; // kích hoạt nếu cần loại bỏ viền mặc định
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
 }

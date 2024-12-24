@@ -9,6 +9,9 @@
     --text-color: #333;
     --mau-logo: #ffd15b;
     --hover-input: #2575fc;
+    --black: black;
+    --grey: #ccc;
+    --gia-tien-red: #ff0000;
 }
 * {
     margin: 0;
@@ -18,6 +21,7 @@
 }
 .text-logo {
     background: linear-gradient(135deg, #ff8a00, #e52e71);
+    // color: red;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: transform 0.3s ease;
@@ -54,9 +58,15 @@ input[type='date'] {
         box-shadow: 0 0 5px var(--hover-input);
     }
 }
+button {
+    cursor: pointer;
+}
 .error-message {
     color: red;
 }
-.error{
+.error {
     color: red;
+}
+.gia-tien-red {
+    color: var(--gia-tien-red);
 }

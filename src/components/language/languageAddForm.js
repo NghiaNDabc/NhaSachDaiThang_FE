@@ -9,9 +9,17 @@ const cx = classNames.bind(style);
 
 function LanguageAddForm({ onClose, onAdd }) {
     const [name, setName] = useState();
+    const [errormes, seterrormes] = useState();
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        if (!name) {
+            seterrormes('Không được để trống');
+            return;
+        }
+        if (name.length > 100) {
+            seterrormes('Tối đa 100 ký tự');
+            return;
+        }
         const formData = new FormData();
         const languageData = {
             name,
@@ -32,14 +40,19 @@ function LanguageAddForm({ onClose, onAdd }) {
                 <h2>Thêm ngôn ngữ</h2>
                 <div className={cx('row')}>
                     <label className={cx('label')}>
-                        Tên<RequiredStar/>
+                        Tên
+                        <RequiredStar />
                         <input
                             type="text"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                if (e.target.value && e.target.value.length <= 100) seterrormes();
+                            }}
                             className={cx('input')}
                             required
                         />
+                        <p className={cx('error')}>{errormes}</p>
                     </label>
                 </div>
                 <Button onClick={handleSubmit} className={cx('submit-button')} variant="add">

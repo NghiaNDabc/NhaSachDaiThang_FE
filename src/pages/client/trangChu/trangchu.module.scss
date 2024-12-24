@@ -51,12 +51,12 @@
             transition: all 0.3s ease;
 
             &:hover {
-                background-color: #ffe680; /* Màu vàng nhạt khi hover */
+                background-color: var(--mau-logo); /* Màu vàng nhạt khi hover */
                 color: #333;
             }
 
             &.active {
-                background-color: #ffd700; /* Màu vàng đậm khi được chọn */
+                background-color: var(--mau-logo); /* Màu vàng đậm khi được chọn */
                 color: #fff;
                 border-color: #ffa500;
                 font-weight: bold;

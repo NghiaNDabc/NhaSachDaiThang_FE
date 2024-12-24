@@ -6,6 +6,7 @@ import style from './thongke3.module.scss';
 import classNames from 'classnames/bind';
 import Button from '../../../components/button/button';
 import axiosInstance, { serverUrl } from '../../../api/axiosInstance';
+import ToastCustom from '../../../components/toast/toastComponent';
 const cx = classNames.bind(style);
 const THongKe3 = () => {
     const [startDate, setStartDate] = useState(() => {
@@ -72,6 +73,7 @@ const THongKe3 = () => {
                     <SalesTable data={salesData} />
                 </>
             </div>
+            <ToastCustom/>
         </div>
     );
 };

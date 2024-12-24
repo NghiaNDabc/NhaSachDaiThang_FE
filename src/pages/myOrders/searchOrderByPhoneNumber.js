@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import style from './orderbyPhone.module.scss';
 import classNames from 'classnames/bind';
 import { getStatusColor } from '../../utils/orderstatusHepler';
+import Button from '../../components/button/button';
 
 const cx = classNames.bind(style);
 
@@ -49,9 +50,9 @@ const OrdersByPhoneNumber = () => {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     className={cx('phone-input')}
                 />
-                <button type="submit" className={cx('search-button')} disabled={searching}>
+                <Button type="submit" className={cx('search-button')} disabled={searching}>
                     {searching ? 'Đang tìm kiếm...' : 'Tìm kiếm'}
-                </button>
+                </Button>
             </form>
             {orders && orders.length >= 0 && (
                 <>
@@ -82,7 +83,7 @@ const OrdersByPhoneNumber = () => {
                                         {order.status}
                                     </td>
                                     <td>
-                                        <button
+                                        <Button
                                             className={cx('action-button')}
                                             onClick={() => {
                                                 window.open(
@@ -92,7 +93,7 @@ const OrdersByPhoneNumber = () => {
                                             }}
                                         >
                                             Xem chi tiết
-                                        </button>
+                                        </Button>
                                     </td>
                                 </tr>
                             ))}

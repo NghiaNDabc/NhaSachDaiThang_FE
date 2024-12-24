@@ -1,35 +1,6 @@
 @import '../../styles/button.scss';
 @import '../../../src/pages/cartAndOrder/cartAndOrder.module.scss';
-
+@import '../../styles/suggestionSearch.scss';
 .input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.input:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.suggestions {
-    max-height: 300px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 5px; /* Giới hạn chiều cao */
-    overflow-y: auto; /* Thêm thanh cuộn khi nội dung quá dài */
-}
-
-/* Each suggestion item */
-.suggestion-item {
-    display: flex;
-    align-items: center;
-    padding: 5px 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.2s;
+    margin-bottom: 10px;
 }

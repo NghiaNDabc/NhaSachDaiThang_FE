@@ -5,10 +5,11 @@ import style from './ordermanagement.module.scss';
 import classNames from 'classnames/bind';
 import Button from '../../../components/button/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
-import { getStatusColor } from '../../../utils/orderstatusHepler';
+import { canEdit, getStatusColor, statusOptions } from '../../../utils/orderstatusHepler';
 import OrderEditForm from '../../ResultCheckoutPage/OrderEditForm';
+import ToastCustom from '../../../components/toast/toastComponent';
 const cx = classNames.bind(style);
 
 const OrdersManagement = () => {
@@ -23,19 +24,21 @@ const OrdersManagement = () => {
     const [countItem, setCountItem] = useState();
     const [totalPages, settotalPages] = useState();
     const [editId, setEitId] = useState(0);
+
     const { auth } = useAuth();
-    const statuses = [
-        'Chờ thanh toán online',
-        'Chờ xử lý',
-        'Đã xác nhận',
-        'Đang xử lý',
-        'Đang giao',
-        'Đã giao đến',
-        'Đã hủy',
-        'Đã trả lại',
-        'Đổi trả',
-        'Hoàn tất',
-    ];
+    // const statuses = [
+    //     'Chờ thanh toán online',
+    //     'Chờ xử lý',
+    //     'Đã xác nhận',
+    //     'Đang xử lý',
+    //     'Đang giao',
+    //     'Đã giao đến',
+    //     'Đã hủy',
+    //     'Đã trả lại',
+    //     'Đổi trả',
+    //     'Hoàn tất',
+    // ];
+    const statuses = statusOptions;
     const handlePagesizeChange = (page) => {
         const x = Math.ceil(countItem / page);
         if (x < pageNumber) {
@@ -164,7 +167,7 @@ const OrdersManagement = () => {
                                         <td>{index + 1}</td>
                                         <td>{order.orderId}</td>
                                         <td>{order.createdDate}</td>
-                                        <td>{order.totalAmount.toLocaleString()} VND</td>
+                                        <td>{order.totalAmount.toLocaleString()} ₫</td>
                                         <td>{order.paymentMethod}</td>
                                         <td
                                             style={{
@@ -175,11 +178,15 @@ const OrdersManagement = () => {
                                             {order.status}
                                         </td>
                                         <td>
-                                            <Button onClick={() => setEitId(order.orderId)} variant="edit">
+                                            <Button
+                                                leftIcon={<FontAwesomeIcon icon={faPenToSquare} />}
+                                                disabled={!canEdit(order.status)}
+                                                onClick={() => setEitId(order.orderId)}
+                                                variant="edit"
+                                            >
                                                 Sửa
                                             </Button>
-                                            <button
-                                                className={cx('action-button')}
+                                            <Button
                                                 onClick={() => {
                                                     window.open(
                                                         `/resultcheckout?orderId=${order.orderId}&&success=True`,
@@ -188,7 +195,7 @@ const OrdersManagement = () => {
                                                 }}
                                             >
                                                 Xem chi tiết
-                                            </button>
+                                            </Button>
                                         </td>
                                     </tr>
                                 </>
@@ -219,6 +226,7 @@ const OrdersManagement = () => {
                     </select>
                 </div>
             </div>
+            <ToastCustom />
         </div>
     );
 };

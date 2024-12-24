@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import style from './myorrder.module.scss';
 import classNames from 'classnames/bind';
 import { getStatusColor } from '../../utils/orderstatusHepler';
+import Button from '../../components/button/button';
 
 const cx = classNames.bind(style);
 const MyOrders = () => {
@@ -60,14 +61,13 @@ const MyOrders = () => {
                                 {order.status}
                             </td>
                             <td>
-                                <button
-                                    className={cx('action-button')}
+                                <Button
                                     onClick={() => {
                                         window.open(`/resultcheckout?orderId=${order.orderId}&&success=True`, '_blank');
                                     }}
                                 >
                                     Xem chi tiết
-                                </button>
+                                </Button>
                             </td>
                         </tr>
                     ))}

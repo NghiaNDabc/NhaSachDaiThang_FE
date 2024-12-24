@@ -7,6 +7,7 @@ import SuplierFormAdd from '../../../components/supplier/supplierAddForm';
 import SuplierComponent from '../../../components/supplier/supplierComponent';
 import { supplierService } from '../../../services/supplierService';
 import SupplierEditForm from '../../../components/supplier/supplierEditForm';
+import ToastCustom from '../../../components/toast/toastComponent';
 // const cx = classNames.bind(style);
 function SupplierManager() {
     const [suplierList, setSuplierList] = useState([]);
@@ -33,7 +34,7 @@ function SupplierManager() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xác nhận',
+            confirmButtonText: 'OK',
             cancelButtonText: 'Hủy',
         });
 
@@ -49,7 +50,7 @@ function SupplierManager() {
         <div>
             <div>
                 <Button variant="add" onClick={clickAdd} leftIcon={<FontAwesomeIcon icon={faPlus} />}>
-                    Thêm mới
+                    Thêm mới nhà cung cấp
                 </Button>
             </div>
             {isAdd && <SuplierFormAdd onSuccess={() => setRefresh((p) => p + 1)} onClose={clickAdd} />}
@@ -92,6 +93,7 @@ function SupplierManager() {
                         )}
                     </>
                 ))}
+            <ToastCustom />
         </div>
     );
 }

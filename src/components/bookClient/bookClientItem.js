@@ -23,7 +23,7 @@ function BookClientItem({ book }) {
         }
     }, []);
     return (
-        <div className={cx('nd')}>
+        <div className={cx('wrapper')}>
             {isPromotion && <div className={cx('giamgia')}>-{book.promotion}%</div>}
             <div>
                 {/* Chuyển sang Link và thêm ID */}
@@ -39,13 +39,11 @@ function BookClientItem({ book }) {
                     </Link>
                 </h2>
                 <div className={cx('giaban')}>
-                    <div
-                        className={cx('giasau')}
-                        style={{
-                            color: '#ff0000',
-                        }}
-                    >
-                        {price &&discountedPrice&& isPromotion ? discountedPrice.toLocaleString() : price.toLocaleString()}đ
+                    <div className={cx('giasau')}>
+                        {price && discountedPrice && isPromotion
+                            ? discountedPrice.toLocaleString()
+                            : price.toLocaleString()}
+                        đ
                     </div>
                     <div className={cx('giatruoc')}>
                         {price && isPromotion ? price.toLocaleString() : ''} {isPromotion ? 'đ' : ''}

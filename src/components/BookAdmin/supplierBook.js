@@ -5,7 +5,6 @@ import classNames from 'classnames/bind';
 import Button from '../button/button';
 import RequiredStar from '../requiredStar/requiredStar';
 import { useCategories } from '../../contexts/CategoryContext';
-import ReactQuill from 'react-quill';
 import { bookService } from '../../services/bookService/bookService';
 import { toast } from 'react-toastify';
 import 'tippy.js/dist/tippy.css';
@@ -174,7 +173,7 @@ function SupplierBookForm({ onAdd, onClose }) {
         } else {
             let haserr = false;
             bookList.forEach((book) => {
-                if (book.quanlity < 1 || book.supplyPrice < 0) {
+                if (book.quantity < 1 || book.supplyPrice < 0) {
                     setListBookErr('Hãy kiểm tra lại số lượng và giá nhập');
                     isValid = false;
                     haserr = true;

@@ -77,15 +77,6 @@ function BookItemAdmin({ book, onRestock, onDelete }) {
                         onClick={() => onChangeStatus(bookItem.bookId)}
                     />
                 </div>
-                {/* <div>
-                    <Button
-                        variant="add"
-                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
-                        onClick={() => setisSupply(true)}
-                    >
-                        Nhập
-                    </Button>
-                </div> */}
                 <div>
                     <Button
                         variant="edit"

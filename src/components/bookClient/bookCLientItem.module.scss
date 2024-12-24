@@ -148,7 +148,7 @@
 //     font-weight: 600;
 //     line-height: 42px;
 // }
-.nd {
+.wrapper {
     position: relative;
     width: 225.7px;
     // border: 1px solid #dad3e5;
@@ -157,7 +157,7 @@
     height: 350px;
 
     &:hover {
-        border: 1px solid #ff9900;
+        border: 1px solid var(--mau-logo);
         box-shadow: 0px 0px 5px 5px #dad3e5;
     }
 
@@ -194,7 +194,7 @@
             color: black;
 
             &:hover {
-                color: #ff9900;
+                color: var(--mau-logo);
             }
         }
     }
@@ -214,6 +214,7 @@
         }
 
         .giasau {
+             color: var(--gia-tien-red);
             float: left;
             line-height: 19px;
             font-weight: 600;
@@ -254,7 +255,7 @@
     }
 
     &:hover {
-        background-color: #b63a21;
+        background-color: var(--mau-logo);
         color: black;
     }
 }
